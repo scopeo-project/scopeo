@@ -1,6 +1,6 @@
 Class {
 	#name : #BaselineOfScopeo,
-	#superclass : #Object,
+	#superclass : #BaselineOf,
 	#category : #BaselineOfScopeo
 }
 
