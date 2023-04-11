@@ -48,7 +48,7 @@ ObjectGraphPresenter >> connectPresenters [
 { #category : #'debugger extension' }
 ObjectGraphPresenter >> debuggerExtensionToolName [
 
-	^ 'Objects graph prototype'
+	^ 'Scopeo'
 ]
 
 { #category : #initialization }

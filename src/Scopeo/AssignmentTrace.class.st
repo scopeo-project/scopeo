@@ -1,6 +1,6 @@
 Class {
-	#name : #OgAssignmentPS,
-	#superclass : #OgProgramState,
+	#name : #AssignmentTrace,
+	#superclass : #Trace,
 	#instVars : [
 		'object',
 		'method',
@@ -9,11 +9,11 @@ Class {
 		'newValue',
 		'objectOid'
 	],
-	#category : #'Scopeo-Model-ProgramState'
+	#category : #'Scopeo-Trace'
 }
 
 { #category : #'instance creation' }
-OgAssignmentPS class >> fromSeekerPS: aProgramState [
+AssignmentTrace class >> fromSeekerPS: aProgramState [
 
 	| variable oid |
 	variable := aProgramState node variable variable.
@@ -32,79 +32,79 @@ OgAssignmentPS class >> fromSeekerPS: aProgramState [
 ]
 
 { #category : #testing }
-OgAssignmentPS >> isAssignment [
+AssignmentTrace >> isAssignment [
 
 	^ true
 ]
 
 { #category : #accessing }
-OgAssignmentPS >> method [
+AssignmentTrace >> method [
 
 	^ method
 ]
 
 { #category : #accessing }
-OgAssignmentPS >> method: anObject [
+AssignmentTrace >> method: anObject [
 
 	method := anObject
 ]
 
 { #category : #accessing }
-OgAssignmentPS >> newValue [
+AssignmentTrace >> newValue [
 	
 	^ newValue
 ]
 
 { #category : #accessing }
-OgAssignmentPS >> newValue: aNewValue [
+AssignmentTrace >> newValue: aNewValue [
 
 	newValue := aNewValue
 ]
 
 { #category : #accessing }
-OgAssignmentPS >> object [
+AssignmentTrace >> object [
 
 	^ object
 ]
 
 { #category : #accessing }
-OgAssignmentPS >> object: anObject [
+AssignmentTrace >> object: anObject [
 
 	object := anObject
 ]
 
 { #category : #accessing }
-OgAssignmentPS >> objectOid [
+AssignmentTrace >> objectOid [
 
 	^ objectOid
 ]
 
 { #category : #accessing }
-OgAssignmentPS >> objectOid: aObjectOid [
+AssignmentTrace >> objectOid: aObjectOid [
 
 	objectOid := aObjectOid
 ]
 
 { #category : #accessing }
-OgAssignmentPS >> oldValue [
+AssignmentTrace >> oldValue [
 
 	^ oldValue
 ]
 
 { #category : #accessing }
-OgAssignmentPS >> oldValue: anOldValue [
+AssignmentTrace >> oldValue: anOldValue [
 
 	oldValue := anOldValue
 ]
 
 { #category : #accessing }
-OgAssignmentPS >> variable [
+AssignmentTrace >> variable [
 
 	^ variable
 ]
 
 { #category : #accessing }
-OgAssignmentPS >> variable: aVariable [
+AssignmentTrace >> variable: aVariable [
 
 	variable := aVariable
 ]

@@ -1,6 +1,6 @@
 Class {
-	#name : #OgMessagePS,
-	#superclass : #OgProgramState,
+	#name : #MessageTrace,
+	#superclass : #Trace,
 	#instVars : [
 		'sender',
 		'method',
@@ -10,11 +10,11 @@ Class {
 		'senderOid',
 		'receiverOid'
 	],
-	#category : #'Scopeo-Model-ProgramState'
+	#category : #'Scopeo-Trace'
 }
 
 { #category : #'instance creation' }
-OgMessagePS class >> fromSeekerPS: aProgramState [
+MessageTrace class >> fromSeekerPS: aProgramState [
 
 	| senderOid |
 	
@@ -34,91 +34,91 @@ OgMessagePS class >> fromSeekerPS: aProgramState [
 ]
 
 { #category : #accessing }
-OgMessagePS >> arguments [
+MessageTrace >> arguments [
 
 	^ arguments
 ]
 
 { #category : #accessing }
-OgMessagePS >> arguments: anObject [
+MessageTrace >> arguments: anObject [
 
 	arguments := anObject
 ]
 
 { #category : #testing }
-OgMessagePS >> isMessage [
+MessageTrace >> isMessage [
 
 	^ true
 ]
 
 { #category : #accessing }
-OgMessagePS >> method [
+MessageTrace >> method [
 
 	^ method
 ]
 
 { #category : #accessing }
-OgMessagePS >> method: anObject [
+MessageTrace >> method: anObject [
 
 	method := anObject
 ]
 
 { #category : #accessing }
-OgMessagePS >> receiver [
+MessageTrace >> receiver [
 
 	^ receiver
 ]
 
 { #category : #accessing }
-OgMessagePS >> receiver: anObject [
+MessageTrace >> receiver: anObject [
 
 	receiver := anObject
 ]
 
 { #category : #accessing }
-OgMessagePS >> receiverOid [
+MessageTrace >> receiverOid [
 
 	^ receiverOid
 ]
 
 { #category : #accessing }
-OgMessagePS >> receiverOid: anObject [
+MessageTrace >> receiverOid: anObject [
 
 	receiverOid := anObject
 ]
 
 { #category : #accessing }
-OgMessagePS >> selector [
+MessageTrace >> selector [
 
 	^ selector
 ]
 
 { #category : #accessing }
-OgMessagePS >> selector: anObject [
+MessageTrace >> selector: anObject [
 
 	selector := anObject
 ]
 
 { #category : #accessing }
-OgMessagePS >> sender [
+MessageTrace >> sender [
 
 	^ sender
 ]
 
 { #category : #accessing }
-OgMessagePS >> sender: anObject [
+MessageTrace >> sender: anObject [
 
 	sender := anObject
 ]
 
 { #category : #accessing }
-OgMessagePS >> senderOid [
+MessageTrace >> senderOid [
 
 	^ senderOid
 ]
 
 { #category : #accessing }
-OgMessagePS >> senderOid: anObject [
+MessageTrace >> senderOid: anObject [
 
 	senderOid := anObject
 ]

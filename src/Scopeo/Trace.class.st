@@ -1,81 +1,81 @@
 Class {
-	#name : #OgProgramState,
+	#name : #Trace,
 	#superclass : #Object,
 	#instVars : [
 		'seekerProgramState',
 		'bytecodeIndex',
 		'pc'
 	],
-	#category : #'Scopeo-Model-ProgramState'
+	#category : #'Scopeo-Trace'
 }
 
 { #category : #'instance creation' }
-OgProgramState class >> fromSeekerPS: aProgramState [
+Trace class >> fromSeekerPS: aProgramState [
 
 	aProgramState nodeIsAssignmentOfInstanceVariable ifTrue: [ 
-		^ OgAssignmentPS fromSeekerPS: aProgramState ].
+		^ AssignmentTrace fromSeekerPS: aProgramState ].
 	aProgramState isMessageSend ifTrue: [ 
-		^ OgMessagePS fromSeekerPS: aProgramState ].
+		^ MessageTrace fromSeekerPS: aProgramState ].
 
-	^ OGUnsupportedPS new
+	^ UnsupportedTrace new
 ]
 
 { #category : #testing }
-OgProgramState class >> isAbstract [
+Trace class >> isAbstract [
 
-	^ self == OgProgramState
+	^ self == Trace
 ]
 
 { #category : #accessing }
-OgProgramState >> bytecodeIndex [
+Trace >> bytecodeIndex [
 
 	^ bytecodeIndex
 ]
 
 { #category : #accessing }
-OgProgramState >> bytecodeIndex: aBytecodeIndex [
+Trace >> bytecodeIndex: aBytecodeIndex [
 
 	bytecodeIndex := aBytecodeIndex
 ]
 
 { #category : #testing }
-OgProgramState >> isAssignment [
+Trace >> isAssignment [
 
 	^ false
 ]
 
 { #category : #testing }
-OgProgramState >> isMessage [
+Trace >> isMessage [
 
 	^ false
 ]
 
 { #category : #testing }
-OgProgramState >> isSupported [
+Trace >> isSupported [
 
 	^ true
 ]
 
 { #category : #accessing }
-OgProgramState >> pc [
+Trace >> pc [
 
 	^ pc
 ]
 
 { #category : #accessing }
-OgProgramState >> pc: aProgramCounter [
+Trace >> pc: aProgramCounter [
 
 	pc := aProgramCounter
 ]
 
 { #category : #accessing }
-OgProgramState >> seekerProgramState [
+Trace >> seekerProgramState [
 
 	^ seekerProgramState
 ]
 
 { #category : #accessing }
-OgProgramState >> seekerProgramState: anObject [
+Trace >> seekerProgramState: anObject [
 
 	seekerProgramState := anObject
 ]

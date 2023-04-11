@@ -91,7 +91,7 @@ ObjectGraphBuilder >> build [
 		select: [ :s | s nodeIsAssignmentOfInstanceVariable or: [ s isMessageSend ] ]
 		collect: [ :s | 
 			| ps |
-			ps := OgProgramState fromSeekerPS: s.
+			ps := Trace fromSeekerPS: s.
 			ps isAssignment ifTrue: [ self addAssignment: ps ].
    			ps isMessage ifTrue: [ self addMessage: ps ]
 		 ]) asOrderedCollection.
