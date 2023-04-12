@@ -2,7 +2,6 @@ Class {
 	#name : #Selector,
 	#superclass : #Predicate,
 	#instVars : [
-		'selector',
 		'selectors'
 	],
 	#category : #'Scopeo-Graph-Query'

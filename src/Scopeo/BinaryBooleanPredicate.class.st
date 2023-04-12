@@ -1,6 +1,6 @@
 Class {
-	#name : #BinaryPredicate,
-	#superclass : #Predicate,
+	#name : #BinaryBooleanPredicate,
+	#superclass : #BooleanPredicate,
 	#instVars : [
 		'left',
 		'right'
@@ -9,13 +9,13 @@ Class {
 }
 
 { #category : #testing }
-BinaryPredicate class >> isAbstract [
+BinaryBooleanPredicate class >> isAbstract [
 		
-	^ self == BinaryPredicate
+	^ self == BinaryBooleanPredicate
 ]
 
 { #category : #'as yet unclassified' }
-BinaryPredicate class >> l: aLeftPredicate r: aRightPredicate [
+BinaryBooleanPredicate class >> l: aLeftPredicate r: aRightPredicate [
 
 	^ self new 
 		left: aLeftPredicate;
@@ -24,13 +24,13 @@ BinaryPredicate class >> l: aLeftPredicate r: aRightPredicate [
 ]
 
 { #category : #accessing }
-BinaryPredicate >> left: aLeftPredicate [
+BinaryBooleanPredicate >> left: aLeftPredicate [
 
 	left := aLeftPredicate
 ]
 
 { #category : #accessing }
-BinaryPredicate >> right: aRightPredicate [
+BinaryBooleanPredicate >> right: aRightPredicate [
 
 	right := aRightPredicate
 ]

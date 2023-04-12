@@ -1,6 +1,6 @@
 Class {
 	#name : #Not,
-	#superclass : #Predicate,
+	#superclass : #BooleanPredicate,
 	#instVars : [
 		'predicate'
 	],

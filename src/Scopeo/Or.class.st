@@ -1,6 +1,6 @@
 Class {
 	#name : #Or,
-	#superclass : #BinaryPredicate,
+	#superclass : #BinaryBooleanPredicate,
 	#category : #'Scopeo-Graph-Query'
 }
 
