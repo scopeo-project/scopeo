@@ -1,6 +1,6 @@
 Class {
 	#name : #ObjectGraph,
-	#superclass : #ObjectGraphVisitable,
+	#superclass : #Object,
 	#instVars : [
 		'vertices',
 		'edges'
