@@ -55,6 +55,14 @@ ObjectGraph >> initialize [
 	edges := OrderedCollection new
 ]
 
+{ #category : #'target resize' }
+ObjectGraph >> subgraph: aPredicate [
+
+	^ self class new
+		addEdges: (edges select: [ :e | aPredicate verify: e in: self]);
+		yourself.
+]
+
 { #category : #accessing }
 ObjectGraph >> vertices [
 

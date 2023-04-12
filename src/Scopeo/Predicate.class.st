@@ -11,7 +11,7 @@ Predicate class >> isAbstract [
 ]
 
 { #category : #'target resize' }
-Predicate >> satisfies: aObject [
+Predicate >> verify: aEdge in: aGraph [
 	
 	self subclassResponsibility
 ]

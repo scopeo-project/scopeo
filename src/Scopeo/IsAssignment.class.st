@@ -5,13 +5,7 @@ Class {
 }
 
 { #category : #'target resize' }
-IsAssignment >> satisfies: aGraph [
+IsAssignment >> verify: aEdge in: aGraph [
 
-	| graph |
-	graph := ObjectGraph new.		
-	graph addEdges: (aGraph edges select: [ 
-		:e | e action isAssignment 
-	]).		
-	^ graph
-	
+	^ aEdge action isAssignment
 ]

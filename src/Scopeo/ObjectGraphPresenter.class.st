@@ -74,7 +74,7 @@ ObjectGraphPresenter >> initializePresenters [
 	incomingInteractionsBtn := self newButton 
 		label: 'Incoming interactions to selected object';
 		action: [ self updateGraphPresenter:   
-			(IsIncomingInteraction oid: (tracer getOidOf: selectedObject))
+			(Coming oid: (tracer getOidOf: selectedObject))
 		].
 	
 	interactionBeforeBtn := self newButton 
@@ -86,7 +86,7 @@ ObjectGraphPresenter >> initializePresenters [
 		action: [ self updateGraphPresenter: 
 			(And 
 				l: (IsInteractionBefore edge: selectedInteraction) 
-				r: (MessageWithArgument value: selectedValue))
+				r: (Argument value: selectedValue))
 		].
 	
 	canvas := self newRoassal.
@@ -114,13 +114,13 @@ ObjectGraphPresenter >> updateGraphPresenter: aPredicate [
 		graph: model; 
 		predicate: (
 			And
-				l: (InteractionToType new class: Player)
+				l: (Type new class: Player)
 				r: aPredicate
 		);
 		execute.
 
 	canvas refresh.
-	ObjectGraphVisualization new
+	ObjectsEventsGraphVisualization new
 		graph: graph;
 		canvas: canvas canvas;
 		onEdgeClickDo: [ :e | 

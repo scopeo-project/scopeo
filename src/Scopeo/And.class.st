@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #'target resize' }
-And >> satisfies: aGraph [
-
-	^ right satisfies: (left satisfies: aGraph)
+And >> verify: aEdge in: aGraph [
+	
+	^ (left verify: aEdge in: aGraph) and: [ left verify: aEdge in: aGraph ]
 ]

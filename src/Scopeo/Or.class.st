@@ -5,11 +5,7 @@ Class {
 }
 
 { #category : #'target resize' }
-Or >> satisfies: aGraph [
-
-	| graph |
-	graph := ObjectGraph new.
-	graph addEdges: (left satisfies: aGraph) edges.
-	graph addEdges: (right satisfies: aGraph) edges.
-	^ graph
+Or >> verify: aEdge in: aGraph [
+	
+	^ (left verify: aEdge in: aGraph) or: [ right verify: aEdge in: aGraph ]
 ]
