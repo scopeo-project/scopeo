@@ -3,7 +3,6 @@ Class {
 	#superclass : #RSAbstractContainerBuilder,
 	#instVars : [
 		'graph',
-		'canvas',
 		'vertexShapes',
 		'vertexGroupShapes',
 		'onEdgeClickDo'
