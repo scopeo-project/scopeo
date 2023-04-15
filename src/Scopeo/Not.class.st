@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'predicate'
 	],
-	#category : #'Scopeo-Graph-Query'
+	#category : #'Scopeo-Model-Filter-API'
 }
 
 { #category : #accessing }
@@ -22,7 +22,7 @@ Not >> predicate: aPredicate [
 ]
 
 { #category : #'target resize' }
-Not >> verify: aEdge in: aGraph [
+Not >> verify: aEdge in: aEvents [
 	
-	^ (predicate verify: aEdge in: aGraph) not
+	^ (predicate verify: aEdge in: aEvents) not
 ]

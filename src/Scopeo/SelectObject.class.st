@@ -1,7 +1,7 @@
 Class {
 	#name : #SelectObject,
-	#superclass : #ObjectGraphCommand,
-	#category : #'Scopeo-StDebugger-Extension-UI'
+	#superclass : #ScopeoUICommand,
+	#category : #'Scopeo-GUI'
 }
 
 { #category : #'accessing - defaults' }

@@ -1,11 +1,11 @@
 Class {
-	#name : #ObjectGraphVertexGroupShape,
+	#name : #ObjectsGroupShape,
 	#superclass : #ObjectGraphShape,
-	#category : #'Scopeo-Graph-Visualization'
+	#category : #'Scopeo-Visualizations'
 }
 
 { #category : #private }
-ObjectGraphVertexGroupShape >> shape [
+ObjectsGroupShape >> shape [
 
 	^ RSComposite new
 			draggable;

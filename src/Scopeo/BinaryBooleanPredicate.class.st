@@ -5,7 +5,7 @@ Class {
 		'left',
 		'right'
 	],
-	#category : #'Scopeo-Graph-Query'
+	#category : #'Scopeo-Model-Filter-API'
 }
 
 { #category : #testing }

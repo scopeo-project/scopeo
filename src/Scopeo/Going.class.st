@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'objectOid'
 	],
-	#category : #'Scopeo-Graph-Query'
+	#category : #'Scopeo-Model-Filter-API'
 }
 
 { #category : #accessing }
@@ -22,7 +22,7 @@ Going >> oid: aOid [
 ]
 
 { #category : #'target resize' }
-Going >> verify: aEdge in: aGraph [
+Going >> verify: aEvent in: aEvents [
 	
-	^ aEdge origin objectOid = objectOid
+	^ aEvent isInteraction and: [ aEvent origin objectOid = objectOid ]
 ]

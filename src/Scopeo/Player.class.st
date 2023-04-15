@@ -5,7 +5,7 @@ Class {
 		'nextPlayer',
 		'message'
 	],
-	#category : #'Scopeo-Demo-Example'
+	#category : #'Scopeo-Scenarios'
 }
 
 { #category : #modifying }
@@ -35,7 +35,7 @@ Player >> message: aMessage [
 
 { #category : #modifying }
 Player >> nextPlayer [
-
+	
 	^ nextPlayer
 ]
 

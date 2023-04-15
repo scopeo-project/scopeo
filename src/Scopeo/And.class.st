@@ -1,11 +1,11 @@
 Class {
 	#name : #And,
 	#superclass : #BinaryBooleanPredicate,
-	#category : #'Scopeo-Graph-Query'
+	#category : #'Scopeo-Model-Filter-API'
 }
 
 { #category : #'target resize' }
-And >> verify: aEdge in: aGraph [
+And >> verify: aEdge in: aEvents [
 	
-	^ (left verify: aEdge in: aGraph) and: [ right verify: aEdge in: aGraph ]
+	^ (left verify: aEdge in: aEvents) and: [ right verify: aEdge in: aEvents ]
 ]

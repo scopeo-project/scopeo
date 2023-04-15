@@ -1,7 +1,7 @@
 Class {
 	#name : #Predicate,
 	#superclass : #Object,
-	#category : #'Scopeo-Graph-Query'
+	#category : #'Scopeo-Model-Filter-API'
 }
 
 { #category : #testing }

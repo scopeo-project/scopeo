@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'type'
 	],
-	#category : #'Scopeo-Graph-Query'
+	#category : #'Scopeo-Model-Filter-API'
 }
 
 { #category : #'instance creation' }
@@ -22,7 +22,9 @@ Type >> type: aType [
 ]
 
 { #category : #'target resize' }
-Type >> verify: aEdge in: aGraph [
+Type >> verify: aEvent in: aEvents [
 	
-	^ aEdge destination object class = type
+	^ aEvent isInteraction 
+		ifTrue: [ aEvent origin class = type and: [ aEvent destination class = type  ] ]
+		ifFalse: [ aEvent object class = type ] 
 ]

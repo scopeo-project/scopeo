@@ -1,17 +1,17 @@
 Class {
-	#name : #ObjectGraphCommand,
+	#name : #ScopeoUICommand,
 	#superclass : #CmCommand,
-	#category : #'Scopeo-StDebugger-Extension-UI'
+	#category : #'Scopeo-GUI'
 }
 
 { #category : #testing }
-ObjectGraphCommand class >> isAbstract [
+ScopeoUICommand class >> isAbstract [
 		
-	^ self == ObjectGraphCommand
+	^ self == ScopeoUICommand
 ]
 
 { #category : #executing }
-ObjectGraphCommand >> getSelectedObject [
+ScopeoUICommand >> getSelectedObject [
 
 	| selectedNode selectedContext |
 
@@ -25,16 +25,16 @@ ObjectGraphCommand >> getSelectedObject [
 ]
 
 { #category : #accessing }
-ObjectGraphCommand >> ogPresenter [
+ScopeoUICommand >> ogPresenter [
 
 	context extensionTools
-		detect: [ :e | e class = ObjectGraphPresenter ]
+		detect: [ :e | e class = ScopeoPresenter ]
 		ifFound: [ :e | ^ e ]
 		ifNone: [ ^ nil ]
 ]
 
 { #category : #accessing }
-ObjectGraphCommand >> skPresenter [
+ScopeoUICommand >> skPresenter [
 
 	context extensionTools
 		detect: [ :e | e class = SeekerDebuggerPresenter ]

@@ -1,34 +1,34 @@
 Class {
-	#name : #ObjectGraphEdgeShape,
+	#name : #InteractionShape,
 	#superclass : #ObjectGraphShape,
 	#instVars : [
 		'origin',
 		'destination',
 		'onClickAction'
 	],
-	#category : #'Scopeo-Graph-Visualization'
+	#category : #'Scopeo-Visualizations'
 }
 
 { #category : #'api - building' }
-ObjectGraphEdgeShape >> destination: aDestinationShape [
+InteractionShape >> destination: aDestinationShape [
 
 	^ destination := aDestinationShape
 ]
 
 { #category : #enumerating }
-ObjectGraphEdgeShape >> onClickDo: aBlock [
+InteractionShape >> onClickDo: aBlock [
 	
 	onClickAction := aBlock
 ]
 
 { #category : #'api - building' }
-ObjectGraphEdgeShape >> origin: aOriginShape [
+InteractionShape >> origin: aOriginShape [
 
 	^ origin := aOriginShape
 ]
 
 { #category : #accessing }
-ObjectGraphEdgeShape >> shape [
+InteractionShape >> shape [
 	
 	^ (RSBezier new
 			markerEnd: (RSShapeFactory arrow size: 5);
@@ -44,7 +44,7 @@ ObjectGraphEdgeShape >> shape [
 ]
 
 { #category : #private }
-ObjectGraphEdgeShape >> tagLabelContainerShape: aExtent [
+InteractionShape >> tagLabelContainerShape: aExtent [
 
 	^ RSBox new
 		color: Color white;
@@ -54,16 +54,12 @@ ObjectGraphEdgeShape >> tagLabelContainerShape: aExtent [
 ]
 
 { #category : #private }
-ObjectGraphEdgeShape >> tagLabelShape [
+InteractionShape >> tagLabelShape [
 	
-	| text label |
-
-	text := self model action isAssignment 
-		ifTrue: [ self model action variable asString ]
-		ifFalse: [ self model action selector asString ].
+	| label |
 
 	label := RSLabel new 
-		text: text;
+		text: self model selector asString;
 		color: Color black; 
 		yourself.
 
@@ -75,7 +71,7 @@ ObjectGraphEdgeShape >> tagLabelShape [
 ]
 
 { #category : #private }
-ObjectGraphEdgeShape >> tagShape [
+InteractionShape >> tagShape [
 	
 	| tag |
 	

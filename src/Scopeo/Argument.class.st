@@ -4,11 +4,11 @@ Class {
 	#instVars : [
 		'value'
 	],
-	#category : #'Scopeo-Graph-Query'
+	#category : #'Scopeo-Model-Filter-API'
 }
 
 { #category : #accessing }
-Argument class >> value: aObject [
+Argument class >> is: aObject [
 	^ self new 
 		value: aObject;
 		yourself
@@ -21,7 +21,7 @@ Argument >> value: aObject [
 ]
 
 { #category : #'target resize' }
-Argument >> verify: aEdge in: aGraph [
+Argument >> verify: aEdge in: aEvents [
 	
-	^ aEdge action isMessage and: [ aEdge action arguments includes: value ]
+	^ aEdge isInteraction and: [ aEdge arguments includes: value ]
 ]

@@ -4,22 +4,22 @@ Class {
 	#instVars : [
 		'selectors'
 	],
-	#category : #'Scopeo-Graph-Query'
+	#category : #'Scopeo-Model-Filter-API'
 }
+
+{ #category : #'instance creation' }
+Selector class >> is: aSymbol [
+
+	^ self new 
+		selector: aSymbol;
+		yourself
+]
 
 { #category : #'instance creation' }
 Selector class >> selector: aSelector [
 
 	^ self new 
 		selector: aSelector;
-		yourself
-]
-
-{ #category : #'instance creation' }
-Selector class >> symbol: aSymbol [
-
-	^ self new 
-		selector: aSymbol;
 		yourself
 ]
 
@@ -36,7 +36,6 @@ Selector >> selectors: aSelectorArray [
 ]
 
 { #category : #'target resize' }
-Selector >> verify: aEdge in: aGraph [
-	
-	^ aEdge action isMessage and: [ selectors includes: aEdge action selector ]
+Selector >> verify: aEvent in: aEvents [	
+	^ aEvent isInteraction and: [ selectors includes: aEvent selector ]
 ]
