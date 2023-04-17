@@ -4,12 +4,11 @@ Class {
 	#traits : 'TStDebuggerExtension',
 	#classTraits : 'TStDebuggerExtension classTrait',
 	#instVars : [
-		'objectsEvents',
-		'tracer',
 		'canvas',
 		'toolbar',
 		'scope',
-		'editor'
+		'editor',
+		'chest'
 	],
 	#category : #'Scopeo-GUI'
 }
@@ -21,9 +20,9 @@ ScopeoPresenter class >> defaultLayout [
 		add: 'Step to' expand: false;
 		add: #toolbar expand: false;
 		add: 'Scope' expand: false;
-		add: #scope expand: false;
+		add: #scope expand: true;
 		add: 'Filter' expand: false;
-		add: #editor expand: false;
+		add: #editor expand: true;
 		add: #canvas;
 		yourself
 ]
@@ -31,6 +30,7 @@ ScopeoPresenter class >> defaultLayout [
 { #category : #initialization }
 ScopeoPresenter >> connectPresenters [
 
+	
 ]
 
 { #category : #'debugger extension' }
@@ -39,12 +39,27 @@ ScopeoPresenter >> debuggerExtensionToolName [
 	^ 'Scopeo'
 ]
 
-{ #category : #initialization }
-ScopeoPresenter >> initializeModel [
+{ #category : #'event handling' }
+ScopeoPresenter >> eventUpdatedScope: aEvent [
 
-	objectsEvents := StatesToObjectsEvents new 
-		debuggerTracer: tracer; 
-		build.
+	aEvent updatedChest = chest ifFalse: [ ^ self ].
+	scope items: chest contents associations
+]
+
+{ #category : #initialization }
+ScopeoPresenter >> initialize [
+
+	super initialize.
+	chest := Chest chestDictionary 
+		at: 'Scopeo'
+		ifAbsent: [ Chest newNamed: 'Scopeo' ].
+	Chest announcer weak 
+		when: ChestUpdated
+		send: #eventUpdatedScope:
+		to: self.
+	chest contentsUpdated.
+
+	
 ]
 
 { #category : #initialization }
@@ -65,8 +80,8 @@ ScopeoPresenter >> initializeScope [
 
 	scope := self newTable.
 	scope
-		addColumn: (SpStringTableColumn title: 'Name' evaluated: [ :item | item asString ]);
-		addColumn: (SpStringTableColumn title: 'Object' evaluated: [ :item | item asString ]);
+		addColumn: (SpStringTableColumn title: 'Name' evaluated: [ :item | item chestName asString ]);
+		addColumn: (SpStringTableColumn title: 'Object' evaluated: [ :item | item chestEvaluation asString ]);
 		beResizable.
 ]
 
@@ -107,19 +122,19 @@ ScopeoPresenter >> stepToEnd [
 	self tracer stepToEnd
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'debug - stepping' }
 ScopeoPresenter >> stepToNextStatement [
 	
 	self tracer perform advanceToNextStatement 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'debug - stepping' }
 ScopeoPresenter >> stepToPrevStatement [
 	
 	self tracer perform reverseToPreviousStatement 
 ]
 
-{ #category : #starting }
+{ #category : #'debug - stepping' }
 ScopeoPresenter >> stepToStart [
 
 	self tracer timeTravelToUserStart
