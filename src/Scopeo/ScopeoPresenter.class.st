@@ -37,5 +37,5 @@ ScopeoPresenter >> initializePresenters [
 		yourself.
 	scope := ScopeoScopePresenter new.
 	filter := ScopeoFilterPresenter new.
-	events := ScopeoEventsPresenter new
+	events := ScopeoEventsPresenter new.
 ]

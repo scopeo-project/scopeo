@@ -9,14 +9,19 @@ Class {
 	#category : #'Scopeo-GUI'
 }
 
+{ #category : #layout }
+ScopeoEventsPresenter class >> defaultLayout [
+
+	^ SpBoxLayout newVertical
+		add: #tabs;
+		yourself
+]
+
 { #category : #initialization }
 ScopeoEventsPresenter >> initializePresenters [
 
 	tabs := self newNotebook.
-	
-	list := self newNotebookPage.	
-	graph := self newNotebookPage.
-	
-	tabs addPageTitle: 'Event list' provider: [ list ].
-	tabs addPageTitle: 'Interactions graph' provider: [ graph ]
+		
+	tabs addPageTitle: 'Events list' provider: [ ScopeoEventsListPresenter new ].
+	tabs addPageTitle: 'Interactions graph' provider: [ ScopeoInteractionsPresenter new ]
 ]
