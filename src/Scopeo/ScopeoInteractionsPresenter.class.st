@@ -24,7 +24,7 @@ ScopeoInteractionsPresenter >> initializePresenters [
 { #category : #modifying }
 ScopeoInteractionsPresenter >> objectsInteractions: aObjectsInteractions [
 
-	roassal canvas nodes removeAll.
+	roassal refresh.
 	ObjectsInteractionsVisualization new
 		objectsInteractions: aObjectsInteractions;
 		renderIn: roassal canvas.
