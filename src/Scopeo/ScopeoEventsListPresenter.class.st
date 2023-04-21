@@ -26,3 +26,9 @@ ScopeoEventsListPresenter >> initializePresenters [
 		);
 		beResizable.
 ]
+
+{ #category : #modifying }
+ScopeoEventsListPresenter >> objectsEvents: aObjectsEvents [
+
+	table items: aObjectsEvents events
+]

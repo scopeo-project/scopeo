@@ -2,7 +2,7 @@ Class {
 	#name : #ScopeoInteractionsPresenter,
 	#superclass : #SpPresenter,
 	#instVars : [
-		'canvas'
+		'roassal'
 	],
 	#category : #'Scopeo-GUI'
 }
@@ -11,12 +11,22 @@ Class {
 ScopeoInteractionsPresenter class >> defaultLayout [
 
 	^ SpBoxLayout newVertical
-		add: #canvas;
+		add: #roassal;
 		yourself
 ]
 
 { #category : #initialization }
 ScopeoInteractionsPresenter >> initializePresenters [
 
-	canvas := self newRoassal
+	roassal := self newRoassal
+]
+
+{ #category : #modifying }
+ScopeoInteractionsPresenter >> objectsInteractions: aObjectsInteractions [
+
+	roassal canvas nodes removeAll.
+	ObjectsInteractionsVisualization new
+		objectsInteractions: aObjectsInteractions;
+		renderIn: roassal canvas.
+
 ]

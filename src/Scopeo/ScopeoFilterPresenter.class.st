@@ -5,7 +5,8 @@ Class {
 		'editor',
 		'filter',
 		'clear',
-		'history'
+		'history',
+		'onFilterDo'
 	],
 	#category : #'Scopeo-GUI'
 }
@@ -33,6 +34,7 @@ ScopeoFilterPresenter >> clear [
 { #category : #action }
 ScopeoFilterPresenter >> filter [
 
+	onFilterDo cull: editor text 
 ]
 
 { #category : #initialization }
@@ -53,4 +55,10 @@ ScopeoFilterPresenter >> initializePresenters [
 	history := self newButton
 		label: 'History';
 		yourself.
+]
+
+{ #category : #accessing }
+ScopeoFilterPresenter >> onFilterDo: aBlock [
+
+	onFilterDo := aBlock
 ]

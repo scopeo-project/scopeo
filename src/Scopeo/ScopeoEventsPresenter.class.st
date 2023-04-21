@@ -21,7 +21,20 @@ ScopeoEventsPresenter class >> defaultLayout [
 ScopeoEventsPresenter >> initializePresenters [
 
 	tabs := self newNotebook.
-		
-	tabs addPageTitle: 'Events list' provider: [ ScopeoEventsListPresenter new ].
-	tabs addPageTitle: 'Interactions graph' provider: [ ScopeoInteractionsPresenter new ]
+
+	list := ScopeoEventsListPresenter new.
+	graph := ScopeoInteractionsPresenter new.
+
+	tabs addPageTitle: 'Events list' provider: [ list ].
+	tabs addPageTitle: 'Interactions graph' provider: [ graph ]
+]
+
+{ #category : #modifying }
+ScopeoEventsPresenter >> objectsEvents: aObjectsEvents [
+
+	list objectsEvents: aObjectsEvents.
+	graph objectsInteractions: (
+		ObjectsInteractions fromEvents: aObjectsEvents events
+	).
+
 ]
