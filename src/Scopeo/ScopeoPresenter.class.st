@@ -15,7 +15,7 @@ Class {
 { #category : #layout }
 ScopeoPresenter class >> defaultLayout [
 
-	^ SpBoxLayout newVertical
+	^ SpBoxLayout newTopToBottom
 		add: #nav expand: false;
 		add: #scope height: 100;
 		add: #filter height: 100;
