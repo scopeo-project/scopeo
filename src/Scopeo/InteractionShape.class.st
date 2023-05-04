@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'origin',
 		'destination',
-		'onClickAction'
+		'onClickAction',
+		'menuEntries'
 	],
 	#category : #'Scopeo-Visualizations'
 }
@@ -15,16 +16,34 @@ InteractionShape >> destination: aDestinationShape [
 	^ destination := aDestinationShape
 ]
 
-{ #category : #enumerating }
-InteractionShape >> onClickDo: aBlock [
-	
-	onClickAction := aBlock
+{ #category : #accessing }
+InteractionShape >> menuEntries: aMenuEntries [
+
+	menuEntries := aMenuEntries
+]
+
+{ #category : #'private - rendering' }
+InteractionShape >> menuEntries: aEntries in: aMenuMorph for: aInteraction [
+
+	aEntries keysAndValuesDo: [ :k :v | 
+		(aMenuMorph 
+			add: k
+			target: self
+			selector: #performClickAction:
+			argument: v)
+	].
 ]
 
 { #category : #'api - building' }
 InteractionShape >> origin: aOriginShape [
 
 	^ origin := aOriginShape
+]
+
+{ #category : #'private - rendering' }
+InteractionShape >> performClickAction: aAction [
+
+	aAction cull: model
 ]
 
 { #category : #accessing }
@@ -43,17 +62,24 @@ InteractionShape >> shape [
 		yourself
 ]
 
-{ #category : #private }
+{ #category : #'private - rendering' }
 InteractionShape >> tagLabelContainerShape: aExtent [
 
 	^ RSBox new
 		color: Color white;
 		border: (RSBorder new color: Color black);
 		extent: aExtent;
+		addInteraction: (RSMenuActivable new
+			menuDo: [ :aMenuMorph :aShape | 
+				self menuEntries: menuEntries 
+					in: aMenuMorph 
+					for: model
+			]
+		);
 		yourself
 ]
 
-{ #category : #private }
+{ #category : #'private - rendering' }
 InteractionShape >> tagLabelShape [
 	
 	| label |
@@ -61,16 +87,11 @@ InteractionShape >> tagLabelShape [
 	label := RSLabel new 
 		text: self model selector asString;
 		color: Color black; 
-		yourself.
-
-	onClickAction ifNotNil: [ 
-		label when: RSMouseClick do: onClickAction
-	].
-	
+		yourself.	
 	 ^ label
 ]
 
-{ #category : #private }
+{ #category : #'private - rendering' }
 InteractionShape >> tagShape [
 	
 	| tag |

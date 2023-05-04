@@ -2,27 +2,27 @@ Class {
 	#name : #Coming,
 	#superclass : #Predicate,
 	#instVars : [
-		'objectOid'
+		'objectId'
 	],
 	#category : #'Scopeo-Model-Filter-API'
 }
 
 { #category : #accessing }
-Coming class >> to: aOid [
+Coming class >> from: aObjectName [
 
 	^ self new 
-		oid: aOid;
+		oid: (self objectNamed: aObjectName) seekMyOid;
 		yourself 
 ]
 
 { #category : #accessing }
-Coming >> oid: aOid [
+Coming >> oid: aObjectId [
 
-	objectOid := aOid
+	objectId := aObjectId
 ]
 
 { #category : #'target resize' }
 Coming >> verify: aEvent in: aEvents [
 
-	^ aEvent isInteraction and: [ aEvent destination objectOid = objectOid ]
+	^ aEvent isInteraction and: [ aEvent originId = objectId ]
 ]

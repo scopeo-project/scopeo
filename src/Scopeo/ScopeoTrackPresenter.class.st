@@ -1,5 +1,5 @@
 Class {
-	#name : #ScopeoScopePresenter,
+	#name : #ScopeoTrackPresenter,
 	#superclass : #SpPresenter,
 	#instVars : [
 		'chest',
@@ -10,10 +10,10 @@ Class {
 }
 
 { #category : #layout }
-ScopeoScopePresenter class >> defaultLayout [
+ScopeoTrackPresenter class >> defaultLayout [
 
 	^ SpBoxLayout newVertical
-		add: 'Interesting objects' height: 20;
+		add: 'Track' height: 20;
 		add: (SpBoxLayout newHorizontal
 			add: #remove;
 			yourself) expand: false;
@@ -22,20 +22,20 @@ ScopeoScopePresenter class >> defaultLayout [
 ]
 
 { #category : #'event handling' }
-ScopeoScopePresenter >> chestUpdated: aEvent [
+ScopeoTrackPresenter >> chestUpdated: aEvent [
 
 	aEvent updatedChest = chest ifFalse: [ ^ self ].
 	table items: chest contents associations
 ]
 
 { #category : #initialization }
-ScopeoScopePresenter >> initialize [
+ScopeoTrackPresenter >> initialize [
 
 	super initialize.
 	chest := Chest chestDictionary 
-		at: 'ScopeoObjects'
-		ifAbsent: [ Chest newNamed: 'ScopeoObjects' ].
-	chest initializeContents. 
+		at: 'ScopeoTrack'
+		ifAbsent: [ Chest newNamed: 'ScopeoTrack' ].
+	chest initializeContents.
 	Chest announcer weak 
 		when: ChestUpdated
 		send: #chestUpdated:
@@ -44,7 +44,7 @@ ScopeoScopePresenter >> initialize [
 ]
 
 { #category : #initialization }
-ScopeoScopePresenter >> initializePresenters [
+ScopeoTrackPresenter >> initializePresenters [
 	
 	table := self newTable.
 	table
@@ -53,7 +53,7 @@ ScopeoScopePresenter >> initializePresenters [
 			evaluated: [ :item | item chestName asString ]
 		);
 		addColumn: (SpStringTableColumn 
-			title: 'Object' 
+			title: 'Event' 
 			evaluated: [ :item | item chestEvaluation asString ]
 		);
 		beMultipleSelection;
@@ -66,7 +66,7 @@ ScopeoScopePresenter >> initializePresenters [
 ]
 
 { #category : #removing }
-ScopeoScopePresenter >> removeSelected [
+ScopeoTrackPresenter >> removeSelected [
 
 	table selectedItems do: [ :i |
 		chest removeObjectNamed: i name

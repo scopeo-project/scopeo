@@ -10,6 +10,14 @@ Predicate class >> isAbstract [
 	^ self == Predicate
 ]
 
+{ #category : #'as yet unclassified' }
+Predicate class >> objectNamed: aName [
+	 
+	| chest |
+	chest := Chest named: 'ScopeoObjects'.
+	^ chest at: aName
+]
+
 { #category : #controlling }
 Predicate >> and: aPredicate [
 

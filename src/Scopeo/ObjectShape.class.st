@@ -3,7 +3,8 @@ Class {
 	#superclass : #ObjectGraphShape,
 	#instVars : [
 		'object',
-		'objectId'
+		'objectId',
+		'menuEntries'
 	],
 	#category : #'Scopeo-Visualizations'
 }
@@ -15,6 +16,13 @@ ObjectShape >> labelContainerShape: aExtent [
 		color: Color veryVeryLightGray;
 		border: (RSBorder new color: Color black);
 		extent: aExtent;
+		addInteraction: (RSMenuActivable new
+			menuDo: [ :aMenuMorph :aShape | 
+				self menuEntries: menuEntries 
+					in: aMenuMorph 
+					for: model
+			]
+		);
 		yourself
 ]
 
@@ -27,6 +35,24 @@ ObjectShape >> labelShape [
 		yourself
 
 	
+]
+
+{ #category : #accessing }
+ObjectShape >> menuEntries: aMenuEntries [
+
+	menuEntries := aMenuEntries
+]
+
+{ #category : #'private - rendering' }
+ObjectShape >> menuEntries: aEntries in: aMenuMorph for: aInteraction [
+
+	aEntries keysAndValuesDo: [ :k :v | 
+		(aMenuMorph 
+			add: k
+			target: self
+			selector: #performClickAction:
+			argument: v)
+	].
 ]
 
 { #category : #accessing }
@@ -51,6 +77,12 @@ ObjectShape >> objectId [
 ObjectShape >> objectId: anObject [
 
 	objectId := anObject
+]
+
+{ #category : #'private - rendering' }
+ObjectShape >> performClickAction: aAction [
+
+	aAction cull: model
 ]
 
 { #category : #accessing }

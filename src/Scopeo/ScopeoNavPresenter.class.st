@@ -6,7 +6,7 @@ Class {
 		'nextStmt',
 		'start',
 		'end',
-		'debugger'
+		'steppingModel'
 	],
 	#category : #'Scopeo-GUI'
 }
@@ -22,66 +22,36 @@ ScopeoNavPresenter class >> defaultLayout [
 		yourself 
 ]
 
-{ #category : #accessing }
-ScopeoNavPresenter >> debugger: aDebugger [
-
-	debugger := aDebugger
-]
-
 { #category : #initialization }
 ScopeoNavPresenter >> initializePresenters [
 
 	prevStmt := self newButton
 		label: 'Prev. Statement';
 		icon: (self iconNamed: #glamorousUp);
-		action: [ self stepToPrevStatement ];
+		action: [ steppingModel stepToPrevStatement ];
 		yourself.
 		
 	nextStmt := self newButton
 		label: 'Next. Statement';
 		icon: (self iconNamed: #glamorousDown);
-		action: [ self stepToNextStatement ];
+		action: [ steppingModel stepToNextStatement ];
 		yourself.
 	
 	start := self newButton
 		label: 'Start';
 		icon: (self iconNamed: #smallHome);
-		action: [ self stepToStart ];
+		action: [ steppingModel stepToStart ];
 		yourself.
 
 	end := self newButton 
 		label: 'End';
 		icon: (self iconNamed: #glamorousSpawn);
-		action: [ self stepToEnd ];
+		action: [ steppingModel stepToEnd ];
 		yourself.
 ]
 
-{ #category : #'debug - stepping' }
-ScopeoNavPresenter >> stepToEnd [
-
-	self tracer stepToEnd
-]
-
-{ #category : #'debug - stepping' }
-ScopeoNavPresenter >> stepToNextStatement [
-	
-	self tracer perform advanceToNextStatement 
-]
-
-{ #category : #'debug - stepping' }
-ScopeoNavPresenter >> stepToPrevStatement [
-	
-	self tracer perform reverseToPreviousStatement 
-]
-
-{ #category : #'debug - stepping' }
-ScopeoNavPresenter >> stepToStart [
-
-	self tracer timeTravelToUserStart
-]
-
 { #category : #accessing }
-ScopeoNavPresenter >> tracer [
+ScopeoNavPresenter >> steppingModel: aSteppingModel [
 
-	^ debugger debuggerActionModel tracer
+	steppingModel := aSteppingModel
 ]

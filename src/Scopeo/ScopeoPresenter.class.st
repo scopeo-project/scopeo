@@ -7,7 +7,8 @@ Class {
 		'nav',
 		'scope',
 		'filter',
-		'events'
+		'events',
+		'track'
 	],
 	#category : #'Scopeo-GUI'
 }
@@ -18,6 +19,7 @@ ScopeoPresenter class >> defaultLayout [
 	^ SpBoxLayout newTopToBottom
 		add: #nav expand: false;
 		add: #scope height: 100;
+		add: #track height: 100;
 		add: #filter height: 100;
 		add: #events;
 		yourself
@@ -61,13 +63,24 @@ ScopeoPresenter >> evaluatePredicate: aPredicate [
 { #category : #initialization }
 ScopeoPresenter >> initializePresenters [
 
-	nav := ScopeoNavPresenter new 
-		debugger: debugger;
+	| model |
+	
+	model := ScopeoSteppingActionModel new
+		debugger: debugger; 
 		yourself.
 		
+	nav := ScopeoNavPresenter new 
+		steppingModel: model;
+		yourself.
+			
 	scope := ScopeoScopePresenter new.
+	
+	track := ScopeoTrackPresenter new.
 	
 	filter := ScopeoFilterPresenter new.
 	
-	events := ScopeoEventsPresenter new.
+	events := ScopeoEventsPresenter new
+		steppingModel: model;
+		yourself.
+	
 ]

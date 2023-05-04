@@ -1,5 +1,5 @@
 Class {
-	#name : #Type,
+	#name : #OnlyType,
 	#superclass : #Predicate,
 	#instVars : [
 		'type'
@@ -8,7 +8,7 @@ Class {
 }
 
 { #category : #'instance creation' }
-Type class >> of: aType [
+OnlyType class >> of: aType [
 
 	^ self new 
 		type: aType; 
@@ -16,14 +16,14 @@ Type class >> of: aType [
 ]
 
 { #category : #accessing }
-Type >> type: aType [
+OnlyType >> type: aType [
 
 	type := aType 
 ]
 
 { #category : #'target resize' }
-Type >> verify: aEvent in: aEvents [
-	
+OnlyType >> verify: aEvent in: aEvents [
+
 	^ aEvent isInteraction 
 		ifTrue: [ aEvent origin class = type and: [ aEvent destination class = type  ] ]
 		ifFalse: [ aEvent object class = type ] 

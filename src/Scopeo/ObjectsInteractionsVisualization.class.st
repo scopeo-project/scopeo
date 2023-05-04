@@ -4,11 +4,26 @@ Class {
 	#instVars : [
 		'vertexShapes',
 		'vertexGroupShapes',
-		'onEdgeClickDo',
-		'objectsInteractions'
+		'objectsInteractions',
+		'interactionMenuEntries',
+		'objectMenuEntries'
 	],
 	#category : #'Scopeo-Visualizations'
 }
+
+{ #category : #hooks }
+ObjectsInteractionsVisualization >> addInteractionMenuEntry: aName do: aAction [
+
+	interactionMenuEntries at: aName put: aAction
+	
+]
+
+{ #category : #hooks }
+ObjectsInteractionsVisualization >> addObjectMenuEntry: aName do: aAction [
+
+	objectMenuEntries at: aName put: aAction
+	
+]
 
 { #category : #initialization }
 ObjectsInteractionsVisualization >> initialize [
@@ -16,9 +31,26 @@ ObjectsInteractionsVisualization >> initialize [
 	vertexShapes := Dictionary new.
 	vertexGroupShapes := Dictionary new.
 	
+	interactionMenuEntries := Dictionary new.
+	objectMenuEntries := Dictionary new.
+
 ]
 
-{ #category : #private }
+{ #category : #'private - rendering' }
+ObjectsInteractionsVisualization >> menuEntries: aEntries in: aMenuMorph for: aInteraction [
+
+	aEntries keysAndValuesDo: [ :k :v | 
+		(aMenuMorph 
+			add: k
+			target: self
+			selector: #onClick:perform:
+			argumentList: {  aInteraction . v })
+	].
+
+	
+]
+
+{ #category : #'private - rendering' }
 ObjectsInteractionsVisualization >> objectShapeAt: aObjectId [
 
 	^ vertexShapes at: aObjectId
@@ -30,13 +62,7 @@ ObjectsInteractionsVisualization >> objectsInteractions: aObjectsInteractions [
 	objectsInteractions := aObjectsInteractions 
 ]
 
-{ #category : #accessing }
-ObjectsInteractionsVisualization >> onInteractionClickDo: aBlock [
-
-	onEdgeClickDo := aBlock
-]
-
-{ #category : #private }
+{ #category : #'private - rendering' }
 ObjectsInteractionsVisualization >> renderGroupShape: aObject in: aCanvas [
 
 	vertexGroupShapes at: aObject className ifAbsentPut: [
@@ -66,7 +92,7 @@ ObjectsInteractionsVisualization >> renderIn: aCanvas [
 	aCanvas @ RSCanvasController
 ]
 
-{ #category : #visiting }
+{ #category : #'private - rendering' }
 ObjectsInteractionsVisualization >> renderInteraction: aInteraction in: aCanvas [
 
 	aCanvas add: (
@@ -74,19 +100,20 @@ ObjectsInteractionsVisualization >> renderInteraction: aInteraction in: aCanvas 
 			model: aInteraction;
 			origin: (self objectShapeAt: aInteraction originId); 
 			destination: (self objectShapeAt: aInteraction destinationId);
-			onClickDo: [ onEdgeClickDo cull: aInteraction ];
+			menuEntries: interactionMenuEntries;
 			shape
 	)
 ]
 
-{ #category : #visiting }
+{ #category : #'private - rendering' }
 ObjectsInteractionsVisualization >> renderObject: aObject withId: aId in: aCanvas [
 
 	vertexShapes at: aId ifAbsentPut: [ 
 		ObjectShape new
+			model: aObject;
 			object: aObject;
 			objectId: aId;
-			model: aObject;
+			menuEntries: objectMenuEntries;
 			shape 
 	].
 
