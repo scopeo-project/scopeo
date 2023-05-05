@@ -41,7 +41,10 @@ StatesToObjectsEvents >> build [
 		(Query
 			from: tracer newProgramStates
 			select: [ :s | 
-				(s isVariable and: [ s node variable isInstanceVariable ]) or: [ s isMessageSend ] 
+				| isExplicitVar isImplicitVarRead |
+				isExplicitVar := (s isVariable and: [ s node variable isInstanceVariable ]).
+				isImplicitVarRead := s isImplicitReadingOfInstanceVariable.
+				isExplicitVar or: [ isImplicitVarRead  or: [ s isMessageSend ]] 
 			]
 			collect: [ :s | self fromProgramState: s ]) asOrderedCollection
 ]
