@@ -11,6 +11,9 @@ BaselineOfScopeo >> baseline: spec [
 		spec
 			baseline: 'Seeker'
 			with: [ spec repository: 'github://ValentinBourcier/SeekerDebugger:main' ].
+		spec
+			baseline: 'Chest'
+			with: [ spec repository: 'github://pharo-spec/Chest:master' ].
 		spec package: 'Scopeo'
 	]
 ]
