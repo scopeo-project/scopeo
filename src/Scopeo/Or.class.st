@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #'target resize' }
-Or >> verify: aEdge in: aEvents [
+Or >> verify: aEvent in: aProgramEvents [
 	
-	^ (left verify: aEdge in: aEvents) or: [ right verify: aEdge in: aEvents ]
+	^ (left verify: aEvent in: aProgramEvents) or: [ right verify: aEvent in: aProgramEvents ]
 ]

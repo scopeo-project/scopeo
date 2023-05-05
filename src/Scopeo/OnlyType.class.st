@@ -1,30 +1,13 @@
 Class {
 	#name : #OnlyType,
-	#superclass : #Predicate,
-	#instVars : [
-		'type'
-	],
+	#superclass : #TypePredicate,
 	#category : #'Scopeo-Model-Filter-API'
 }
-
-{ #category : #'instance creation' }
-OnlyType class >> of: aType [
-
-	^ self new 
-		type: aType; 
-		yourself
-]
-
-{ #category : #accessing }
-OnlyType >> type: aType [
-
-	type := aType 
-]
 
 { #category : #'target resize' }
 OnlyType >> verify: aEvent in: aEvents [
 
 	^ aEvent isInteraction 
-		ifTrue: [ aEvent origin class = type and: [ aEvent destination class = type  ] ]
-		ifFalse: [ aEvent object class = type ] 
+		ifTrue: [ aEvent origin class = classObject and: [ aEvent destination class = classObject  ] ]
+		ifFalse: [ aEvent object class = classObject ] 
 ]

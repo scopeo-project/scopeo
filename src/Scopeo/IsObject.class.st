@@ -1,29 +1,17 @@
 Class {
 	#name : #IsObject,
-	#superclass : #Predicate,
-	#instVars : [
-		'name',
-		'objectId'
-	],
+	#superclass : #ObjectPredicate,
 	#category : #'Scopeo-Model-Filter-API'
 }
 
 { #category : #'instance creation' }
 IsObject class >> named: aObjectName [
 
-	^ self new 
-		oid: (self objectNamed: aObjectName) seekMyOid; 
-		yourself
-]
-
-{ #category : #accessing }
-IsObject >> oid: aObjectId [
-
-	objectId := aObjectId
+	^ self objectNamed: aObjectName
 ]
 
 { #category : #'target resize' }
-IsObject >> verify: aEdge in: aGraph [
+IsObject >> verify: aEdge in: aProgramEvents [
 	
 	^ aEdge isStateEvent 
 		ifTrue: [ aEdge objectId = objectId ]

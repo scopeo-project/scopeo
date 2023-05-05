@@ -1,27 +1,11 @@
 Class {
 	#name : #Argument,
-	#superclass : #Predicate,
-	#instVars : [
-		'value'
-	],
+	#superclass : #InteractionPredicate,
 	#category : #'Scopeo-Model-Filter-API'
 }
 
-{ #category : #accessing }
-Argument class >> is: aObject [
-	^ self new 
-		value: aObject;
-		yourself
-]
-
-{ #category : #accessing }
-Argument >> value: aObject [
-
-	value := aObject
-]
-
 { #category : #'target resize' }
-Argument >> verify: aEdge in: aEvents [
+Argument >> verify: aEvent in: aProgramEvents [
 	
-	^ aEdge isInteraction and: [ aEdge arguments includes: value ]
+	^ aEvent isInteraction and: [ aEvent arguments includesAnyOf: values ]
 ]

@@ -1,28 +1,17 @@
 Class {
 	#name : #Coming,
-	#superclass : #Predicate,
-	#instVars : [
-		'objectId'
-	],
+	#superclass : #ObjectPredicate,
 	#category : #'Scopeo-Model-Filter-API'
 }
 
 { #category : #accessing }
 Coming class >> from: aObjectName [
 
-	^ self new 
-		oid: (self objectNamed: aObjectName) seekMyOid;
-		yourself 
-]
-
-{ #category : #accessing }
-Coming >> oid: aObjectId [
-
-	objectId := aObjectId
+	^ self objectNamed: aObjectName
 ]
 
 { #category : #'target resize' }
-Coming >> verify: aEvent in: aEvents [
+Coming >> verify: aEvent in: aProgramEvents [
 
 	^ aEvent isInteraction and: [ aEvent originId = objectId ]
 ]

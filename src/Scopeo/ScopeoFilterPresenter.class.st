@@ -42,7 +42,6 @@ ScopeoFilterPresenter >> initializePresenters [
 
 	editor := self newCode.
 	editor syntaxHighlight: true.
-	editor text: '(Type of: Player)'.
 	
 	clear := self newButton 
 		label: 'Clear'; 

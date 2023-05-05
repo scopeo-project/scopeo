@@ -1,11 +1,11 @@
 Class {
 	#name : #IsStateUpdate,
-	#superclass : #Predicate,
+	#superclass : #BooleanPredicate,
 	#category : #'Scopeo-Model-Filter-API'
 }
 
 { #category : #'target resize' }
-IsStateUpdate >> verify: aEvent in: aEvents [
+IsStateUpdate >> verify: aEvent in: aProgramEvents [
 	
 	^ aEvent isStateUpdate
 ]

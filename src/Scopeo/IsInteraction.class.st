@@ -1,11 +1,11 @@
 Class {
-	#name : #IsStateAccess,
+	#name : #IsInteraction,
 	#superclass : #BooleanPredicate,
 	#category : #'Scopeo-Model-Filter-API'
 }
 
 { #category : #'target resize' }
-IsStateAccess >> verify: aEvent in: aProgramEvents [
+IsInteraction >> verify: aEvent in: aProgramEvents [
 	
-	^ aEvent isStateAccess
+	^ aEvent isInteraction
 ]

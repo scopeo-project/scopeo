@@ -4,6 +4,14 @@ Class {
 	#category : #'Scopeo-Model-Filter-API'
 }
 
+{ #category : #'as yet unclassified' }
+Predicate class >> eventNamed: aName [
+	 
+	| chest |
+	chest := Chest named: 'ScopeoTrack'.
+	^ chest at: aName
+]
+
 { #category : #testing }
 Predicate class >> isAbstract [
 		
@@ -37,7 +45,7 @@ Predicate >> or: aPredicate [
 ]
 
 { #category : #'target resize' }
-Predicate >> verify: aEdge in: aGraph [
+Predicate >> verify: aEvent in: aProgamEvents [
 	
 	self subclassResponsibility
 ]
