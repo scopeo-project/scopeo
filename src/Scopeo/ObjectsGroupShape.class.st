@@ -9,6 +9,6 @@ ObjectsGroupShape >> shape [
 
 	^ RSComposite new
 			draggable;
-			border: (RSBorder new color: Color gray); 
+			border: (RSBorder new color: Color transparent); 
 			yourself
 ]
