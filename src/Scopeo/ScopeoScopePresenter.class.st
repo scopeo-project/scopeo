@@ -4,43 +4,29 @@ Class {
 	#instVars : [
 		'chest',
 		'table',
-		'remove'
+		'remove',
+		'title',
+		'scopeName'
 	],
 	#category : #'Scopeo-GUI'
 }
 
-{ #category : #layout }
-ScopeoScopePresenter class >> defaultLayout [
-
-	^ SpBoxLayout newVertical
-		add: 'Interesting objects' height: 20;
-		add: (SpBoxLayout newHorizontal
-			add: #remove;
-			yourself) expand: false;
-		add: #table expand: true;
-		yourself
-]
-
 { #category : #'event handling' }
 ScopeoScopePresenter >> chestUpdated: aEvent [
 
-	aEvent updatedChest = chest ifFalse: [ ^ self ].
-	table items: chest contents associations
+	
 ]
 
-{ #category : #initialization }
-ScopeoScopePresenter >> initialize [
+{ #category : #layout }
+ScopeoScopePresenter >> defaultLayout [
 
-	super initialize.
-	chest := Chest chestDictionary 
-		at: 'ScopeoObjects'
-		ifAbsent: [ Chest newNamed: 'ScopeoObjects' ].
-	chest initializeContents. 
-	Chest announcer weak 
-		when: ChestUpdated
-		send: #chestUpdated:
-		to: self.
-	chest contentsUpdated.
+	^ SpBoxLayout newVertical
+		add: title height: 20;
+		add: (SpBoxLayout newHorizontal
+			add: table;
+			add: remove expand: false;
+			yourself);
+		yourself
 ]
 
 { #category : #initialization }
@@ -53,7 +39,7 @@ ScopeoScopePresenter >> initializePresenters [
 			evaluated: [ :item | item chestName asString ]
 		);
 		addColumn: (SpStringTableColumn 
-			title: 'Object' 
+			title: 'Element' 
 			evaluated: [ :item | item chestEvaluation asString ]
 		);
 		beMultipleSelection;
@@ -71,4 +57,18 @@ ScopeoScopePresenter >> removeSelected [
 	table selectedItems do: [ :i |
 		chest removeObjectNamed: i name
 	]
+]
+
+{ #category : #accessing }
+ScopeoScopePresenter >> title: aTitle [
+
+	"chest := Chest chestDictionary 
+		at: aTitle
+		ifAbsent: [ Chest newNamed: aTitle ]."
+	"chest initializeContents. 
+	Chest announcer weak 
+		when: ChestUpdated
+		send: #chestUpdated:
+		to: self.
+	chest contentsUpdated."
 ]

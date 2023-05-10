@@ -3,11 +3,10 @@ Class {
 	#superclass : #SpPresenter,
 	#instVars : [
 		'roassal',
-		'debugger',
-		'track',
-		'scope',
 		'steppingModel',
-		'interactionClickBlock'
+		'interactionClickBlock',
+		'scopeObjects',
+		'scopeEvents'
 	],
 	#classInstVars : [
 		'aDebugger'
@@ -15,37 +14,37 @@ Class {
 	#category : #'Scopeo-GUI'
 }
 
-{ #category : #layout }
-ScopeoInteractionsPresenter class >> defaultLayout [
-
-	^ SpBoxLayout newVertical
-		add: #roassal;
-		yourself
-]
-
 { #category : #adding }
-ScopeoInteractionsPresenter >> addInteractionToTrack: aInteraction [
+ScopeoInteractionsPresenter >> addInteractionToScope: aInteraction [
 
-	track at: 'i', track contents size asString put: aInteraction	
+	scopeEvents at: 'i', scopeEvents contents size asString put: aInteraction	
 
 ]
 
 { #category : #adding }
 ScopeoInteractionsPresenter >> addObjectToScope: aObject [
 
-	scope at: 'o', scope contents size asString put: aObject
+	scopeObjects at: 'o', scopeObjects contents size asString put: aObject
+]
+
+{ #category : #layout }
+ScopeoInteractionsPresenter >> defaultLayout [
+
+	^ SpBoxLayout newVertical
+		add: #roassal;
+		yourself
 ]
 
 { #category : #initialization }
 ScopeoInteractionsPresenter >> initialize [
 	
 	super initialize.
-	scope := Chest chestDictionary 
+	scopeObjects := Chest chestDictionary 
 		at: 'ScopeoObjects'
 		ifAbsent: [ Chest newNamed: 'ScopeoObjects' ].
-	track := Chest chestDictionary 
-		at: 'ScopeoTrack'
-		ifAbsent: [ Chest newNamed: 'ScopeoTrack' ].
+	scopeEvents := Chest chestDictionary 
+		at: 'ScopeoEvents'
+		ifAbsent: [ Chest newNamed: 'ScopeoEvents' ].
 ]
 
 { #category : #initialization }
@@ -61,7 +60,7 @@ ScopeoInteractionsPresenter >> objectsInteractions: aObjectsInteractions [
 	ObjectsInteractionsVisualization new
 		objectsInteractions: aObjectsInteractions;
 		addInteractionMenuEntry: 'Travel back to' do: [ :i | interactionClickBlock cull: i ]; 
-		addInteractionMenuEntry: 'Store in debugging track' do: [ :i | self addInteractionToTrack: i ]; 
+		addInteractionMenuEntry: 'Store in debugging track' do: [ :i | self addInteractionToScope: i ]; 
 		addObjectMenuEntry: 'Store in debugging scope' do: [ :o | self addObjectToScope: o ]; 
 		renderIn: roassal canvas.
 

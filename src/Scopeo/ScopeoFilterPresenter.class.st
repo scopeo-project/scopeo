@@ -11,8 +11,14 @@ Class {
 	#category : #'Scopeo-GUI'
 }
 
+{ #category : #action }
+ScopeoFilterPresenter >> clear [
+
+	editor text: String empty
+]
+
 { #category : #layout }
-ScopeoFilterPresenter class >> defaultLayout [
+ScopeoFilterPresenter >> defaultLayout [
 
 	^ SpBoxLayout newVertical
 		add: 'Filter' height: 20;
@@ -23,12 +29,6 @@ ScopeoFilterPresenter class >> defaultLayout [
 			yourself) expand: false;
 		add: #editor expand: true;
 		yourself
-]
-
-{ #category : #action }
-ScopeoFilterPresenter >> clear [
-
-	editor text: String empty
 ]
 
 { #category : #action }

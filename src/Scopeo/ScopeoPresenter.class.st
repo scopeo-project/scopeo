@@ -8,36 +8,12 @@ Class {
 		'scope',
 		'filter',
 		'events',
-		'track'
+		'track',
+		'scopeObjects',
+		'scopeEvents'
 	],
 	#category : #'Scopeo-GUI'
 }
-
-{ #category : #layout }
-ScopeoPresenter class >> defaultLayout [
-
-	^ SpBoxLayout newTopToBottom
-		add: #nav expand: false;
-		add: #scope height: 100;
-		add: #track height: 100;
-		add: #filter height: 100;
-		add: #events;
-		yourself
-]
-
-{ #category : #initialization }
-ScopeoPresenter >> connectPresenters [
-
-	filter onFilterDo: [ :p | 
-		| objectsEvents |
-		objectsEvents := StatesToObjectsEvents new 
-			debuggerTracer: (debugger debuggerActionModel tracer);
-			build; objectsEvents.
-		events objectsEvents: (
-			objectsEvents filter: (self evaluatePredicate: p)
-		).
-	]
-]
 
 { #category : #'debugger extension' }
 ScopeoPresenter >> debuggerExtensionToolName [
@@ -45,19 +21,21 @@ ScopeoPresenter >> debuggerExtensionToolName [
 	^ 'Scopeo'
 ]
 
-{ #category : #evaluating }
-ScopeoPresenter >> evaluatePredicate: aPredicate [
-	
-	| context |
-	
-	context := debugger currentContext.
-   ^ context receiver class compiler
-        source: aPredicate;
-        context: context;
-        receiver: context receiver;
-        requestor: self;
-        failBlock: [ nil ];
-        evaluate.
+{ #category : #layout }
+ScopeoPresenter >> defaultLayout [
+
+	^ SpBoxLayout newVertical
+		add: nav expand: false;
+		add: (SpPanedLayout newVertical
+			add: (SpPanedLayout newVertical
+				add: scopeObjects;
+				add: scopeEvents;
+				yourself
+			);
+			add: events;
+			yourself
+		);
+		yourself
 ]
 
 { #category : #initialization }
@@ -65,7 +43,7 @@ ScopeoPresenter >> initializePresenters [
 
 	| model |
 	
-	model := ScopeoSteppingActionModel new
+	model := ScopeoSteppingModel new
 		debugger: debugger; 
 		yourself.
 		
@@ -73,11 +51,12 @@ ScopeoPresenter >> initializePresenters [
 		steppingModel: model;
 		yourself.
 			
-	scope := ScopeoScopePresenter new.
-	
-	track := ScopeoTrackPresenter new.
-	
-	filter := ScopeoFilterPresenter new.
+	scopeObjects := ScopeoScopePresenter new
+		title: 'Debugging scope objects';
+		yourself.
+	scopeEvents := ScopeoScopePresenter new
+		title: 'Debugging scope events';
+		yourself.
 	
 	events := ScopeoEventsPresenter new
 		steppingModel: model;

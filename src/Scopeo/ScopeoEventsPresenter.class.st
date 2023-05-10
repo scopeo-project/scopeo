@@ -6,28 +6,64 @@ Class {
 		'list',
 		'graph',
 		'debugger',
-		'steppingModel'
+		'steppingModel',
+		'filter'
 	],
 	#category : #'Scopeo-GUI'
 }
 
-{ #category : #layout }
-ScopeoEventsPresenter class >> defaultLayout [
+{ #category : #initialization }
+ScopeoEventsPresenter >> connectPresenters [
 
-	^ SpBoxLayout newVertical
-		add: #tabs;
+	filter onFilterDo: [ :p | 
+		| objectsEvents |
+		objectsEvents := StatesToObjectsEvents new 
+			debuggerTracer: (debugger debuggerActionModel tracer);
+			build; objectsEvents.
+		self objectsEvents: (
+			objectsEvents filter: (self evaluatePredicate: p)
+		).
+	].
+
+	graph onInteractionClickDo: [ :i | 
+		steppingModel stepToBytecodeIndex: i bytecodeIndex
+	].
+]
+
+{ #category : #layout }
+ScopeoEventsPresenter >> defaultLayout [
+
+	^ SpPanedLayout newVertical
+		add: filter;
+		add: tabs;
+		positionOfSlider: 0.3
 		yourself
+]
+
+{ #category : #evaluating }
+ScopeoEventsPresenter >> evaluatePredicate: aPredicate [
+	
+	| context |
+	
+	context := steppingModel debugger currentContext.
+   ^ context receiver class compiler
+        source: aPredicate;
+        context: context;
+        receiver: context receiver;
+        requestor: self;
+        failBlock: [ nil ];
+        evaluate.
 ]
 
 { #category : #initialization }
 ScopeoEventsPresenter >> initializePresenters [
 
-	tabs := self newNotebook.
+	filter := ScopeoFilterPresenter new.
 
+	tabs := self newNotebook.
+	
 	list := ScopeoEventsListPresenter new.
-	graph := ScopeoInteractionsPresenter new
-		onInteractionClickDo: [ :i | self travelToInteraction: i ]
-		yourself.
+	graph := ScopeoInteractionsPresenter new.
 
 	tabs addPageTitle: 'Events list' provider: [ list ].
 	tabs addPageTitle: 'Interactions graph' provider: [ graph ]
@@ -47,10 +83,4 @@ ScopeoEventsPresenter >> objectsEvents: aObjectsEvents [
 ScopeoEventsPresenter >> steppingModel: aSteppingModel [
 
 	steppingModel := aSteppingModel
-]
-
-{ #category : #'as yet unclassified' }
-ScopeoEventsPresenter >> travelToInteraction: aInteraction [
-
-	steppingModel stepToBytecodeIndex: aInteraction bytecodeIndex
 ]

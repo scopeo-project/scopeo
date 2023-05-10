@@ -12,13 +12,13 @@ Class {
 }
 
 { #category : #layout }
-ScopeoNavPresenter class >> defaultLayout [
+ScopeoNavPresenter >> defaultLayout [
 
 	^ SpBoxLayout newHorizontal
-		add: #prevStmt;
-		add: #nextStmt;
-		add: #start;
-		add: #end;
+		add: prevStmt;
+		add: nextStmt;
+		add: start;
+		add: end;
 		yourself 
 ]
 

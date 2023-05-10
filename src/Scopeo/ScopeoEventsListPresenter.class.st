@@ -8,7 +8,7 @@ Class {
 }
 
 { #category : #layout }
-ScopeoEventsListPresenter class >> defaultLayout [
+ScopeoEventsListPresenter >> defaultLayout [
 
 	^ SpBoxLayout newVertical
 		add: #table;

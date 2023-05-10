@@ -1,5 +1,5 @@
 Class {
-	#name : #ScopeoSteppingActionModel,
+	#name : #ScopeoSteppingModel,
 	#superclass : #Object,
 	#instVars : [
 		'debugger'
@@ -8,43 +8,49 @@ Class {
 }
 
 { #category : #accessing }
-ScopeoSteppingActionModel >> debugger: aDebugger [
+ScopeoSteppingModel >> debugger [
+
+	^ debugger
+]
+
+{ #category : #accessing }
+ScopeoSteppingModel >> debugger: aDebugger [
 
 	debugger := aDebugger
 ]
 
 { #category : #'debug - stepping' }
-ScopeoSteppingActionModel >> stepToBytecodeIndex: aBytecodeIndex [
+ScopeoSteppingModel >> stepToBytecodeIndex: aBytecodeIndex [
 
 	self tracer timeTravelToBytecodeIndex: aBytecodeIndex
 ]
 
 { #category : #'debug - stepping' }
-ScopeoSteppingActionModel >> stepToEnd [
+ScopeoSteppingModel >> stepToEnd [
 
 	self tracer stepToEnd
 ]
 
 { #category : #'debug - stepping' }
-ScopeoSteppingActionModel >> stepToNextStatement [
+ScopeoSteppingModel >> stepToNextStatement [
 	
 	self tracer perform advanceToNextStatement 
 ]
 
 { #category : #'debug - stepping' }
-ScopeoSteppingActionModel >> stepToPrevStatement [
+ScopeoSteppingModel >> stepToPrevStatement [
 	
 	self tracer perform reverseToPreviousStatement 
 ]
 
 { #category : #'debug - stepping' }
-ScopeoSteppingActionModel >> stepToStart [
+ScopeoSteppingModel >> stepToStart [
 
 	self tracer timeTravelToUserStart
 ]
 
 { #category : #accessing }
-ScopeoSteppingActionModel >> tracer [
+ScopeoSteppingModel >> tracer [
 
 	^ debugger debuggerActionModel tracer
 ]
