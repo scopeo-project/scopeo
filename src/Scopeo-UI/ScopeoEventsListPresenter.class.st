@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'table'
 	],
-	#category : #'Scopeo-GUI'
+	#category : #'Scopeo-UI-EventsPresenters'
 }
 
 { #category : #layout }

@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'model'
 	],
-	#category : #'Scopeo-Visualizations'
+	#category : #'Scopeo-InteractionsVisualization'
 }
 
 { #category : #testing }

@@ -1,7 +1,7 @@
 Class {
 	#name : #IsInteraction,
 	#superclass : #BooleanPredicate,
-	#category : #'Scopeo-Model-Filter-API'
+	#category : #'Scopeo-ObjectsEventsQuery'
 }
 
 { #category : #'target resize' }

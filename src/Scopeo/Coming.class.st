@@ -1,7 +1,7 @@
 Class {
 	#name : #Coming,
 	#superclass : #ObjectPredicate,
-	#category : #'Scopeo-Model-Filter-API'
+	#category : #'Scopeo-ObjectsEventsQuery'
 }
 
 { #category : #accessing }

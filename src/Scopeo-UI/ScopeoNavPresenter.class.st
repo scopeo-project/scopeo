@@ -8,7 +8,7 @@ Class {
 		'end',
 		'steppingModel'
 	],
-	#category : #'Scopeo-GUI'
+	#category : #'Scopeo-UI-MainPresenters'
 }
 
 { #category : #layout }

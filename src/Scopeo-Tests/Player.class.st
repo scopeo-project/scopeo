@@ -5,7 +5,7 @@ Class {
 		'nextPlayer',
 		'message'
 	],
-	#category : #'Scopeo-Scenarios'
+	#category : #'Scopeo-Tests'
 }
 
 { #category : #modifying }

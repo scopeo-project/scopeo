@@ -5,7 +5,7 @@ Class {
 		'events',
 		'objects'
 	],
-	#category : #'Scopeo-Model'
+	#category : #'Scopeo-ObjectsEventsModel'
 }
 
 { #category : #accessing }

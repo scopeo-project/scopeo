@@ -5,7 +5,7 @@ Class {
 		'objects',
 		'interactions'
 	],
-	#category : #'Scopeo-Model'
+	#category : #'Scopeo-ObjectsEventsModel'
 }
 
 { #category : #'instance creation' }

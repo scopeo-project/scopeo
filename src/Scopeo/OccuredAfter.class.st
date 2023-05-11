@@ -1,7 +1,7 @@
 Class {
 	#name : #OccuredAfter,
 	#superclass : #EventPredicate,
-	#category : #'Scopeo-Model-Filter-API'
+	#category : #'Scopeo-ObjectsEventsQuery'
 }
 
 { #category : #'target resize' }

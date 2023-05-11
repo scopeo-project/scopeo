@@ -8,7 +8,7 @@ Class {
 		'interactionMenuEntries',
 		'objectMenuEntries'
 	],
-	#category : #'Scopeo-Visualizations'
+	#category : #'Scopeo-InteractionsVisualization'
 }
 
 { #category : #hooks }

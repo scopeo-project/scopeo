@@ -5,7 +5,7 @@ Class {
 		'objectsEvents',
 		'tracer'
 	],
-	#category : #'Scopeo-Model-Instanciation'
+	#category : #'Scopeo-ObjectsEventsModel'
 }
 
 { #category : #'building - accessing' }

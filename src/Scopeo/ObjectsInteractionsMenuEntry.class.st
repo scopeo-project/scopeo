@@ -5,5 +5,5 @@ Class {
 		'name',
 		'block'
 	],
-	#category : #'Scopeo-Visualizations'
+	#category : #'Scopeo-InteractionsVisualization'
 }

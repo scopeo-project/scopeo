@@ -12,7 +12,7 @@ Class {
 		'scopeObjects',
 		'scopeEvents'
 	],
-	#category : #'Scopeo-GUI'
+	#category : #'Scopeo-UI-MainPresenters'
 }
 
 { #category : #'debugger extension' }

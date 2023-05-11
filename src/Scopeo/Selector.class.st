@@ -1,7 +1,7 @@
 Class {
 	#name : #Selector,
 	#superclass : #InteractionPredicate,
-	#category : #'Scopeo-Model-Filter-API'
+	#category : #'Scopeo-ObjectsEventsQuery'
 }
 
 { #category : #'target resize' }

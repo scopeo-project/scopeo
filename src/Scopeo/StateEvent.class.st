@@ -7,7 +7,7 @@ Class {
 		'method',
 		'variable'
 	],
-	#category : #'Scopeo-Model'
+	#category : #'Scopeo-ObjectsEventsModel'
 }
 
 { #category : #testing }

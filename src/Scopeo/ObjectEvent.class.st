@@ -5,7 +5,7 @@ Class {
 		'bytecodeIndex',
 		'pc'
 	],
-	#category : #'Scopeo-Model'
+	#category : #'Scopeo-ObjectsEventsModel'
 }
 
 { #category : #testing }

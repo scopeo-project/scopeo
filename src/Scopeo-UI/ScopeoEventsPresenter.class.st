@@ -9,7 +9,7 @@ Class {
 		'steppingModel',
 		'filter'
 	],
-	#category : #'Scopeo-GUI'
+	#category : #'Scopeo-UI-EventsPresenters'
 }
 
 { #category : #initialization }

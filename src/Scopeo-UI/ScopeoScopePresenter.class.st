@@ -8,7 +8,7 @@ Class {
 		'title',
 		'scopeName'
 	],
-	#category : #'Scopeo-GUI'
+	#category : #'Scopeo-UI-ScopePresenters'
 }
 
 { #category : #'event handling' }

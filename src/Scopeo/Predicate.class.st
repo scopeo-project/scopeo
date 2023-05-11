@@ -1,7 +1,7 @@
 Class {
 	#name : #Predicate,
 	#superclass : #Object,
-	#category : #'Scopeo-Model-Filter-API'
+	#category : #'Scopeo-ObjectsEventsQuery'
 }
 
 { #category : #'as yet unclassified' }

@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'players'
 	],
-	#category : #'Scopeo-Scenarios'
+	#category : #'Scopeo-Tests'
 }
 
 { #category : #initialization }

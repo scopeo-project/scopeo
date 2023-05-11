@@ -1,7 +1,7 @@
 Class {
 	#name : #StateAccess,
 	#superclass : #StateEvent,
-	#category : #'Scopeo-Model'
+	#category : #'Scopeo-ObjectsEventsModel'
 }
 
 { #category : #testing }

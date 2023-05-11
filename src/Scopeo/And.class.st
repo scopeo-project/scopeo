@@ -1,7 +1,7 @@
 Class {
 	#name : #And,
 	#superclass : #BinaryBooleanPredicate,
-	#category : #'Scopeo-Model-Filter-API'
+	#category : #'Scopeo-ObjectsEventsQuery'
 }
 
 { #category : #'target resize' }

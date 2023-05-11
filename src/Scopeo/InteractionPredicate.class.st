@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'values'
 	],
-	#category : #'Scopeo-Model-Filter-API'
+	#category : #'Scopeo-ObjectsEventsQuery'
 }
 
 { #category : #'instance creation' }

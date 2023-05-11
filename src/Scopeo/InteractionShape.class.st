@@ -7,7 +7,7 @@ Class {
 		'onClickAction',
 		'menuEntries'
 	],
-	#category : #'Scopeo-Visualizations'
+	#category : #'Scopeo-InteractionsVisualization'
 }
 
 { #category : #'api - building' }

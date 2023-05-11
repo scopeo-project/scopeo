@@ -1,7 +1,7 @@
 Class {
 	#name : #ObjectsGroupShape,
 	#superclass : #ObjectGraphShape,
-	#category : #'Scopeo-Visualizations'
+	#category : #'Scopeo-InteractionsVisualization'
 }
 
 { #category : #private }

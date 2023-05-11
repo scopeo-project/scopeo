@@ -11,7 +11,7 @@ Class {
 	#classInstVars : [
 		'aDebugger'
 	],
-	#category : #'Scopeo-GUI'
+	#category : #'Scopeo-UI-EventsPresenters'
 }
 
 { #category : #adding }

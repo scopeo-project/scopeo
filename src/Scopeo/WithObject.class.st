@@ -1,7 +1,7 @@
 Class {
 	#name : #WithObject,
 	#superclass : #ObjectPredicate,
-	#category : #'Scopeo-Model-Filter-API'
+	#category : #'Scopeo-ObjectsEventsQuery'
 }
 
 { #category : #'instance creation' }

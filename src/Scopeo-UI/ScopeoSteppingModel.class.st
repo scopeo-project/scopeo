@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'debugger'
 	],
-	#category : #'Scopeo-GUI'
+	#category : #'Scopeo-UI-Model'
 }
 
 { #category : #accessing }
