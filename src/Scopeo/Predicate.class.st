@@ -7,9 +7,10 @@ Class {
 { #category : #'as yet unclassified' }
 Predicate class >> eventNamed: aName [
 	 
-	| chest |
-	chest := Chest named: 'ScopeoTrack'.
-	^ chest at: aName
+	| eventsChest |
+	eventsChest := self class titleToChestName: self class eventsTitle.
+	eventsChest := Chest named: eventsChest.
+	^ eventsChest at: aName
 ]
 
 { #category : #testing }
@@ -21,9 +22,10 @@ Predicate class >> isAbstract [
 { #category : #'as yet unclassified' }
 Predicate class >> objectNamed: aName [
 	 
-	| chest |
-	chest := Chest named: 'ScopeoObjects'.
-	^ chest at: aName
+	| objectsChest |
+	objectsChest := self class titleToChestName: self class objectsTitle.
+	objectsChest := Chest named: objectsChest.
+	^ objectsChest at: aName
 ]
 
 { #category : #controlling }

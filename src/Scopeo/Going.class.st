@@ -10,12 +10,6 @@ Going class >> to: aObjectName [
 	^ self objectNamed: aObjectName
 ]
 
-{ #category : #accessing }
-Going >> oid: aObjectId [
-
-	objectId := aObjectId
-]
-
 { #category : #'target resize' }
 Going >> verify: aEvent in: aProgramEvents [
 	
