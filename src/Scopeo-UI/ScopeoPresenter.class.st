@@ -10,7 +10,9 @@ Class {
 		'events',
 		'track',
 		'scopeObjects',
-		'scopeEvents'
+		'scopeEvents',
+		'scopeModel',
+		'steppingModel'
 	],
 	#category : #'Scopeo-UI-MainPresenters'
 }
@@ -42,10 +44,8 @@ ScopeoPresenter >> defaultLayout [
 { #category : #initialization }
 ScopeoPresenter >> initializeModels [
 
-	| scopeModel steppingModel |
-	
-	scopeModel := ScopeoScopeModel new.
-	steppingModel := ScopeoSteppingModel new debugger: debugger.
+	scopeModel := ScpScopeModel new.
+	steppingModel := ScpSteppingModel new debugger: debugger.
 	
 	nav steppingModel: steppingModel.
 	scopeObjects scope: scopeModel.
@@ -56,9 +56,23 @@ ScopeoPresenter >> initializeModels [
 { #category : #initialization }
 ScopeoPresenter >> initializePresenters [
 
-	nav := ScopeoNavPresenter new.
-	scopeObjects := ScopeoObjectsScopePresenter new.
-	scopeEvents := ScopeoEventsScopePresenter new.
-	events := ScopeoEventsPresenter new.
+	nav := ScpNavPresenter new.
+	scopeObjects := ScpObjectsScopePresenter new.
+	scopeEvents := ScpEventsScopePresenter new.
+	events := ScpEventsPresenter new.
 	self initializeModels.
+]
+
+{ #category : #accessing }
+ScopeoPresenter >> scopeModel [
+
+	^ scopeModel
+
+
+]
+
+{ #category : #accessing }
+ScopeoPresenter >> steppingModel [
+
+	^ steppingModel
 ]

@@ -1,6 +1,6 @@
 Class {
 	#name : #Coming,
-	#superclass : #ObjectPredicate,
+	#superclass : #ScpObjectPredicate,
 	#category : #'Scopeo-ObjectsEventsQuery'
 }
 

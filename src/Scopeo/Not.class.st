@@ -1,6 +1,6 @@
 Class {
 	#name : #Not,
-	#superclass : #BooleanPredicate,
+	#superclass : #ScpBooleanPredicate,
 	#instVars : [
 		'predicate'
 	],
@@ -24,5 +24,5 @@ Not >> predicate: aPredicate [
 { #category : #'target resize' }
 Not >> verify: aEvent scope: aScope events: aProgramEvents [
 
-	^ (predicate verify: aEvent scope: nil events: aProgramEvents) not
+	^ (predicate verify: aEvent scope: aScope events: aProgramEvents) not
 ]

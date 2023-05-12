@@ -1,6 +1,6 @@
 Class {
 	#name : #Argument,
-	#superclass : #InteractionPredicate,
+	#superclass : #ScpInteractionPredicate,
 	#category : #'Scopeo-ObjectsEventsQuery'
 }
 

@@ -1,6 +1,6 @@
 Class {
 	#name : #IsStateAccess,
-	#superclass : #BooleanPredicate,
+	#superclass : #ScpBooleanPredicate,
 	#category : #'Scopeo-ObjectsEventsQuery'
 }
 

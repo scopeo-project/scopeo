@@ -1,6 +1,6 @@
 Class {
 	#name : #OccuredBefore,
-	#superclass : #EventPredicate,
+	#superclass : #ScpEventPredicate,
 	#category : #'Scopeo-ObjectsEventsQuery'
 }
 

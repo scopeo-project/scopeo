@@ -1,6 +1,6 @@
 Class {
 	#name : #Selector,
-	#superclass : #InteractionPredicate,
+	#superclass : #ScpInteractionPredicate,
 	#category : #'Scopeo-ObjectsEventsQuery'
 }
 
