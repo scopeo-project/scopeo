@@ -42,8 +42,7 @@ StateUpdate >> oldValue: anObject [
 StateUpdate >> printOn: aStream [
 
 	aStream 
-		<< object asString 
-		<< '(' << objectId asString << ')' 
+		<< object asString
 		<< ' wrote "' << newValue asString
 		<< '" to variable "' << variable name asString 
 		<< '(' << oldValue asString << ')"'

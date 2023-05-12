@@ -30,7 +30,7 @@ ObjectShape >> labelContainerShape: aExtent [
 ObjectShape >> labelShape [
 
 	^ RSLabel new
-		text: object className , '(', objectId asString, ')';
+		text: self model asString;
 		color: Color black;
 		yourself
 
@@ -53,30 +53,6 @@ ObjectShape >> menuEntries: aEntries in: aMenuMorph for: aInteraction [
 			selector: #performClickAction:
 			argument: v)
 	].
-]
-
-{ #category : #accessing }
-ObjectShape >> object [
-
-	^ object
-]
-
-{ #category : #accessing }
-ObjectShape >> object: anObject [
-
-	object := anObject
-]
-
-{ #category : #accessing }
-ObjectShape >> objectId [
-
-	^ objectId
-]
-
-{ #category : #accessing }
-ObjectShape >> objectId: anObject [
-
-	objectId := anObject
 ]
 
 { #category : #'private - rendering' }

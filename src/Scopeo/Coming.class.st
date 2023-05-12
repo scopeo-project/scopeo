@@ -15,7 +15,7 @@ Coming >> verify: aEvent scope: aScope events: aProgramEvents [
 
 	| objectId |
 	
-	objectId := (aScope getObject: objectName) seekMyOid.
+	objectId := (aScope getObject: objectName) id.
 
-	^ aEvent isInteraction and: [ aEvent originId = objectId ]
+	^ aEvent isInteraction and: [ aEvent origin id = objectId ]
 ]

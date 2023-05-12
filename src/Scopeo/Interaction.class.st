@@ -37,18 +37,6 @@ Interaction >> destination: anObject [
 	destination := anObject
 ]
 
-{ #category : #accessing }
-Interaction >> destinationId [
-
-	^ destinationId
-]
-
-{ #category : #accessing }
-Interaction >> destinationId: anObject [
-
-	destinationId := anObject
-]
-
 { #category : #testing }
 Interaction >> isInteraction [
 
@@ -68,18 +56,6 @@ Interaction >> origin: anObject [
 ]
 
 { #category : #accessing }
-Interaction >> originId [
-
-	^ originId
-]
-
-{ #category : #accessing }
-Interaction >> originId: anObject [
-
-	originId := anObject
-]
-
-{ #category : #accessing }
 Interaction >> originMethod [
 
 	^ originMethod
@@ -96,9 +72,9 @@ Interaction >> printOn: aStream [
 
 	aStream 
 		<< origin asString
-		<< '(' << originId asString  << ')'
-		<< ' sent "' << selector asString << '" to ' << destination asString
-		<< '(' << destinationId asString  << ')'
+		<< ' sent "' << selector asString 
+		<< '" to ' << destination asString
+
 ]
 
 { #category : #accessing }

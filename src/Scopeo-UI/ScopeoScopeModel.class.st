@@ -18,7 +18,7 @@ ScopeoScopeModel >> announcer [
 { #category : #accessing }
 ScopeoScopeModel >> getEvent: aName [
 
-	events at: aName
+	^ events at: aName
 ]
 
 { #category : #accessing }
@@ -30,7 +30,7 @@ ScopeoScopeModel >> getEvents [
 { #category : #accessing }
 ScopeoScopeModel >> getObject: aName [
 
-	objects at: aName
+	^ objects at: aName
 ]
 
 { #category : #accessing }

@@ -15,7 +15,6 @@ StateAccess >> printOn: aStream [
 
 	aStream 
 		<< object asString 
-		<< '(' << objectId asString << ')' 
 		<< ' read variable "' << variable name asString
 		<< '" in method "' << method name asString << '"'
 ]

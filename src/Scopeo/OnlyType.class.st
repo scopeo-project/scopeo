@@ -8,6 +8,6 @@ Class {
 OnlyType >> verify: aEvent scope: aScope events: aEvents [
 
 	^ aEvent isInteraction 
-		ifTrue: [ aEvent origin class = classObject and: [ aEvent destination class = classObject  ] ]
-		ifFalse: [ aEvent object class = classObject ] 
+		ifTrue: [ aEvent origin get class = classObject and: [ aEvent destination get class = classObject  ] ]
+		ifFalse: [ aEvent object get class = classObject ] 
 ]

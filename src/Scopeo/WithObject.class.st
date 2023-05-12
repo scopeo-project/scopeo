@@ -15,9 +15,9 @@ WithObject >> verify: aEvent scope: aScope events: aProgramEvents [
 	
 	| objectId |
 	
-	objectId := (aScope getObject: objectName) seekMyOid.
+	objectId := (aScope getObject: objectName) id.
 	
 	^ aEvent isStateEvent 
-		ifTrue: [ aEvent objectId = objectId ]
-		ifFalse: [ aEvent originId = objectId or: [ aEvent destinationId = objectId ] ]
+		ifTrue: [ aEvent object id = objectId ]
+		ifFalse: [ aEvent origin id = objectId or: [ aEvent destination id = objectId ] ]
 ]

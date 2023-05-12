@@ -6,7 +6,8 @@ Class {
 		'vertexGroupShapes',
 		'objectsInteractions',
 		'interactionMenuEntries',
-		'objectMenuEntries'
+		'objectMenuEntries',
+		'aId'
 	],
 	#category : #'Scopeo-InteractionsVisualization'
 }
@@ -75,8 +76,8 @@ ObjectsInteractionsVisualization >> renderGroupShape: aObject in: aCanvas [
 { #category : #hooks }
 ObjectsInteractionsVisualization >> renderIn: aCanvas [
 
-	objectsInteractions objects keysAndValuesDo: [ :k :v | 
-		self renderObject: v withId: k in: aCanvas 
+	objectsInteractions objects valuesDo: [ :o | 
+		self renderObject: o in: aCanvas 
 	].
 	objectsInteractions interactions do: [ :e | self renderInteraction: e in: aCanvas  ].
 
@@ -98,24 +99,22 @@ ObjectsInteractionsVisualization >> renderInteraction: aInteraction in: aCanvas 
 	aCanvas add: (
 		InteractionShape new 
 			model: aInteraction;
-			origin: (self objectShapeAt: aInteraction originId); 
-			destination: (self objectShapeAt: aInteraction destinationId);
+			origin: (self objectShapeAt: aInteraction origin id); 
+			destination: (self objectShapeAt: aInteraction destination id);
 			menuEntries: interactionMenuEntries;
 			shape
 	)
 ]
 
 { #category : #'private - rendering' }
-ObjectsInteractionsVisualization >> renderObject: aObject withId: aId in: aCanvas [
+ObjectsInteractionsVisualization >> renderObject: aObject in: aCanvas [
 
-	vertexShapes at: aId ifAbsentPut: [ 
+	vertexShapes at: aObject id ifAbsentPut: [ 
 		ObjectShape new
 			model: aObject;
-			object: aObject;
-			objectId: aId;
 			menuEntries: objectMenuEntries;
 			shape 
 	].
 
-	(self renderGroupShape: aObject in: aCanvas) add: (self objectShapeAt: aId)
+	(self renderGroupShape: aObject in: aCanvas) add: (self objectShapeAt: aObject id)
 ]

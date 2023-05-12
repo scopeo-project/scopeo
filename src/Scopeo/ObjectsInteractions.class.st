@@ -16,8 +16,8 @@ ObjectsInteractions class >> fromEvents: aEvents [
 	objects := Dictionary new.	
 	interactions := aEvents select: [ :e | e isInteraction ].
 	interactions do: [ :i | 
-		objects at: i originId put: i origin.
-		objects at: i destinationId put: i destination.
+		objects at: i origin id put: i origin.
+		objects at: i destination id put: i destination.
 	].
 
 	^ self new 

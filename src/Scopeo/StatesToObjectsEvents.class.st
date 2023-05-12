@@ -58,13 +58,13 @@ StatesToObjectsEvents >> debuggerTracer: aTracer [
 { #category : #'instance creation' }
 StatesToObjectsEvents >> fromAssignmentState: aState [
 
-	| variable objectId |
+	| variable object objectId |
 	variable := aState node variable variable.
-	objectId := (aState aliasOfObject: aState context receiver).
+	object := aState context receiver.
+	objectId := (aState aliasOfObject: object).
 	
 	^ StateUpdate new
-		object: aState context receiver;
-		objectId: objectId; 
+		object: (ObjectWrapper fromId: objectId object: object);
 		method: aState method;
 		variable: variable;
 		oldValue: (variable readInContext: aState context);
@@ -76,17 +76,15 @@ StatesToObjectsEvents >> fromAssignmentState: aState [
 { #category : #'instance creation' }
 StatesToObjectsEvents >> fromMessageState: aState [
 
-	| originId |
+	| originObject originId |
 	
-	originId := (aState aliasOfObject: aState context receiver).
+	originObject := aState context receiver.
+	originId := (aState aliasOfObject: originObject).
 	
 	^ Interaction new
-		origin: aState context receiver;
-		originId: originId;
+		origin: (ObjectWrapper fromId: originId object: originObject);
 		originMethod: aState method;
-		destination: aState messageReceiver;
-		destinationId: aState messageReceiverOid; 
-		selector: aState messageSelector;
+		destination: (ObjectWrapper fromId: aState messageReceiverOid object: aState messageReceiver);  		selector: aState messageSelector;
 		arguments: (aState messageArguments ifNil: [ OrderedCollection new ]);
 		bytecodeIndex: aState bytecodeIndex;
 		yourself
@@ -107,15 +105,15 @@ StatesToObjectsEvents >> fromProgramState: aState [
 { #category : #'instance creation' }
 StatesToObjectsEvents >> fromReadingState: aState [
 
-	| variable objectId |
-	variable := aState node variable.
-	objectId := (aState aliasOfObject: aState context receiver).
-	
+	| object objectId |
+
+	object := aState context receiver.
+	objectId := (aState aliasOfObject: object).
+
 	^ StateAccess new
-		object: aState context receiver;
-		objectId: objectId; 
+		object: (ObjectWrapper fromId: objectId object: object);
 		method: aState method;
-		variable: variable;
+		variable: aState node variable;
 		bytecodeIndex: aState bytecodeIndex;
 		yourself
 ]

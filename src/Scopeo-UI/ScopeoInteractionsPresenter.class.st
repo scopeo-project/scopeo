@@ -29,7 +29,7 @@ ScopeoInteractionsPresenter >> addInteractionToScope: aInteraction [
 ScopeoInteractionsPresenter >> addObjectToScope: aObject [
 
 	| name |
-	name := aObject className.
+	name := aObject id.
 	name := UIManager default request: 'Object name' initialAnswer: name.
 	scope putObject: aObject named: name
 ]

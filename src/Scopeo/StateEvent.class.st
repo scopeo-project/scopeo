@@ -59,18 +59,6 @@ StateEvent >> object: anObject [
 ]
 
 { #category : #accessing }
-StateEvent >> objectId [
-
-	^ objectId
-]
-
-{ #category : #accessing }
-StateEvent >> objectId: anObject [
-
-	objectId := anObject
-]
-
-{ #category : #accessing }
 StateEvent >> variable [
 
 	^ variable
