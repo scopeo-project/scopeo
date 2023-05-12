@@ -6,25 +6,20 @@ Class {
 		'table',
 		'remove',
 		'title',
-		'scopeName'
+		'scopeName',
+		'scope'
 	],
 	#category : #'Scopeo-UI-ScopePresenters'
 }
-
-{ #category : #'event handling' }
-ScopeoScopePresenter >> chestUpdated: aEvent [
-
-	
-]
 
 { #category : #layout }
 ScopeoScopePresenter >> defaultLayout [
 
 	^ SpBoxLayout newVertical
-		add: title height: 20;
+		add: self title expand: false;
 		add: (SpBoxLayout newHorizontal
 			add: table;
-			add: remove expand: false;
+			add: remove width: 40;
 			yourself);
 		yourself
 ]
@@ -36,17 +31,17 @@ ScopeoScopePresenter >> initializePresenters [
 	table
 		addColumn: (SpStringTableColumn 
 			title: 'Name' 
-			evaluated: [ :item | item chestName asString ]
+			evaluated: [ :item | item key asString ]
 		);
 		addColumn: (SpStringTableColumn 
 			title: 'Element' 
-			evaluated: [ :item | item chestEvaluation asString ]
+			evaluated: [ :item | item value asString ]
 		);
 		beMultipleSelection;
 		beResizable.
 	
 	remove := self newButton 
-		label: 'Remove';
+		icon: (self iconNamed: #remove);
 		action: [ self removeSelected ]
 		yourself
 ]
@@ -54,9 +49,25 @@ ScopeoScopePresenter >> initializePresenters [
 { #category : #removing }
 ScopeoScopePresenter >> removeSelected [
 
-	table selectedItems do: [ :i |
-		chest removeObjectNamed: i name
-	]
+	self subclassResponsibility
+]
+
+{ #category : #accessing }
+ScopeoScopePresenter >> scope: aScope [
+
+	scope := aScope
+]
+
+{ #category : #'event handling' }
+ScopeoScopePresenter >> scopeUpdated: aAnnouncement [
+
+	table items: aAnnouncement items
+]
+
+{ #category : #accessing }
+ScopeoScopePresenter >> title [
+
+	self subclassResponsibility
 ]
 
 { #category : #accessing }

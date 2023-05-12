@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #'target resize' }
-WithType >> verify: aEvent in: aEvents [
+WithType >> verify: aEvent scope: aScope events: aEvents [
 
 	^ aEvent isInteraction 
 		ifTrue: [ aEvent origin class = classObject or: [ aEvent destination class = classObject  ] ]

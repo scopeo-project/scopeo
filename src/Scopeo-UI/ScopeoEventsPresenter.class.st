@@ -7,7 +7,8 @@ Class {
 		'graph',
 		'debugger',
 		'steppingModel',
-		'filter'
+		'filter',
+		'scope'
 	],
 	#category : #'Scopeo-UI-EventsPresenters'
 }
@@ -18,10 +19,10 @@ ScopeoEventsPresenter >> connectPresenters [
 	filter onFilterDo: [ :p | 
 		| objectsEvents |
 		objectsEvents := StatesToObjectsEvents new 
-			debuggerTracer: (debugger debuggerActionModel tracer);
+			debuggerTracer: (steppingModel tracer);
 			build; objectsEvents.
 		self objectsEvents: (
-			objectsEvents filter: (self evaluatePredicate: p)
+			objectsEvents filter: (self evaluatePredicate: p) scope: scope
 		).
 	].
 
@@ -36,7 +37,7 @@ ScopeoEventsPresenter >> defaultLayout [
 	^ SpPanedLayout newVertical
 		add: filter;
 		add: tabs;
-		positionOfSlider: 0.3
+		positionOfSlider: 0.2
 		yourself
 ]
 
@@ -80,7 +81,15 @@ ScopeoEventsPresenter >> objectsEvents: aObjectsEvents [
 ]
 
 { #category : #accessing }
+ScopeoEventsPresenter >> scope: aScope [
+	
+	scope := aScope.
+	graph scope: aScope
+]
+
+{ #category : #accessing }
 ScopeoEventsPresenter >> steppingModel: aSteppingModel [
 
-	steppingModel := aSteppingModel
+	steppingModel := aSteppingModel.
+	graph steppingModel: aSteppingModel.
 ]

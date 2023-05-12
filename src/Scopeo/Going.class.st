@@ -11,7 +11,11 @@ Going class >> to: aObjectName [
 ]
 
 { #category : #'target resize' }
-Going >> verify: aEvent in: aProgramEvents [
+Going >> verify: aEvent scope: aScope events: aProgramEvents [
+	
+	| objectId |
+	
+	objectId := (aScope getObject: objectName) seekMyOid.
 	
 	^ aEvent isInteraction and: [ aEvent destinationId = objectId ]
 ]

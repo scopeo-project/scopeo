@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #'target resize' }
-IsStateUpdate >> verify: aEvent in: aProgramEvents [
+IsStateUpdate >> verify: aEvent scope: aScope events: aProgramEvents [
 	
 	^ aEvent isStateEvent and: [ aEvent isStateUpdate ]
 ]

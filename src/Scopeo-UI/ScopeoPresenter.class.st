@@ -33,33 +33,32 @@ ScopeoPresenter >> defaultLayout [
 				yourself
 			);
 			add: events;
+			positionOfSlider: 0.2
 			yourself
 		);
 		yourself
 ]
 
 { #category : #initialization }
+ScopeoPresenter >> initializeModels [
+
+	| scopeModel steppingModel |
+	
+	scopeModel := ScopeoScopeModel new.
+	steppingModel := ScopeoSteppingModel new debugger: debugger.
+	
+	nav steppingModel: steppingModel.
+	scopeObjects scope: scopeModel.
+	scopeEvents scope: scopeModel.
+	events scope: scopeModel; steppingModel: steppingModel.
+]
+
+{ #category : #initialization }
 ScopeoPresenter >> initializePresenters [
 
-	| model |
-	
-	model := ScopeoSteppingModel new
-		debugger: debugger; 
-		yourself.
-		
-	nav := ScopeoNavPresenter new 
-		steppingModel: model;
-		yourself.
-			
-	scopeObjects := ScopeoScopePresenter new
-		title: 'Debugging scope objects';
-		yourself.
-	scopeEvents := ScopeoScopePresenter new
-		title: 'Debugging scope events';
-		yourself.
-	
-	events := ScopeoEventsPresenter new
-		steppingModel: model;
-		yourself.
-	
+	nav := ScopeoNavPresenter new.
+	scopeObjects := ScopeoObjectsScopePresenter new.
+	scopeEvents := ScopeoEventsScopePresenter new.
+	events := ScopeoEventsPresenter new.
+	self initializeModels.
 ]

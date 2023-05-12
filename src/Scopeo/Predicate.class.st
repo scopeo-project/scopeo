@@ -4,28 +4,10 @@ Class {
 	#category : #'Scopeo-ObjectsEventsQuery'
 }
 
-{ #category : #'as yet unclassified' }
-Predicate class >> eventNamed: aName [
-	 
-	| eventsChest |
-	eventsChest := self class titleToChestName: self class eventsTitle.
-	eventsChest := Chest named: eventsChest.
-	^ eventsChest at: aName
-]
-
 { #category : #testing }
 Predicate class >> isAbstract [
 		
 	^ self == Predicate
-]
-
-{ #category : #'as yet unclassified' }
-Predicate class >> objectNamed: aName [
-	 
-	| objectsChest |
-	objectsChest := self class titleToChestName: self class objectsTitle.
-	objectsChest := Chest named: objectsChest.
-	^ objectsChest at: aName
 ]
 
 { #category : #controlling }
@@ -47,7 +29,7 @@ Predicate >> or: aPredicate [
 ]
 
 { #category : #'target resize' }
-Predicate >> verify: aEvent in: aProgamEvents [
+Predicate >> verify: aEvent scope: aScope events: aProgamEvents [
 	
 	self subclassResponsibility
 ]

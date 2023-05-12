@@ -23,10 +23,10 @@ ObjectsEvents >> events: aEvents [
 ]
 
 { #category : #'target resize' }
-ObjectsEvents >> filter: aPredicate [
+ObjectsEvents >> filter: aPredicate scope: aScope [
 
 	^ self class new
-		events: (events select: [ :e | aPredicate verify: e in: self ]);
+		events: (events select: [ :e | aPredicate verify: e scope: aScope events: self ]);
 		yourself.
 ]
 

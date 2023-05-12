@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #'target resize' }
-OnlyType >> verify: aEvent in: aEvents [
+OnlyType >> verify: aEvent scope: aScope events: aEvents [
 
 	^ aEvent isInteraction 
 		ifTrue: [ aEvent origin class = classObject and: [ aEvent destination class = classObject  ] ]

@@ -5,7 +5,8 @@ Class {
 }
 
 { #category : #'target resize' }
-And >> verify: aEvent in: aProgramEvents [
-	
-	^ (left verify: aEvent in: aProgramEvents) and: [ right verify: aEvent in: aProgramEvents ]
+And >> verify: aEvent scope: aScope events: aProgramEvents [
+
+	^ (left verify: aEvent scope: nil events: aProgramEvents) and: [
+		  right verify: aEvent scope: nil events: aProgramEvents ]
 ]

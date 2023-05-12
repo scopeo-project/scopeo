@@ -5,7 +5,8 @@ Class {
 }
 
 { #category : #'target resize' }
-Or >> verify: aEvent in: aProgramEvents [
-	
-	^ (left verify: aEvent in: aProgramEvents) or: [ right verify: aEvent in: aProgramEvents ]
+Or >> verify: aEvent scope: aScope events: aProgramEvents [
+
+	^ (left verify: aEvent scope: nil events: aProgramEvents) or: [
+		  right verify: aEvent scope: nil events: aProgramEvents ]
 ]

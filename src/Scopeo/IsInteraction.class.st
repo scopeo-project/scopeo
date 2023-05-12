@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #'target resize' }
-IsInteraction >> verify: aEvent in: aProgramEvents [
+IsInteraction >> verify: aEvent scope: aScope events: aProgramEvents [
 	
 	^ aEvent isInteraction
 ]

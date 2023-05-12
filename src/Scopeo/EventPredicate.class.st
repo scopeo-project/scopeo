@@ -2,8 +2,8 @@ Class {
 	#name : #EventPredicate,
 	#superclass : #Predicate,
 	#instVars : [
-		'event',
-		'limit'
+		'limit',
+		'eventName'
 	],
 	#category : #'Scopeo-ObjectsEventsQuery'
 }
@@ -12,7 +12,7 @@ Class {
 EventPredicate class >> event: aEventName limit: aLimit [
 
 	^ self new
-		event: (self eventNamed: aEventName);
+		event: aEventName;
 		limit: aLimit;
 		yourself
 ]
@@ -24,15 +24,15 @@ EventPredicate class >> isAbstract [
 ]
 
 { #category : #accessing }
-EventPredicate >> event [
+EventPredicate >> eventName [
 
-	^ event
+	^ eventName
 ]
 
 { #category : #accessing }
-EventPredicate >> event: anObject [
+EventPredicate >> eventName: anObject [
 
-	event := anObject
+	eventName := anObject
 ]
 
 { #category : #accessing }

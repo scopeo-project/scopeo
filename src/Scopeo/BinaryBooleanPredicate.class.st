@@ -14,7 +14,7 @@ BinaryBooleanPredicate class >> isAbstract [
 	^ self == BinaryBooleanPredicate
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #instanciation }
 BinaryBooleanPredicate class >> l: aLeftPredicate r: aRightPredicate [
 
 	^ self new 

@@ -22,7 +22,7 @@ Not >> predicate: aPredicate [
 ]
 
 { #category : #'target resize' }
-Not >> verify: aEvent in: aProgramEvents [
-	
-	^ (predicate verify: aEvent in: aProgramEvents) not
+Not >> verify: aEvent scope: aScope events: aProgramEvents [
+
+	^ (predicate verify: aEvent scope: nil events: aProgramEvents) not
 ]

@@ -6,7 +6,8 @@ Class {
 		'steppingModel',
 		'interactionClickBlock',
 		'scopeObjects',
-		'scopeEvents'
+		'scopeEvents',
+		'scope'
 	],
 	#classInstVars : [
 		'aDebugger'
@@ -17,14 +18,20 @@ Class {
 { #category : #adding }
 ScopeoInteractionsPresenter >> addInteractionToScope: aInteraction [
 
-	scopeEvents at: 'i', scopeEvents contents size asString put: aInteraction	
+	| name |
+	name := aInteraction selector.
+	name := UIManager default request: 'Event name' initialAnswer: name.
+	scope putEvent: aInteraction named: name	
 
 ]
 
 { #category : #adding }
 ScopeoInteractionsPresenter >> addObjectToScope: aObject [
 
-	scopeObjects at: 'o', scopeObjects contents size asString put: aObject
+	| name |
+	name := aObject className.
+	name := UIManager default request: 'Object name' initialAnswer: name.
+	scope putObject: aObject named: name
 ]
 
 { #category : #layout }
@@ -33,18 +40,6 @@ ScopeoInteractionsPresenter >> defaultLayout [
 	^ SpBoxLayout newVertical
 		add: #roassal;
 		yourself
-]
-
-{ #category : #initialization }
-ScopeoInteractionsPresenter >> initialize [
-	
-	super initialize.
-	scopeObjects := Chest chestDictionary 
-		at: 'ScopeoObjects'
-		ifAbsent: [ Chest newNamed: 'ScopeoObjects' ].
-	scopeEvents := Chest chestDictionary 
-		at: 'ScopeoEvents'
-		ifAbsent: [ Chest newNamed: 'ScopeoEvents' ].
 ]
 
 { #category : #initialization }
@@ -70,6 +65,12 @@ ScopeoInteractionsPresenter >> objectsInteractions: aObjectsInteractions [
 ScopeoInteractionsPresenter >> onInteractionClickDo: aBlock [
 
 	interactionClickBlock := aBlock
+]
+
+{ #category : #accessing }
+ScopeoInteractionsPresenter >> scope: aScope [
+
+	scope := aScope
 ]
 
 { #category : #accessing }

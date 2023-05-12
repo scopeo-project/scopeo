@@ -11,9 +11,11 @@ WithObject class >> named: aObjectName [
 ]
 
 { #category : #'target resize' }
-WithObject >> verify: aEvent in: aProgramEvents [
+WithObject >> verify: aEvent scope: aScope events: aProgramEvents [
 	
-	self halt.
+	| objectId |
+	
+	objectId := (aScope getObject: objectName) seekMyOid.
 	
 	^ aEvent isStateEvent 
 		ifTrue: [ aEvent objectId = objectId ]

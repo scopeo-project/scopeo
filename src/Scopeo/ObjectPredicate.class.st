@@ -2,7 +2,7 @@ Class {
 	#name : #ObjectPredicate,
 	#superclass : #Predicate,
 	#instVars : [
-		'objectId'
+		'objectName'
 	],
 	#category : #'Scopeo-ObjectsEventsQuery'
 }
@@ -17,18 +17,18 @@ ObjectPredicate class >> isAbstract [
 ObjectPredicate class >> objectNamed: aObjectName [
 
 	^ self new 
-		objectId: (self objectNamed: aObjectName) seekMyOid;
+		objectName: aObjectName
 		yourself 
 ]
 
 { #category : #accessing }
-ObjectPredicate >> objectId [
+ObjectPredicate >> objectName [
 
-	^ objectId
+	^ objectName
 ]
 
 { #category : #accessing }
-ObjectPredicate >> objectId: anObject [
+ObjectPredicate >> objectName: anObject [
 
-	objectId := anObject
+	objectName := anObject
 ]
