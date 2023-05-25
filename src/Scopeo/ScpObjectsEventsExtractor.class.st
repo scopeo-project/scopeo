@@ -58,13 +58,10 @@ ScpObjectsEventsExtractor >> debuggerTracer: aTracer [
 { #category : #'instance creation' }
 ScpObjectsEventsExtractor >> fromAssignmentState: aState [
 
-	| variable object objectId |
+	| variable |
 	variable := aState node variable variable.
-	object := aState context receiver.
-	objectId := (aState aliasOfObject: object).
-	
 	^ ScpStateUpdate new
-		object: (ScpObjectWrapper fromId: objectId object: object);
+		object: (ScpObjectWrapper fromId: aState receiverOid object: aState receiver);
 		method: aState method;
 		variable: variable;
 		oldValue: (variable readInContext: aState context);
@@ -76,15 +73,11 @@ ScpObjectsEventsExtractor >> fromAssignmentState: aState [
 { #category : #'instance creation' }
 ScpObjectsEventsExtractor >> fromMessageState: aState [
 
-	| originObject originId |
-	
-	originObject := aState context receiver.
-	originId := (aState aliasOfObject: originObject).
-	
 	^ ScpInteraction new
-		origin: (ScpObjectWrapper fromId: originId object: originObject);
+		origin: (ScpObjectWrapper fromId: aState receiverOid object: aState receiver);
 		originMethod: aState method;
-		destination: (ScpObjectWrapper fromId: aState messageReceiverOid object: aState messageReceiver);  		selector: aState messageSelector;
+		destination: (ScpObjectWrapper fromId: aState messageReceiverOid object: aState messageReceiver);
+		selector: aState messageSelector;
 		arguments: (aState messageArguments ifNil: [ OrderedCollection new ]);
 		bytecodeIndex: aState bytecodeIndex;
 		yourself
