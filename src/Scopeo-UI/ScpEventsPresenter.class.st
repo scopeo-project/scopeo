@@ -13,31 +13,49 @@ Class {
 	#category : #'Scopeo-UI-EventsPresenters'
 }
 
+{ #category : #api }
+ScpEventsPresenter >> addInteractionToScope: aInteraction [
+
+	| name |
+	name := aInteraction selector.
+	name := UIManager default request: 'Event name' initialAnswer: name.
+	name ifNil: [ ^ self ].
+	
+	scope putEvent: aInteraction named: name	
+
+]
+
+{ #category : #api }
+ScpEventsPresenter >> addObjectToScope: aObject [
+
+	| name |
+	name := aObject id.
+	name := UIManager default request: 'Object name' initialAnswer: name.
+	name ifNil: [ ^ self ].
+	
+	scope putObject: aObject named: name
+]
+
 { #category : #initialization }
 ScpEventsPresenter >> connectPresenters [
 
-	filter onFilterDo: [ :p | 
+	filter onFilterDo: [ :p |
 		| objectsEvents |
-		objectsEvents := ScpObjectsEventsExtractor new 
-			debuggerTracer: (steppingModel tracer);
-			build; objectsEvents.
-		self objectsEvents: (
-			objectsEvents filter: (self evaluatePredicate: p) scope: scope
-		).
-	].
-
-	graph onInteractionClickDo: [ :i | 
-		steppingModel stepToBytecodeIndex: i bytecodeIndex
-	].
+		objectsEvents := ScpObjectsEventsExtractor new
+			                 debuggerTracer: steppingModel tracer;
+			                 build;
+			                 objectsEvents.
+		self objectsEvents:
+			(objectsEvents filter: (self evaluatePredicate: p) scope: scope) ].
 ]
 
 { #category : #layout }
 ScpEventsPresenter >> defaultLayout [
 
 	^ SpPanedLayout newVertical
-		add: filter;
-		add: tabs;
-		positionOfSlider: 0.2
+		  add: filter;
+		  add: tabs;
+		  positionOfSlider: 0.2;
 		yourself
 ]
 
@@ -82,14 +100,18 @@ ScpEventsPresenter >> objectsEvents: aObjectsEvents [
 
 { #category : #accessing }
 ScpEventsPresenter >> scope: aScope [
-	
-	scope := aScope.
-	graph scope: aScope
+
+	scope := aScope
 ]
 
 { #category : #accessing }
 ScpEventsPresenter >> steppingModel: aSteppingModel [
 
-	steppingModel := aSteppingModel.
-	graph steppingModel: aSteppingModel.
+	steppingModel := aSteppingModel
+]
+
+{ #category : #api }
+ScpEventsPresenter >> travelBackTo: aEvent [
+
+	^ steppingModel stepToBytecodeIndex: aEvent bytecodeIndex
 ]

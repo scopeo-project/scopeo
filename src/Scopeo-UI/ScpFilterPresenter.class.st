@@ -21,14 +21,15 @@ ScpFilterPresenter >> clear [
 ScpFilterPresenter >> defaultLayout [
 
 	^ SpBoxLayout newVertical
-		add: 'Filter' height: 20;
-		add: (SpBoxLayout newHorizontal
-			add: #clear;
-			add: #filter;
-			spacing: 10
-			yourself) expand: false;
-		add: #editor expand: true;
-		yourself
+		  add: 'Filter' height: 20;
+		  add: (SpBoxLayout newHorizontal
+				   add: #clear;
+				   add: #filter;
+				   spacing: 10;
+				yourself)
+		  expand: false;
+		  add: #editor expand: true;
+		  yourself
 ]
 
 { #category : #action }
