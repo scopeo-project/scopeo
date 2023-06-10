@@ -80,9 +80,9 @@ ScpEventsPresenter >> initializePresenters [
 	filter := ScpFilterPresenter new.
 
 	tabs := self newNotebook.
-	
-	list := ScpEventsListPresenter new.
-	graph := ScpInteractionsPresenter new.
+
+	list := ScpEventsListPresenter new parent: self.
+	graph := ScpInteractionsPresenter new parent: self.
 
 	tabs addPageTitle: 'Events list' provider: [ list ].
 	tabs addPageTitle: 'Interactions graph' provider: [ graph ]

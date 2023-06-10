@@ -2,7 +2,8 @@ Class {
 	#name : #ScpEventsListPresenter,
 	#superclass : #SpPresenter,
 	#instVars : [
-		'table'
+		'table',
+		'parent'
 	],
 	#category : #'Scopeo-UI-EventsPresenters'
 }
@@ -28,16 +29,16 @@ ScpEventsListPresenter >> initializePresenters [
 				addItem: [ :item |
 					item
 						name: 'Travel back to';
-						action: [ self owner travelBackTo: item  ] ];
+						action: [ parent travelBackTo: table selectedItem ] ];
 				addItem: [ :item |
 					item
 						name: 'Add object in debugging scope';
-						action: [ self owner addObjectToScope: item ] ];
-
-addItem: [ :item |
+						action: [ parent addObjectToScope: table selectedItem ] ];
+				addItem: [ :item |
 					item
 						name: 'Add event in debugging scope';
-						action: [ self owner addInteractionToScope: item ] ];				yourself ];
+						action: [ parent addInteractionToScope: table selectedItem  ] ];
+				yourself ];
 		beResizable
 ]
 
@@ -45,4 +46,10 @@ addItem: [ :item |
 ScpEventsListPresenter >> objectsEvents: aObjectsEvents [
 
 	table items: aObjectsEvents events
+]
+
+{ #category : #accessing }
+ScpEventsListPresenter >> parent: aPresenter [
+
+	parent := aPresenter
 ]

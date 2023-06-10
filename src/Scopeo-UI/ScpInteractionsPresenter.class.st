@@ -3,11 +3,7 @@ Class {
 	#superclass : #SpPresenter,
 	#instVars : [
 		'roassal',
-		'steppingModel',
-		'interactionClickBlock',
-		'scopeObjects',
-		'scopeEvents',
-		'scope'
+		'parent'
 	],
 	#classInstVars : [
 		'aDebugger'
@@ -36,10 +32,16 @@ ScpInteractionsPresenter >> objectsInteractions: aObjectsInteractions [
 	ScpInteractionsGraph new
 		objectsInteractions: aObjectsInteractions;
 		addInteractionMenuEntry: 'Travel back to'
-		do: [ :i | self owner travelBackTo: i ];
+		do: [ :i | parent travelBackTo: i ];
 		addInteractionMenuEntry: 'Add event in debugging scope'
-		do: [ :i | self owner addInteractionToScope: i ];
+		do: [ :i | parent addInteractionToScope: i ];
 		addObjectMenuEntry: 'Add object in debugging scope'
-		do: [ :o | self owner addObjectToScope: o ];
+		do: [ :o | parent addObjectToScope: o ];
 		renderIn: roassal canvas
+]
+
+{ #category : #accessing }
+ScpInteractionsPresenter >> parent: aPresenter [
+
+	parent := aPresenter
 ]
