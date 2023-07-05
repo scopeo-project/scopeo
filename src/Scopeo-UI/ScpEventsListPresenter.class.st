@@ -19,27 +19,54 @@ ScpEventsListPresenter >> defaultLayout [
 { #category : #initialization }
 ScpEventsListPresenter >> initializePresenters [
 
+	| items |
 	table := self newTable.
 	table
 		addColumn: (SpStringTableColumn
-				 title: 'Event'
+				 title: 'Object event'
 				 evaluated: [ :item | item asString ]);
 		contextMenu: [
 			SpMenuPresenter new
 				addItem: [ :item |
 					item
-						name: 'Travel back to';
+						name: 'Time travel to';
 						action: [ parent travelBackTo: table selectedItem ] ];
 				addItem: [ :item |
 					item
-						name: 'Add object in debugging scope';
+						name: 'Add object in the exploration scope';
 						action: [ parent addObjectToScope: table selectedItem ] ];
 				addItem: [ :item |
 					item
-						name: 'Add event in debugging scope';
-						action: [ parent addInteractionToScope: table selectedItem  ] ];
+						name: 'Add event in the exploration scope';
+						action: [ parent addInteractionToScope: table selectedItem ] ];
 				yourself ];
-		beResizable
+		beResizable.
+	items := OrderedCollection new.
+
+	items add: (ScpInteraction new
+			 origin: (ScpObjectWrapper new
+					  object: Grapevine new;
+					  id: 17732;
+					  yourself);
+			 destination: (ScpObjectWrapper new
+					  object: Player new;
+					  id: 230;
+					  yourself);
+			 selector: #secret;
+			 yourself).
+	items add: (ScpInteraction new
+			 origin: (ScpObjectWrapper new
+					  object: Grapevine new;
+					  id: 17732;
+					  yourself);
+			 destination: (ScpObjectWrapper new
+					  object: Player new;
+					  id: 17745;
+					  yourself);
+			 selector: #secret;
+			 yourself).
+
+	table items: items
 ]
 
 { #category : #modifying }

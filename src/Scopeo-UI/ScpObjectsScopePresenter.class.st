@@ -22,5 +22,5 @@ ScpObjectsScopePresenter >> scope: aScope [
 { #category : #accessing }
 ScpObjectsScopePresenter >> title [
 
-	^ 'Debugging scope - objects'
+	^ 'Exploration scope - objects'
 ]

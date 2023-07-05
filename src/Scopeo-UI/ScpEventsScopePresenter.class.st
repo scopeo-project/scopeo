@@ -22,5 +22,5 @@ ScpEventsScopePresenter >> scope: aScope [
 { #category : #accessing }
 ScpEventsScopePresenter >> title [
 
-	^ 'Debugging scope - events'
+	^ 'Exploration scope - events'
 ]

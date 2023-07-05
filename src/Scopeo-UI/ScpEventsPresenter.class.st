@@ -84,7 +84,7 @@ ScpEventsPresenter >> initializePresenters [
 	list := ScpEventsListPresenter new parent: self.
 	graph := ScpInteractionsPresenter new parent: self.
 
-	tabs addPageTitle: 'Events list' provider: [ list ].
+	tabs addPageTitle: 'Object events list' provider: [ list ].
 	tabs addPageTitle: 'Interactions graph' provider: [ graph ]
 ]
 

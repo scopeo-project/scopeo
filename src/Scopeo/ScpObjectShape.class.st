@@ -13,17 +13,13 @@ Class {
 ScpObjectShape >> labelContainerShape: aExtent [
 
 	^ RSBox new
-		color: Color veryVeryLightGray;
-		border: (RSBorder new color: Color black);
-		extent: aExtent;
-		addInteraction: (RSMenuActivable new
-			menuDo: [ :aMenuMorph :aShape | 
-				self menuEntries: menuEntries 
-					in: aMenuMorph 
-					for: model
-			]
-		);
-		yourself
+		  color: Color veryVeryLightGray;
+		  border: (RSBorder new color: Color black);
+		  extent: aExtent;
+		  addInteraction:
+			  (RSMenuActivable new menuDo: [ :aMenuMorph :aShape |
+					   self menuEntries: menuEntries in: aMenuMorph for: object ]);
+		  yourself
 ]
 
 { #category : #private }

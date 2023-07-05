@@ -8,7 +8,6 @@ Class {
 DemoTest >> testGrapevine [
 
 	| game isWon lastplayer |
-
 	game := Grapevine new.
 	isWon := game play.
 	lastplayer := game players last.

@@ -31,11 +31,11 @@ ScpInteractionsPresenter >> objectsInteractions: aObjectsInteractions [
 	roassal refresh.
 	ScpInteractionsGraph new
 		objectsInteractions: aObjectsInteractions;
-		addInteractionMenuEntry: 'Travel back to'
+		addInteractionMenuEntry: 'Time travel to'
 		do: [ :i | parent travelBackTo: i ];
-		addInteractionMenuEntry: 'Add event in debugging scope'
+		addInteractionMenuEntry: 'Add event in the exploration scope'
 		do: [ :i | parent addInteractionToScope: i ];
-		addObjectMenuEntry: 'Add object in debugging scope'
+		addObjectMenuEntry: 'Add object in the exploration scope'
 		do: [ :o | parent addObjectToScope: o ];
 		renderIn: roassal canvas
 ]

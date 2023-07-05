@@ -8,32 +8,33 @@ Class {
 }
 
 { #category : #initialization }
-Grapevine >> initialize [
-
-	players := OrderedCollection new.
-	players add: Player new.
-	1 to: 9 do: [ :i | 
-		players last nextPlayer: Player new.
-		players add: players last nextPlayer
-	]
-]
-
-{ #category : #initialization }
 Grapevine >> play [
 
-	| first last |
-	
-	first := players first.
-	last := players last.
-	
-	first message: 'Hello world !'.
-	first whisper.
-	
-	^ last message = first message.
+	| firstplayer lastplayer |
+	firstplayer := players first.
+	lastplayer := players last.
+
+	firstplayer secret: 'Hello world !'.
+	firstplayer whisper.
+
+	^ firstplayer secret = lastplayer secret "'Jello world !'"
 ]
 
 { #category : #accessing }
 Grapevine >> players [
 
 	^ players
+]
+
+{ #category : #accessing }
+Grapevine >> players: aPlayers [
+
+	aPlayers size < 2 ifTrue: [
+		self error: 'Grapevine cannot be played with less than 2 players.' ].
+	2 to: aPlayers size do: [ :i |
+		| previous current |
+		previous := aPlayers at: i - 1.
+		current := aPlayers at: i.
+		previous nextPlayer: current ].
+	players := aPlayers
 ]

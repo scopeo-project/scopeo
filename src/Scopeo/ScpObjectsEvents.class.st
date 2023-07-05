@@ -23,6 +23,12 @@ ScpObjectsEvents >> events: aEvents [
 ]
 
 { #category : #'target resize' }
+ScpObjectsEvents >> filter: aPredicate [
+	
+	^ self filter: aPredicate scope: nil
+]
+
+{ #category : #'target resize' }
 ScpObjectsEvents >> filter: aPredicate scope: aScope [
 
 	^ self class new
