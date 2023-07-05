@@ -44,7 +44,11 @@ ScpEventsGraph >> computeScales [
 		          values max }.
 	forceScale := NSScale linear
 		              domain: domain;
+<<<<<<< HEAD
 		              range: { 400. 200 };
+=======
+		              range: { 300. 200 };
+>>>>>>> new-objectevent-model
 		              yourself.
 	edgeScale := NSScale linear
 		             domain: domain;
@@ -78,9 +82,14 @@ ScpEventsGraph >> createObjectShape: aObject [
 
 { #category : #accessing }
 ScpEventsGraph >> events: aEvents [
+<<<<<<< HEAD
 
 	aEvents objects do: [ :o | self createObjectShape: o ].
 	aEvents events do: [ :e | self registerEvent: e ].
+=======
+	
+	aEvents do: [ :e | self registerEvent: e ].
+>>>>>>> new-objectevent-model
 	self computeScales.
 	self createEventShapes.
 	events := nil
@@ -109,13 +118,22 @@ ScpEventsGraph >> initialize [
 { #category : #private }
 ScpEventsGraph >> registerEvent: aEvent [
 
-	events
-		at: (aEvent origin id , aEvent destination id)
-		ifPresent: [ :l | l add: aEvent ]
-		ifAbsentPut: [
-			OrderedCollection new
-				add: aEvent;
-				yourself ]
+	| origin destination |
+		
+	aEvent isInteraction ifFalse: [^ self].
+		origin := aEvent origin.
+		destination := aEvent destination.
+
+		self createObjectShape: origin.
+		self createObjectShape: destination.
+
+		events
+			at: aEvent origin id , aEvent destination id
+			ifPresent: [ :l | l add: aEvent ]
+			ifAbsentPut: [
+				OrderedCollection new
+					add: aEvent;
+					yourself ]
 ]
 
 { #category : #hooks }

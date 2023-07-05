@@ -1,7 +1,7 @@
 Class {
 	#name : #OccuredBefore,
 	#superclass : #ScpEventPredicate,
-	#category : #'Scopeo-ObjectsEventsQuery'
+	#category : #'Scopeo-Predicates'
 }
 
 { #category : #'target resize' }

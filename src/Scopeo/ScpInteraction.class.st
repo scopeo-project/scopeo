@@ -10,7 +10,7 @@ Class {
 		'selector',
 		'arguments'
 	],
-	#category : #'Scopeo-ObjectsEventsModel'
+	#category : #'Scopeo-Model'
 }
 
 { #category : #accessing }
@@ -53,18 +53,6 @@ ScpInteraction >> origin [
 ScpInteraction >> origin: anObject [
 
 	origin := anObject
-]
-
-{ #category : #accessing }
-ScpInteraction >> originMethod [
-
-	^ originMethod
-]
-
-{ #category : #accessing }
-ScpInteraction >> originMethod: anObject [
-
-	originMethod := anObject
 ]
 
 { #category : #printing }

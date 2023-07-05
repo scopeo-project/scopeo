@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'predicate'
 	],
-	#category : #'Scopeo-ObjectsEventsQuery'
+	#category : #'Scopeo-Predicates'
 }
 
 { #category : #accessing }

@@ -5,7 +5,7 @@ Class {
 		'counter',
 		'numbers'
 	],
-	#category : #'Scopeo-ObjectsEventsQuery'
+	#category : #'Scopeo-Predicates'
 }
 
 { #category : #api }

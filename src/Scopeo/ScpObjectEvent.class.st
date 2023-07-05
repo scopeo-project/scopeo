@@ -2,28 +2,16 @@ Class {
 	#name : #ScpObjectEvent,
 	#superclass : #Object,
 	#instVars : [
-		'bytecodeIndex',
-		'pc'
+		'timeTravelIndex',
+		'method'
 	],
-	#category : #'Scopeo-ObjectsEventsModel'
+	#category : #'Scopeo-Model'
 }
 
 { #category : #testing }
 ScpObjectEvent class >> isAbstract [
 		
 	^ self == ScpObjectEvent
-]
-
-{ #category : #accessing }
-ScpObjectEvent >> bytecodeIndex [
-
-	^ bytecodeIndex
-]
-
-{ #category : #accessing }
-ScpObjectEvent >> bytecodeIndex: aBytecodeIndex [
-
-	bytecodeIndex := aBytecodeIndex
 ]
 
 { #category : #testing }
@@ -36,4 +24,28 @@ ScpObjectEvent >> isInteraction [
 ScpObjectEvent >> isStateEvent [
 
 	^ false
+]
+
+{ #category : #accessing }
+ScpObjectEvent >> method [
+
+^ method
+]
+
+{ #category : #accessing }
+ScpObjectEvent >> method: aMethod [
+
+	method := aMethod 
+]
+
+{ #category : #accessing }
+ScpObjectEvent >> timeTravelIndex [
+
+	^ timeTravelIndex
+]
+
+{ #category : #accessing }
+ScpObjectEvent >> timeTravelIndex: anObject [
+
+	timeTravelIndex := anObject
 ]

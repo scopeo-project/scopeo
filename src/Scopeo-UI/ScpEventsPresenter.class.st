@@ -40,13 +40,12 @@ ScpEventsPresenter >> addObjectToScope: aObject [
 ScpEventsPresenter >> connectPresenters [
 
 	filter onFilterDo: [ :p |
-		| objectsEvents |
-		objectsEvents := ScpObjectsEventsExtractor new
-			                 debuggerTracer: steppingModel tracer;
-			                 build;
-			                 objectsEvents.
-		self objectsEvents:
-			(objectsEvents filter: (self evaluatePredicate: p) scope: scope) ].
+
+		self objectsEvents: (ScpQuery new
+				 tracer: steppingModel tracer
+				 predicate: (self evaluatePredicate: p)
+				 scope: scope;
+				 execute) ]
 ]
 
 { #category : #layout }
@@ -92,10 +91,7 @@ ScpEventsPresenter >> initializePresenters [
 ScpEventsPresenter >> objectsEvents: aObjectsEvents [
 
 	list objectsEvents: aObjectsEvents.
-	graph objectsInteractions: (
-		ScpObjectsInteractions fromEvents: aObjectsEvents events
-	).
-
+	graph objectsInteractions: aObjectsEvents.
 ]
 
 { #category : #accessing }

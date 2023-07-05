@@ -1,7 +1,7 @@
 Class {
 	#name : #Argument,
 	#superclass : #ScpInteractionPredicate,
-	#category : #'Scopeo-ObjectsEventsQuery'
+	#category : #'Scopeo-Predicates'
 }
 
 { #category : #'target resize' }

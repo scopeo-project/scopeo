@@ -1,7 +1,7 @@
 Class {
 	#name : #IsStateAccess,
 	#superclass : #ScpBooleanPredicate,
-	#category : #'Scopeo-ObjectsEventsQuery'
+	#category : #'Scopeo-Predicates'
 }
 
 { #category : #'target resize' }

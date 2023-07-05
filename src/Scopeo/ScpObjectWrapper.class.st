@@ -5,7 +5,7 @@ Class {
 		'id',
 		'object'
 	],
-	#category : #'Scopeo-ObjectsEventsModel'
+	#category : #'Scopeo-Model'
 }
 
 { #category : #'as yet unclassified' }

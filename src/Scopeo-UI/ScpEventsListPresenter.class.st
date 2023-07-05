@@ -41,38 +41,12 @@ ScpEventsListPresenter >> initializePresenters [
 						action: [ parent addInteractionToScope: table selectedItem ] ];
 				yourself ];
 		beResizable.
-	items := OrderedCollection new.
-
-	items add: (ScpInteraction new
-			 origin: (ScpObjectWrapper new
-					  object: Grapevine new;
-					  id: 17732;
-					  yourself);
-			 destination: (ScpObjectWrapper new
-					  object: Player new;
-					  id: 230;
-					  yourself);
-			 selector: #secret;
-			 yourself).
-	items add: (ScpInteraction new
-			 origin: (ScpObjectWrapper new
-					  object: Grapevine new;
-					  id: 17732;
-					  yourself);
-			 destination: (ScpObjectWrapper new
-					  object: Player new;
-					  id: 17745;
-					  yourself);
-			 selector: #secret;
-			 yourself).
-
-	table items: items
 ]
 
 { #category : #modifying }
 ScpEventsListPresenter >> objectsEvents: aObjectsEvents [
 
-	table items: aObjectsEvents events
+	table items: aObjectsEvents
 ]
 
 { #category : #accessing }

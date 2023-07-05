@@ -5,7 +5,7 @@ Class {
 		'nextPlayer',
 		'secret'
 	],
-	#category : #'Scopeo-Tests'
+	#category : #'Scopeo-Scenario'
 }
 
 { #category : #modifying }

@@ -4,10 +4,9 @@ Class {
 	#instVars : [
 		'object',
 		'objectId',
-		'method',
 		'variable'
 	],
-	#category : #'Scopeo-ObjectsEventsModel'
+	#category : #'Scopeo-Model'
 }
 
 { #category : #testing }
@@ -32,18 +31,6 @@ ScpStateEvent >> isStateEvent [
 ScpStateEvent >> isStateUpdate [
 
 	^ false
-]
-
-{ #category : #accessing }
-ScpStateEvent >> method [
-
-	^ method
-]
-
-{ #category : #accessing }
-ScpStateEvent >> method: anObject [
-
-	method := anObject
 ]
 
 { #category : #accessing }

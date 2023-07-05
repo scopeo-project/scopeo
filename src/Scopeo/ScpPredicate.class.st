@@ -1,7 +1,7 @@
 Class {
 	#name : #ScpPredicate,
 	#superclass : #Object,
-	#category : #'Scopeo-ObjectsEventsQuery'
+	#category : #'Scopeo-Predicates'
 }
 
 { #category : #testing }
@@ -26,6 +26,12 @@ ScpPredicate >> not [
 ScpPredicate >> or: aPredicate [
 
 	^ Or l: self r: aPredicate
+]
+
+{ #category : #'target resize' }
+ScpPredicate >> verify: aEvent scope: aScope [
+
+	^ self verify: aEvent scope: aScope events: nil
 ]
 
 { #category : #'target resize' }

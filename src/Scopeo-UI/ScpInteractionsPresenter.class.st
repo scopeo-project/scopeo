@@ -29,6 +29,11 @@ ScpInteractionsPresenter >> initializePresenters [
 ScpInteractionsPresenter >> objectsInteractions: aObjectsInteractions [
 
 	roassal refresh.
+
+	ScpEventsGraph new
+		events: aObjectsInteractions;
+		renderIn: roassal canvas.
+"
 	ScpInteractionsGraph new
 		objectsInteractions: aObjectsInteractions;
 		addInteractionMenuEntry: 'Time travel to'
@@ -37,7 +42,7 @@ ScpInteractionsPresenter >> objectsInteractions: aObjectsInteractions [
 		do: [ :i | parent addInteractionToScope: i ];
 		addObjectMenuEntry: 'Add object in the exploration scope'
 		do: [ :o | parent addObjectToScope: o ];
-		renderIn: roassal canvas
+		renderIn: roassal canvas"
 ]
 
 { #category : #accessing }

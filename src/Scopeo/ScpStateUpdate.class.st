@@ -5,7 +5,7 @@ Class {
 		'oldValue',
 		'newValue'
 	],
-	#category : #'Scopeo-ObjectsEventsModel'
+	#category : #'Scopeo-Model'
 }
 
 { #category : #testing }

@@ -1,7 +1,7 @@
 Class {
 	#name : #OnlyType,
 	#superclass : #ScpTypePredicate,
-	#category : #'Scopeo-ObjectsEventsQuery'
+	#category : #'Scopeo-Predicates'
 }
 
 { #category : #'target resize' }

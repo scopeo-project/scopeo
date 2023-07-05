@@ -1,7 +1,7 @@
 Class {
 	#name : #ScpBooleanPredicate,
 	#superclass : #ScpPredicate,
-	#category : #'Scopeo-ObjectsEventsQuery'
+	#category : #'Scopeo-Predicates'
 }
 
 { #category : #testing }

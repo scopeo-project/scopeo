@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'objectName'
 	],
-	#category : #'Scopeo-ObjectsEventsQuery'
+	#category : #'Scopeo-Predicates'
 }
 
 { #category : #testing }
