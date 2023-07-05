@@ -16,6 +16,7 @@ BaselineOfScopeo >> baseline: spec [
 			with: [ spec repository: 'github://ValentinBourcier/Chest:master' ].
 		spec package: 'Scopeo'.
 		spec package: 'Scopeo-GUI'.
+		spec package: 'Scopeo-Predicates'.
 		spec package: 'Scopeo-Scenario'.
 	]
 ]
