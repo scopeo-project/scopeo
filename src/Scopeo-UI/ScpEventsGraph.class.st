@@ -78,14 +78,7 @@ ScpEventsGraph >> createObjectShape: aObject [
 
 { #category : #accessing }
 ScpEventsGraph >> events: aEvents [
-<<<<<<< HEAD
-
-	aEvents objects do: [ :o | self createObjectShape: o ].
-	aEvents events do: [ :e | self registerEvent: e ].
-=======
-	
 	aEvents do: [ :e | self registerEvent: e ].
->>>>>>> new-objectevent-model
 	self computeScales.
 	self createEventShapes.
 	events := nil
