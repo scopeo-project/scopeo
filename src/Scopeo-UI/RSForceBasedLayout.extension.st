@@ -1,6 +1,6 @@
 Extension { #name : #RSForceBasedLayout }
 
-{ #category : #'*Scopeo' }
+{ #category : #'*Scopeo-UI' }
 RSForceBasedLayout >> lines [
 	^ lines
 ]
