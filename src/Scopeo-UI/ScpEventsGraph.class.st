@@ -44,11 +44,7 @@ ScpEventsGraph >> computeScales [
 		          values max }.
 	forceScale := NSScale linear
 		              domain: domain;
-<<<<<<< HEAD
-		              range: { 400. 200 };
-=======
 		              range: { 300. 200 };
->>>>>>> new-objectevent-model
 		              yourself.
 	edgeScale := NSScale linear
 		             domain: domain;
