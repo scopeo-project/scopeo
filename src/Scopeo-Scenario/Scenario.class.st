@@ -5,8 +5,16 @@ Class {
 		'players',
 		'iterations'
 	],
-	#category : #'Scopeo-Tests'
+	#category : #'Scopeo-Scenario'
 }
+
+{ #category : #examples }
+Scenario class >> example [
+
+	self new
+		iterations: 2;
+		run
+]
 
 { #category : #private }
 Scenario >> addOneOrTwoPlayers [

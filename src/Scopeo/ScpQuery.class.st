@@ -21,7 +21,7 @@ ScpQuery >> block: aBlock predicate: aPredicate scope: aScope [
 { #category : #'api - building' }
 ScpQuery >> debugger: aDebugger predicate: aPredicate scope: aScope [
 
-	self tracer:  aDebugger tracer predicate: aPredicate  scope: aScope
+	self tracer: aDebugger tracer predicate: aPredicate scope: aScope
 ]
 
 { #category : #executing }
