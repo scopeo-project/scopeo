@@ -1,7 +1,7 @@
 Class {
 	#name : #ScpStateAccess,
 	#superclass : #ScpStateEvent,
-	#category : #'Scopeo-Model'
+	#category : #'Scopeo-Entities'
 }
 
 { #category : #testing }

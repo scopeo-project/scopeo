@@ -1,7 +1,7 @@
 Class {
 	#name : #ScpShapeBuilder,
 	#superclass : #Object,
-	#category : #'Scopeo-UI-EventsGraph'
+	#category : #'Scopeo-UI-Visualization'
 }
 
 { #category : #building }

@@ -5,7 +5,7 @@ Class {
 		'object',
 		'menuEntries'
 	],
-	#category : #'Scopeo-UI-EventsGraph'
+	#category : #'Scopeo-UI-Visualization'
 }
 
 { #category : #building }

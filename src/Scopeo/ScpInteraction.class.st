@@ -10,7 +10,7 @@ Class {
 		'selector',
 		'arguments'
 	],
-	#category : #'Scopeo-Model'
+	#category : #'Scopeo-Entities'
 }
 
 { #category : #accessing }

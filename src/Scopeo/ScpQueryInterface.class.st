@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'state'
 	],
-	#category : #'Scopeo-Query'
+	#category : #'Scopeo-Logic'
 }
 
 { #category : #'instance creation' }

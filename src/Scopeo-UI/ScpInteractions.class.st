@@ -1,5 +1,5 @@
 Class {
-	#name : #ScpEventsGraph,
+	#name : #ScpInteractions,
 	#superclass : #RSAbstractContainerBuilder,
 	#instVars : [
 		'events',
@@ -8,11 +8,11 @@ Class {
 		'objectShapes',
 		'eventShapes'
 	],
-	#category : #'Scopeo-UI-EventsGraph'
+	#category : #'Scopeo-UI-Visualization'
 }
 
 { #category : #layout }
-ScpEventsGraph >> applyLayoutOn: aCanvas [
+ScpInteractions >> applyLayoutOn: aCanvas [
 
 	| layout mockLines lines |
 	layout := RSForceBasedLayout new
@@ -35,7 +35,7 @@ ScpEventsGraph >> applyLayoutOn: aCanvas [
 ]
 
 { #category : #private }
-ScpEventsGraph >> computeScales [
+ScpInteractions >> computeScales [
 
 	| values domain |
 	values := events values collect: [ :e | e size ].
@@ -53,7 +53,7 @@ ScpEventsGraph >> computeScales [
 ]
 
 { #category : #private }
-ScpEventsGraph >> createEventShapes [
+ScpInteractions >> createEventShapes [
 
 	eventShapes := events values collect: [ :eventlist |
 		               | source destination |
@@ -68,7 +68,7 @@ ScpEventsGraph >> createEventShapes [
 ]
 
 { #category : #private }
-ScpEventsGraph >> createObjectShape: aObject [
+ScpInteractions >> createObjectShape: aObject [
 
 	objectShapes at: aObject id ifAbsentPut: [
 		ScpObjectShapeBuilder new
@@ -77,7 +77,7 @@ ScpEventsGraph >> createObjectShape: aObject [
 ]
 
 { #category : #accessing }
-ScpEventsGraph >> events: aEvents [
+ScpInteractions >> events: aEvents [
 	aEvents do: [ :e | self registerEvent: e ].
 	self computeScales.
 	self createEventShapes.
@@ -85,7 +85,7 @@ ScpEventsGraph >> events: aEvents [
 ]
 
 { #category : #private }
-ScpEventsGraph >> highlightable [
+ScpInteractions >> highlightable [
 
 	^ RSHighlightable new
 		  withLines;
@@ -97,7 +97,7 @@ ScpEventsGraph >> highlightable [
 ]
 
 { #category : #initialization }
-ScpEventsGraph >> initialize [ 
+ScpInteractions >> initialize [ 
 
 	objectShapes := Dictionary new.
 	events := Dictionary new.
@@ -105,7 +105,7 @@ ScpEventsGraph >> initialize [
 ]
 
 { #category : #private }
-ScpEventsGraph >> registerEvent: aEvent [
+ScpInteractions >> registerEvent: aEvent [
 
 	| origin destination |
 		
@@ -126,7 +126,7 @@ ScpEventsGraph >> registerEvent: aEvent [
 ]
 
 { #category : #hooks }
-ScpEventsGraph >> renderIn: aCanvas [
+ScpInteractions >> renderIn: aCanvas [
 
 	aCanvas addAll: objectShapes values.
 	aCanvas addAll: eventShapes.

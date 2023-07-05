@@ -6,7 +6,7 @@ Class {
 		'predicate',
 		'scope'
 	],
-	#category : #'Scopeo-Query'
+	#category : #'Scopeo-Logic'
 }
 
 { #category : #'api - building' }

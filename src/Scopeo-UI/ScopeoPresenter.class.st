@@ -6,15 +6,9 @@ Class {
 	#instVars : [
 		'nav',
 		'scope',
-		'filter',
-		'events',
-		'track',
-		'scopeObjects',
-		'scopeEvents',
-		'scopeModel',
-		'steppingModel'
+		'query'
 	],
-	#category : #'Scopeo-UI-MainPresenters'
+	#category : #'Scopeo-UI-Presenters'
 }
 
 { #category : #'debugger extension' }
@@ -44,7 +38,7 @@ ScopeoPresenter >> defaultLayout [
 { #category : #initialization }
 ScopeoPresenter >> initializeModels [
 
-	scopeModel := ScpScopeModel new.
+	scopeModel := ScpScope new.
 	steppingModel := ScpSteppingModel new debugger: debugger.
 	
 	nav steppingModel: steppingModel.

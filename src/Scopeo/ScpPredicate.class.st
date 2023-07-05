@@ -1,7 +1,7 @@
 Class {
 	#name : #ScpPredicate,
 	#superclass : #Object,
-	#category : #'Scopeo-Predicates'
+	#category : #'Scopeo-Logic'
 }
 
 { #category : #testing }

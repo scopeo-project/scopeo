@@ -1,7 +1,7 @@
 Class {
 	#name : #ScpObjectsScopePresenter,
-	#superclass : #ScpScopePresenter,
-	#category : #'Scopeo-UI-ScopePresenters'
+	#superclass : #SpPresenter,
+	#category : #'Scopeo-UI-Scope'
 }
 
 { #category : #removing }

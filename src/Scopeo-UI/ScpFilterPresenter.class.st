@@ -8,7 +8,7 @@ Class {
 		'history',
 		'onFilterDo'
 	],
-	#category : #'Scopeo-UI-EventsPresenters'
+	#category : #'Scopeo-UI-Presenters'
 }
 
 { #category : #action }

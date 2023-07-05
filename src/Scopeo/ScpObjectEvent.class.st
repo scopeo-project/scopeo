@@ -5,7 +5,7 @@ Class {
 		'timeTravelIndex',
 		'method'
 	],
-	#category : #'Scopeo-Model'
+	#category : #'Scopeo-Entities'
 }
 
 { #category : #testing }

@@ -6,7 +6,7 @@ Class {
 		'objectId',
 		'variable'
 	],
-	#category : #'Scopeo-Model'
+	#category : #'Scopeo-Entities'
 }
 
 { #category : #testing }
