@@ -7,5 +7,11 @@ Class {
 { #category : #handle }
 ScpInstrumentationLogger >> before: anArguments [
 
-	anArguments first asString , ' ' , anArguments second asString , ' ' , anArguments first asString crTrace 
+	(anArguments fourth asString , ' ' , anArguments second asString ,  ' ',  anArguments first asString) crTrace
+]
+
+{ #category : #arguments }
+ScpInstrumentationLogger >> requires [ 
+
+	^ #( receiver selector arguments sender )
 ]

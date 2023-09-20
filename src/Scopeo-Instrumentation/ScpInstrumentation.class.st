@@ -11,15 +11,14 @@ Class {
 }
 
 { #category : #accessing }
-ScpInstrumentation >> handle: anOperation [
-
-	| return |
-	self halt.
+ScpInstrumentation >> handle: anArguments [
 	
-	(object isNotNil and: [ anOperation receiver ~= object ]) ifTrue: [ ^ self ].
-	handler before: anOperation.
-	return := handler instead: anOperation.
-	handler after: anOperation.
+	| return |
+	
+	(object isNotNil and: [ anArguments first ~= object ]) ifTrue: [ ^ self ].
+	handler before: anArguments.
+	return := handler instead: anArguments.
+	handler after: anArguments.
 	^ return 
 ]
 
@@ -42,7 +41,8 @@ ScpInstrumentation >> install [
     	control: #instead;
      	metaObject: self;
     	selector: #handle:;
-		arguments: #( operation );
+		arguments: handler requires;
+		optionArgsAsArray: true;
 		yourself.
 	method ast link: link.
 ]

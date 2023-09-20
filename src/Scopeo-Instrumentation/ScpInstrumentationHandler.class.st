@@ -26,5 +26,5 @@ ScpInstrumentationHandler >> instead: anArguments [
 { #category : #arguments }
 ScpInstrumentationHandler >> requires [
 
-	^ #( operation )
+	^ #( receiver selector arguments )
 ]

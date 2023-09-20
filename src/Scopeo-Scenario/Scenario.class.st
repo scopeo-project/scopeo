@@ -52,13 +52,13 @@ Scenario >> removeOneOrTwoPlayers [
 { #category : #running }
 Scenario >> run [
 
-	iterations timesRepeat: [
+	1 timesRepeat: [
 		Grapevine new
 			players: players;
 			play.
-		self addOneOrTwoPlayers.
+		"self addOneOrTwoPlayers.
 		self removeOneOrTwoPlayers.
-		"self shufflePlayers" ]
+		self shufflePlayers" ]
 ]
 
 { #category : #private }
