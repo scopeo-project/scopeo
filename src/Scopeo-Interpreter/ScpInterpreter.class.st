@@ -7,7 +7,27 @@ Class {
 { #category : #hooks }
 ScpInterpreter >> onMessage: aMethod to: aReceiver from: aSender with: anArguments [
 	
-	(aSender asString , ' ', aMethod selector asString, ' ', aReceiver asString , ' ', anArguments asString) crTrace.
+	"[  (aSender asString , ' ', aMethod selector asString, ' ', aReceiver asString , ' ', anArguments asString) crTrace ] on: Error do: [ 'error' crTrace ]."
+]
+
+{ #category : #'as yet unclassified' }
+ScpInterpreter >> onUpdateOf: anObject variable: anInstanceVariable value: aValue [
+
+	[ (anObject asString , ' ' , anInstanceVariable asString, ' ', aValue asString ) crTrace] on: Error do: [ 'error' crTrace ]
+]
+
+{ #category : #visiting }
+ScpInterpreter >> visitAssignmentNode: aRBAssignmentNode [ 
+	| variable name value |
+	variable := aRBAssignmentNode variable.
+	name := variable name.
+	value := self stackTop.
+	
+	variable isInstanceVariable ifTrue: [
+		self onUpdateOf: self currentContext receiver variable: variable variable value: value.
+	].
+	
+	self currentContext assignVariable: name value: value
 ]
 
 { #category : #visiting }
