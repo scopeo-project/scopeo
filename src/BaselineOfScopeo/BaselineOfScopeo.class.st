@@ -8,14 +8,17 @@ Class {
 BaselineOfScopeo >> baseline: spec [
 
 	<baseline>
-	spec for: #common do: [ "spec
-			baseline: 'Seeker'
-			with: [ spec repository: 'github://ValentinBourcier/SeekerDebugger:main' ].
-			spec package: 'Scopeo'.
-		spec package: 'Scopeo-UI'."
+	spec for: #common do: [ 
+		spec
+			baseline: 'Molecule'
+			with: [ spec repository: 'github://OpenSmock/Molecule' ].
+		spec 
+			baseline: 'DebuggableASTInterpreter'
+			with: [ spec repository: 'github://adri09070/DebuggableASTInterpreter:optimized-code-switch' ].
 		spec
 			baseline: 'Chest'
 			with: [ spec repository: 'github://ValentinBourcier/Chest:master' ].
-		""
-		spec package: 'Scopeo-Scenario' ]
+		spec package: 'Scopeo-Interpreter'.	
+		spec package: 'Scopeo-Scenario' 
+	]
 ]
