@@ -6,16 +6,16 @@ Class {
 
 { #category : #baselines }
 BaselineOfScopeo >> baseline: spec [
+
 	<baseline>
-	spec for: #common do: [
-		spec
+	spec for: #common do: [ "spec
 			baseline: 'Seeker'
 			with: [ spec repository: 'github://ValentinBourcier/SeekerDebugger:main' ].
+			spec package: 'Scopeo'.
+		spec package: 'Scopeo-UI'."
 		spec
 			baseline: 'Chest'
 			with: [ spec repository: 'github://ValentinBourcier/Chest:master' ].
-		spec package: 'Scopeo'.
-		spec package: 'Scopeo-UI'.
-		spec package: 'Scopeo-Scenario'.
-	]
+		""
+		spec package: 'Scopeo-Scenario' ]
 ]
