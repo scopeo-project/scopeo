@@ -1,37 +1,52 @@
 Class {
-	#name : #ScpInterpreter,
+	#name : #ScpScannerImpl,
 	#superclass : #DASTInterpreter,
-	#category : #'Scopeo-Interpreter'
+	#traits : 'ScpScanner + ScpScannerParameters + ScpScannerServices + ScpScannerDataEvents',
+	#classTraits : 'ScpScanner classTrait + ScpScannerParameters classTrait + ScpScannerServices classTrait + ScpScannerDataEvents classTrait',
+	#instVars : [
+		'ignoredPackages'
+	],
+	#category : #'Scopeo-Scanner-Implementation'
 }
 
+{ #category : #'as yet unclassified' }
+ScpScannerImpl >> ignoredPackages: aCollection [
+
+	ignoredPackages := aCollection
+]
+
 { #category : #hooks }
-ScpInterpreter >> onMessage: aMethod to: aReceiver from: aSender with: anArguments [
+ScpScannerImpl >> onMessage: aMethod to: aReceiver from: aSender with: anArguments [
 	
 	"[  (aSender asString , ' ', aMethod selector asString, ' ', aReceiver asString , ' ', anArguments asString) crTrace ] on: Error do: [ 'error' crTrace ]."
 ]
 
-{ #category : #'as yet unclassified' }
-ScpInterpreter >> onUpdateOf: anObject variable: anInstanceVariable value: aValue [
+{ #category : #scanning }
+ScpScannerImpl >> scan: aProgram [
 
-	[ (anObject asString , ' ' , anInstanceVariable asString, ' ', aValue asString ) crTrace] on: Error do: [ 'error' crTrace ]
+	self evaluateAST: (RBParser parseExpression: aProgram)
 ]
 
 { #category : #visiting }
-ScpInterpreter >> visitAssignmentNode: aRBAssignmentNode [ 
+ScpScannerImpl >> visitAssignmentNode: aRBAssignmentNode [ 
 	| variable name value |
 	variable := aRBAssignmentNode variable.
 	name := variable name.
 	value := self stackTop.
 	
 	variable isInstanceVariable ifTrue: [
-		self onUpdateOf: self currentContext receiver variable: variable variable value: value.
+		self instanceVariableAssigned: (ScpScannedAssignment new
+			object: self currentContext receiver;
+			variable: variable variable;
+			newValue: value;	
+			yourself)
 	].
 	
 	self currentContext assignVariable: name value: value
 ]
 
 { #category : #visiting }
-ScpInterpreter >> visitMessageNode: aRBMessageNode [
+ScpScannerImpl >> visitMessageNode: aRBMessageNode [
 
 	| arguments receiver method newContext |
 	" Resolve Arguments "
@@ -55,8 +70,13 @@ ScpInterpreter >> visitMessageNode: aRBMessageNode [
 	" Lookup"
 	method := newContext methodOrBlock.
 	
-	self onMessage: method to: receiver from: self currentContext with: arguments.
-	
+	self messageSent: (ScpScannedMessage new
+		selector: method selector;
+		sender: self currentContext;
+		receiver: receiver;
+		arguments: arguments;	
+		yourself).
+		
 	" Apply - invoke method "
 	(aRBMessageNode isCascaded and: [aRBMessageNode parent messages last ~= aRBMessageNode]) ifTrue: [ self stackPush: receiver ]. 
 	(method isPrimitive and: [method isMessageValue not and: [method isOnDo not]] )  
