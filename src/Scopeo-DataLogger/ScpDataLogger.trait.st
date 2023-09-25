@@ -1,12 +1,12 @@
 Trait {
-	#name : #ScpDataStorage,
+	#name : #ScpDataLogger,
 	#traits : 'MolComponentType',
 	#classTraits : 'MolComponentType classTrait',
-	#category : #'Scopeo-DataStorage'
+	#category : #'Scopeo-DataLogger'
 }
 
 { #category : #'accessing - events' }
-ScpDataStorage classSide >> consumedComponentEvents [
+ScpDataLogger classSide >> consumedComponentEvents [
 
 	<componentContract>
 	^ { ScpDataBufferEvents }

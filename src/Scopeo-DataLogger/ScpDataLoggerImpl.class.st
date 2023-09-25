@@ -1,25 +1,25 @@
 Class {
-	#name : #ScpDataStorageImpl,
+	#name : #ScpDataLoggerImpl,
 	#superclass : #MolAbstractComponentImpl,
-	#traits : 'ScpDataStorage + ScpDataBufferEvents',
-	#classTraits : 'ScpDataStorage classTrait + ScpDataBufferEvents classTrait',
-	#category : #'Scopeo-DataStorage'
+	#traits : 'ScpDataLogger + ScpDataBufferEvents',
+	#classTraits : 'ScpDataLogger classTrait + ScpDataBufferEvents classTrait',
+	#category : #'Scopeo-DataLogger'
 }
 
-{ #category : #events }
-ScpDataStorageImpl >> componentActivate [
+{ #category : #'life cycle' }
+ScpDataLoggerImpl >> componentActivate [
 
 	self getScpDataBufferEventsSubscriber subscribe: self
 ]
 
-{ #category : #events }
-ScpDataStorageImpl >> componentPassivate [
+{ #category : #'life cycle' }
+ScpDataLoggerImpl >> componentPassivate [
 
 	self getScpDataBufferEventsSubscriber unsubscribe: self
 ]
 
 { #category : #'component accessing' }
-ScpDataStorageImpl >> getScpDataBufferEventsSubscriber [
+ScpDataLoggerImpl >> getScpDataBufferEventsSubscriber [
 	| eventsSymbol eventsSubscriber itf |
 	itf := ScpDataBufferEvents.
 	eventsSymbol := self eventsSubscribers at: itf ifAbsent: [^MolNotFoundEventsSubscriber new interface: itf name: nil].
@@ -31,21 +31,19 @@ ScpDataStorageImpl >> getScpDataBufferEventsSubscriber [
 ]
 
 { #category : #events }
-ScpDataStorageImpl >> instanceVariableAssigned: anScpScannedAssigment [
+ScpDataLoggerImpl >> instanceVariableAssigned: anScpScannedAssigment [
 	"A new value has been assigned to an object instance variable."
 
-	"[ anScpScannedAssigment printString crTrace ]
+	[ anScpScannedAssigment printString crTrace ]
 		on: Error
-		do: [ 'error' crTrace ]"
+		do: [ :e | e crTrace ]
 ]
 
 { #category : #events }
-ScpDataStorageImpl >> messageSent: aMessage [
+ScpDataLoggerImpl >> messageSent: aMessage [
 	"A message has been sent by an object during the execution of the program."
 
-	"[ aMessage printString crTrace ]
+	[ aMessage printString crTrace ]
 		on: Error
-		do: [ 'error' crTrace ]"
-
-	
+		do: [ :e | e crTrace ]
 ]

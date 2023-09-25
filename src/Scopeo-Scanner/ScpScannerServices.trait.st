@@ -2,7 +2,7 @@ Trait {
 	#name : #ScpScannerServices,
 	#traits : 'MolComponentServices',
 	#classTraits : 'MolComponentServices classTrait',
-	#category : #'Scopeo-Scanner-Molecule'
+	#category : #'Scopeo-Scanner'
 }
 
 { #category : #scanning }

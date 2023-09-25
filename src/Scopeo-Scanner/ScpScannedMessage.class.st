@@ -4,12 +4,12 @@ Class {
 	#instVars : [
 		'id',
 		'sender',
-		'method',
+		'senderSelector',
 		'selector',
 		'receiver',
 		'arguments'
 	],
-	#category : #'Scopeo-Scanner-Data'
+	#category : #'Scopeo-Scanner'
 }
 
 { #category : #accessing }
@@ -37,15 +37,13 @@ ScpScannedMessage >> id: anObject [
 ]
 
 { #category : #accessing }
-ScpScannedMessage >> method [
+ScpScannedMessage >> printString [
 
-	^ method
-]
-
-{ #category : #accessing }
-ScpScannedMessage >> method: anObject [
-
-	method := anObject
+	^ sender printString 
+		, ' in ' , senderSelector printString 
+		, ' sent ' , selector printString 
+		, ' to ' , receiver printString 
+		, ' with ', arguments printString  
 ]
 
 { #category : #accessing }
@@ -82,4 +80,16 @@ ScpScannedMessage >> sender [
 ScpScannedMessage >> sender: anObject [
 
 	sender := anObject
+]
+
+{ #category : #accessing }
+ScpScannedMessage >> senderSelector [
+
+	^ senderSelector
+]
+
+{ #category : #accessing }
+ScpScannedMessage >> senderSelector: anObject [
+
+	senderSelector := anObject
 ]

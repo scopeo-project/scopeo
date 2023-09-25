@@ -8,7 +8,7 @@ Class {
 		'oldValue',
 		'newValue'
 	],
-	#category : #'Scopeo-Scanner-Data'
+	#category : #'Scopeo-Scanner'
 }
 
 { #category : #accessing }
@@ -57,6 +57,14 @@ ScpScannedAssignment >> oldValue [
 ScpScannedAssignment >> oldValue: anObject [
 
 	oldValue := anObject
+]
+
+{ #category : #printing }
+ScpScannedAssignment >> printString [
+
+	^ object printString 
+		, ': ' , variable name printString
+		, ' := ' , newValue printString
 ]
 
 { #category : #accessing }

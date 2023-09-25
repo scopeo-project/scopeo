@@ -1,18 +1,18 @@
 Trait {
-	#name : #ScpScannerDataEvents,
+	#name : #ScpDataBufferEvents,
 	#traits : 'MolComponentEvents',
 	#classTraits : 'MolComponentEvents classTrait',
-	#category : #'Scopeo-Scanner'
+	#category : #'Scopeo-DataBuffer'
 }
 
 { #category : #events }
-ScpScannerDataEvents >> instanceVariableAssigned: anScpScannedAssigment [
-
+ScpDataBufferEvents >> instanceVariableAssigned: anScpScannedAssigment [
 	"A new value has been assigned to an object instance variable."
 ]
 
 { #category : #events }
-ScpScannerDataEvents >> messageSent: aMessage [
-
+ScpDataBufferEvents >> messageSent: aScpScannedMessage [
 	"A message has been sent by an object during the execution of the program."
+
+	
 ]

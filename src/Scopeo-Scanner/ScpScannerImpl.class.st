@@ -1,46 +1,14 @@
 Class {
 	#name : #ScpScannerImpl,
 	#superclass : #DASTInterpreter,
-	#traits : 'MolComponentImpl + ScpScanner + ScpScannerParameters + ScpScannerServices',
-	#classTraits : 'MolComponentImpl classTrait + ScpScanner classTrait + ScpScannerParameters classTrait + ScpScannerServices classTrait',
-	#instVars : [
-		'ignoredPackages'
-	],
-	#category : #'Scopeo-Scanner-Implementation'
+	#traits : 'MolComponentImpl + ScpScanner + ScpScannerServices',
+	#classTraits : 'MolComponentImpl classTrait + ScpScanner classTrait + ScpScannerServices classTrait',
+	#category : #'Scopeo-Scanner'
 }
 
 { #category : #'component accessing' }
 ScpScannerImpl >> getScpScannerDataEventsNotifier [
 	^self eventsNotifiers at: ScpScannerDataEvents ifAbsent: [^MolNotFoundEventsNotifier new interface: ScpScannerDataEvents name: nil].
-]
-
-{ #category : #'component accessing' }
-ScpScannerImpl >> getScpScannerDataEventsSubscribers [
-
-	^ self eventsSubscribers at: ScpScannerDataEvents ifAbsent: [
-		  ^ MolNotFoundEventsNotifier new
-			    interface: ScpScannerDataEvents
-			    name: nil ]
-]
-
-{ #category : #parameters }
-ScpScannerImpl >> ignoredPackages: aCollection [
-
-	ignoredPackages := aCollection
-]
-
-{ #category : #events }
-ScpScannerImpl >> instanceVariableAssigned: anScpScannedAssigment [
-	"A new value has been assigned to an object instance variable."
-	
-	self getScpScannerDataEventsNotifier instanceVariableAssigned: anScpScannedAssigment
-]
-
-{ #category : #events }
-ScpScannerImpl >> messageSent: aMessage [
-	"A message has been sent by an object during the execution of the program."
-
-	self getScpScannerDataEventsNotifier messageSent: aMessage
 ]
 
 { #category : #scanning }
@@ -58,11 +26,12 @@ ScpScannerImpl >> visitAssignmentNode: aRBAssignmentNode [
 	value := self stackTop.
 
 	variable isInstanceVariable ifTrue: [
-		self getScpScannerDataEventsNotifier instanceVariableAssigned: (ScpScannedAssignment new
-				 object: self currentContext receiver;
-				 variable: variable variable;
-				 newValue: value;
-				 yourself) ].
+				self getScpScannerDataEventsNotifier instanceVariableAssigned:
+					(ScpScannedAssignment new
+						 object: self currentContext receiver;
+						 variable: variable variable;
+						 newValue: value;
+						 yourself) ] .
 
 	self currentContext assignVariable: name value: value
 ]
@@ -70,7 +39,7 @@ ScpScannerImpl >> visitAssignmentNode: aRBAssignmentNode [
 { #category : #visiting }
 ScpScannerImpl >> visitMessageNode: aRBMessageNode [
 
-	| arguments receiver method newContext |
+	| arguments receiver method newContext sender |
 	" Resolve Arguments ""self haltIf: [ aRBMessageNode selector = #methodDict ]."
 	arguments := (self stackPop: aRBMessageNode numArgs) reverse.
 	(aRBMessageNode isCascaded and: [ aRBMessageNode isFirstCascaded not ])
@@ -87,12 +56,17 @@ ScpScannerImpl >> visitMessageNode: aRBMessageNode [
 	" Lookup"
 	method := newContext methodOrBlock.
 
-	self getScpScannerDataEventsNotifier messageSent: (ScpScannedMessage new
-			 selector: method selector;
-			 sender: self currentContext;
-			 receiver: receiver;
-			 arguments: arguments;
-			 yourself).
+	sender := self currentContext receiver.
+			self getScpScannerDataEventsNotifier messageSent:
+				(ScpScannedMessage new
+					 selector: method selector;
+					 sender: self currentContext receiver;
+					 senderSelector: (self currentContext messageNode ifNotNil: [
+								  self currentContext messageNode selector ]);
+					 selector: aRBMessageNode selector value;
+					 receiver: receiver;
+					 arguments: arguments;
+					 yourself).
 
 	" Apply - invoke method "
 	(aRBMessageNode isCascaded and: [
