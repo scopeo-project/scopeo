@@ -3,6 +3,9 @@ Class {
 	#superclass : #MolAbstractComponentImpl,
 	#traits : 'ScpDataStorage + ScpDataBufferEvents',
 	#classTraits : 'ScpDataStorage classTrait + ScpDataBufferEvents classTrait',
+	#instVars : [
+		'events'
+	],
 	#category : #'Scopeo-DataStorage'
 }
 
@@ -30,19 +33,28 @@ ScpDataStorageImpl >> getScpDataBufferEventsSubscriber [
 	^eventsSubscriber
 ]
 
+{ #category : #initialization }
+ScpDataStorageImpl >> initialize [
+
+	events := OrderedCollection new
+]
+
 { #category : #events }
 ScpDataStorageImpl >> instanceVariableAssigned: anScpScannedAssigment [
 	"A new value has been assigned to an object instance variable."
-
+	
+	events add: anScpScannedAssigment.
+	
 	"[ anScpScannedAssigment printString crTrace ]
 		on: Error
 		do: [ 'error' crTrace ]"
 ]
 
 { #category : #events }
-ScpDataStorageImpl >> messageSent: aMessage [
+ScpDataStorageImpl >> messageSent: anScpScannedMessage [
 	"A message has been sent by an object during the execution of the program."
 
+	events add: anScpScannedMessage.
 	"[ aMessage printString crTrace ]
 		on: Error
 		do: [ 'error' crTrace ]"

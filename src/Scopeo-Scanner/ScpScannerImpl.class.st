@@ -28,6 +28,7 @@ ScpScannerImpl >> visitAssignmentNode: aRBAssignmentNode [
 	variable isInstanceVariable ifTrue: [
 				self getScpScannerDataEventsNotifier instanceVariableAssigned:
 					(ScpScannedAssignment new
+						 id: programCounter;
 						 object: self currentContext receiver;
 						 variable: variable variable;
 						 newValue: value;
@@ -39,7 +40,7 @@ ScpScannerImpl >> visitAssignmentNode: aRBAssignmentNode [
 { #category : #visiting }
 ScpScannerImpl >> visitMessageNode: aRBMessageNode [
 
-	| arguments receiver method newContext sender |
+	| arguments receiver method newContext |
 	" Resolve Arguments ""self haltIf: [ aRBMessageNode selector = #methodDict ]."
 	arguments := (self stackPop: aRBMessageNode numArgs) reverse.
 	(aRBMessageNode isCascaded and: [ aRBMessageNode isFirstCascaded not ])
@@ -56,17 +57,16 @@ ScpScannerImpl >> visitMessageNode: aRBMessageNode [
 	" Lookup"
 	method := newContext methodOrBlock.
 
-	sender := self currentContext receiver.
-			self getScpScannerDataEventsNotifier messageSent:
-				(ScpScannedMessage new
-					 selector: method selector;
-					 sender: self currentContext receiver;
-					 senderSelector: (self currentContext messageNode ifNotNil: [
-								  self currentContext messageNode selector ]);
-					 selector: aRBMessageNode selector value;
-					 receiver: receiver;
-					 arguments: arguments;
-					 yourself).
+	self getScpScannerDataEventsNotifier messageSent:
+		(ScpScannedMessage new
+			 id: programCounter;
+			 sender: self currentContext receiver;
+			 senderSelector: (self currentContext messageNode ifNotNil: [
+						  self currentContext messageNode selector ]);
+			 selector: method selector;
+			 receiver: receiver;
+			 arguments: arguments;
+			 yourself).
 
 	" Apply - invoke method "
 	(aRBMessageNode isCascaded and: [

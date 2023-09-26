@@ -256,22 +256,29 @@ ScpDataBufferImpl >> initialize [
 { #category : #events }
 ScpDataBufferImpl >> instanceVariableAssigned: anScpScannedAssigment [
 	"A new value has been assigned to an object instance variable."
+	self halt.
 
 	(self mustIgnore: anScpScannedAssigment object) ifTrue: [ ^ nil ].
-	self getScpDataBufferEventsNotifier instanceVariableAssigned: anScpScannedAssigment
+	self getScpDataBufferEventsNotifier instanceVariableAssigned:
+		anScpScannedAssigment
 ]
 
 { #category : #events }
 ScpDataBufferImpl >> messageSent: aScpScannedMessage [
 	"A message has been sent by an object during the execution of the program."
 
+	self halt.
 	(self mustIgnore: aScpScannedMessage sender) ifTrue: [ ^ nil ].
-	self getScpDataBufferEventsNotifier messageSent: aScpScannedMessage.
+	self getScpDataBufferEventsNotifier messageSent: aScpScannedMessage
 ]
 
 { #category : #testing }
-ScpDataBufferImpl >> mustIgnore: anObject [
+ScpDataBufferImpl >> mustIgnore: aClassOrObject [
 
-	anObject ifNil: [ ^ true ].
-	^ ignoredClasses includes: anObject class name
+	aClassOrObject ifNil: [ ^ true ].
+	^ ignoredClasses includes: (
+			aClassOrObject isClass
+		 		ifTrue: [ aClassOrObject name ]
+		   		ifFalse: [ aClassOrObject class name ]
+	)
 ]
