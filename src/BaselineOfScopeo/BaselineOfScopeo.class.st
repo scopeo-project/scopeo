@@ -17,6 +17,11 @@ BaselineOfScopeo >> baseline: spec [
 			with: [
 				spec repository: 'github://adri09070/DebuggableASTInterpreter:optimized-code-switch' 
 			].
-		spec package: 'Scopeo-Scenario' 
+		spec package: 'Scopeo-Scanner'.
+		spec package: 'Scopeo-DataBuffer'.
+		spec package: 'Scopeo-DataLogger'.
+		spec package: 'Scopeo-DataStorage'.
+		spec package: 'Scopeo-System'.
+		spec package: 'Scopeo-Scenario'
 	]
 ]
