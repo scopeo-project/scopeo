@@ -1,8 +1,8 @@
 Class {
 	#name : #ScpDataStorageImpl,
 	#superclass : #MolAbstractComponentImpl,
-	#traits : 'ScpDataStorage + ScpDataBufferEvents',
-	#classTraits : 'ScpDataStorage classTrait + ScpDataBufferEvents classTrait',
+	#traits : 'ScpDataStorage + ScpDataBufferEvents + ScpDataStorageServices',
+	#classTraits : 'ScpDataStorage classTrait + ScpDataBufferEvents classTrait + ScpDataStorageServices classTrait',
 	#instVars : [
 		'events'
 	],
@@ -19,6 +19,13 @@ ScpDataStorageImpl >> componentActivate [
 ScpDataStorageImpl >> componentPassivate [
 
 	self getScpDataBufferEventsSubscriber unsubscribe: self
+]
+
+{ #category : #accessing }
+ScpDataStorageImpl >> events [
+	"Returns the stored events."
+
+	^ events
 ]
 
 { #category : #'component accessing' }
@@ -60,4 +67,11 @@ ScpDataStorageImpl >> messageSent: anScpScannedMessage [
 		do: [ 'error' crTrace ]"
 
 	
+]
+
+{ #category : #events }
+ScpDataStorageImpl >> scanStarted [
+	"A program scanning has been started."
+
+	events removeAll.
 ]

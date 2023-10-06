@@ -47,3 +47,17 @@ ScpDataLoggerImpl >> messageSent: aMessage [
 		on: Error
 		do: [ :e | e crTrace ]
 ]
+
+{ #category : #events }
+ScpDataLoggerImpl >> scanFinished [
+	"The program scanning has been finished."
+
+	'Scopeo - scanning a new program execution' crTrace
+]
+
+{ #category : #events }
+ScpDataLoggerImpl >> scanStarted [
+	"A program scanning has been started."
+
+	'Scopeo - program execution scanning finished' crTrace
+]

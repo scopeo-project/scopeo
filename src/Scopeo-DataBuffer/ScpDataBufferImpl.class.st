@@ -158,7 +158,7 @@ ScpDataBufferImpl class >> defaultIgnoredKernel [
 	     'ImmediateLayout' 'ReservedVariable' 'ProcessLocalVariable'
 	     'RecursionStopper' 'DelayNullScheduler' 'WorkspaceVariable'
 	     'DuplicatedVariableError' 'ExecutionEnvironment'
-	     'UndefinedObject' 'SmallFloat64' 'SubclassResponsibility'
+	     'SmallFloat64' 'SubclassResponsibility'
 	     'Slot' 'ConstantBlockClosure1Arg' 'Magnitude' 'LargePositiveInteger'
 	     'Abort' 'IllegalResumeAttempt' 'DoubleByteLayout'
 	     'Behavior' 'DoItVariable' 'ProcessSpecificVariable'
@@ -256,7 +256,6 @@ ScpDataBufferImpl >> initialize [
 { #category : #events }
 ScpDataBufferImpl >> instanceVariableAssigned: anScpScannedAssigment [
 	"A new value has been assigned to an object instance variable."
-	self halt.
 
 	(self mustIgnore: anScpScannedAssigment object) ifTrue: [ ^ nil ].
 	self getScpDataBufferEventsNotifier instanceVariableAssigned:
@@ -267,7 +266,6 @@ ScpDataBufferImpl >> instanceVariableAssigned: anScpScannedAssigment [
 ScpDataBufferImpl >> messageSent: aScpScannedMessage [
 	"A message has been sent by an object during the execution of the program."
 
-	self halt.
 	(self mustIgnore: aScpScannedMessage sender) ifTrue: [ ^ nil ].
 	self getScpDataBufferEventsNotifier messageSent: aScpScannedMessage
 ]
@@ -275,10 +273,24 @@ ScpDataBufferImpl >> messageSent: aScpScannedMessage [
 { #category : #testing }
 ScpDataBufferImpl >> mustIgnore: aClassOrObject [
 
-	aClassOrObject ifNil: [ ^ true ].
+	"aClassOrObject ifNil: [ ^ false ]."
 	^ ignoredClasses includes: (
 			aClassOrObject isClass
 		 		ifTrue: [ aClassOrObject name ]
 		   		ifFalse: [ aClassOrObject class name ]
 	)
+]
+
+{ #category : #events }
+ScpDataBufferImpl >> scanFinished [
+	"The program scanning has been finished."
+
+	self getScpDataBufferEventsNotifier scanFinished
+]
+
+{ #category : #events }
+ScpDataBufferImpl >> scanStarted [
+	"A program scanning has been started."
+
+	self getScpDataBufferEventsNotifier scanStarted
 ]
