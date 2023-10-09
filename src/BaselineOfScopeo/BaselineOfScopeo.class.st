@@ -11,7 +11,7 @@ BaselineOfScopeo >> baseline: spec [
 	spec for: #common do: [
 		spec
 			baseline: 'Molecule'
-			with: [ spec repository: 'github://OpenSmock/Molecule' ].
+			with: [ spec repository: 'github://OpenSmock/Molecule:main/src' ].
 		spec
 			baseline: 'Toplo'
 			with: [ spec repository: 'github://plantec/Toplo/src' ].
@@ -19,10 +19,12 @@ BaselineOfScopeo >> baseline: spec [
 			spec repository:
 				'github://adri09070/DebuggableASTInterpreter:optimized-code-switch' ].
 
-		spec package: 'Scopeo-Scanner'.
+		spec package: 'Scopeo-DataScanner'.
+		spec package: 'Scopeo-DataModel'.
 		spec package: 'Scopeo-DataBuffer'.
 		spec package: 'Scopeo-DataLogger'.
 		spec package: 'Scopeo-DataStorage'.
-		spec package: 'Scopeo-System'.
-		spec package: 'Scopeo-Scenario' ]
+		spec package: 'Scopeo-DataPredicates'.
+		spec package: 'Scopeo-Scope'.
+		spec package: 'Scopeo'. ]
 ]
