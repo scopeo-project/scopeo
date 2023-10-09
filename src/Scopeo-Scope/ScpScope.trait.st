@@ -5,16 +5,15 @@ Trait {
 	#category : #'Scopeo-Scope'
 }
 
+{ #category : #'accessing - events' }
+ScpScope classSide >> producedComponentEvents [
+	<componentContract>
+	^ {ScpScopeEvents} 
+]
+
 { #category : #'accessing - services' }
 ScpScope classSide >> providedComponentServices [
 
 	<componentContract>
 	^ { ScpScopeServices }
-]
-
-{ #category : #'accessing - parameters' }
-ScpScope classSide >> usedComponentParameters [
-
-	<componentContract>
-	^ { ScpScopeEvents }
 ]

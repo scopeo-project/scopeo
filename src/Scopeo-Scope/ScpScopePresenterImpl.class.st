@@ -125,9 +125,9 @@ ScpScopePresenterImpl >> initializeObjectEventsKeysList [
 	objectEventsKeys margin: (BlInsets all: 2).
 
 	objectEventsKeys infinite
-		when: ToInfiniteSelectionChangedEvent
+		when: ToInfiniteNodeSelectedEvent
 		do: [ :event |
-			self objectEventsKeysNewSelection: event newSelectedIndexes ].
+			self objectEventsKeysNewSelection: event index ]
 ]
 
 { #category : #initialization }
@@ -158,9 +158,9 @@ ScpScopePresenterImpl >> initializeObjectKeysList [
 	objectKeys margin: (BlInsets all: 2).
 
 	objectKeys infinite
-		when: ToInfiniteSelectionChangedEvent
+		when: ToInfiniteNodeSelectedEvent
 		do: [ :event |
-		self objectKeysNewSelection: event newSelectedIndexes ].
+		self objectKeysNewSelection: event index ]
 ]
 
 { #category : #initialization }
@@ -224,22 +224,21 @@ ScpScopePresenterImpl >> loadObjectsKeys [
 ]
 
 { #category : #'gui events' }
-ScpScopePresenterImpl >> objectEventsKeysNewSelection: aNewSelectedIndexes [
+ScpScopePresenterImpl >> objectEventsKeysNewSelection: anIndex [
 
 	| sp key |
-
 	sp := self getScpScopeServicesProvider.
 
 	objectEventsValues data removeAll.
 
 	sp isNotFoundServices ifTrue: [ ^ self ].
 
-	key := sp getObjectEventsKeys at: aNewSelectedIndexes first.
+	key := sp getObjectEventsKeys at: anIndex.
 	objectEventsValues data addAll: (sp getObjectEventAt: key)
 ]
 
 { #category : #'gui events' }
-ScpScopePresenterImpl >> objectKeysNewSelection: aNewSelectedIndexes [
+ScpScopePresenterImpl >> objectKeysNewSelection: anIndex [
 
 	| sp key |
 	sp := self getScpScopeServicesProvider.
@@ -248,7 +247,7 @@ ScpScopePresenterImpl >> objectKeysNewSelection: aNewSelectedIndexes [
 
 	sp isNotFoundServices ifTrue: [ ^ self ].
 
-	key := sp getObjectsKeys at: aNewSelectedIndexes first.
+	key := sp getObjectsKeys at: anIndex.
 	objectValues data addAll: (sp getObjectsAt: key)
 ]
 

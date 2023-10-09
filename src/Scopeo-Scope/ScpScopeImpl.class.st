@@ -28,9 +28,11 @@ ScpScopeImpl >> at: aKey putObjectEvents: anObjectEventsCollection [
 	events
 		at: aKey
 		ifPresent: [ :items | items addAll: anObjectEventsCollection ]
-		ifAbsentPut: [ anObjectEventsCollection ].
-	
-	self getScpScopeEventsProvider addedObjectEvents:  anObjectEventsCollection to: (events associationAt: aKey) 
+		ifAbsentPut: [ anObjectEventsCollection asOrderedCollection ].
+
+	self getScpScopeEventsNotifier
+		addedObjectEvents: anObjectEventsCollection
+		to: (events associationAt: aKey)
 ]
 
 { #category : #adding }
@@ -39,9 +41,9 @@ ScpScopeImpl >> at: aKey putObjects: anObjectCollection [
 	objects
 		at: aKey
 		ifPresent: [ :items | items addAll: anObjectCollection ]
-		ifAbsentPut: [ anObjectCollection ].
+		ifAbsentPut: [ anObjectCollection asOrderedCollection ].
 
-	self getScpScopeEventsProvider
+	self getScpScopeEventsNotifier
 		addedObjects: anObjectCollection
 		to: (objects associationAt: aKey)
 ]
@@ -83,15 +85,8 @@ ScpScopeImpl >> getObjectsKeys [
 ]
 
 { #category : #'component accessing' }
-ScpScopeImpl >> getScpScopeEventsProvider [
-	| parametersSymbol parametersProvider itf |
-
-	itf := ScpScopeEvents.
-	parametersSymbol := self parametersProviders at: itf ifAbsent: [nil].
-	(parametersSymbol isNil or:[parametersSymbol isSymbol not]) ifTrue: [ ^ MolNotFoundParametersProvider new interface: itf name: nil ].
-
-	parametersProvider := MolComponentManager default locatorServices searchParametersProviderFor: ScpScopeEvents named: parametersSymbol.
-	^parametersProvider
+ScpScopeImpl >> getScpScopeEventsNotifier [
+	^self eventsNotifiers at: ScpScopeEvents ifAbsent: [^MolNotFoundEventsNotifier new interface: ScpScopeEvents name: nil].
 ]
 
 { #category : #initialization }
