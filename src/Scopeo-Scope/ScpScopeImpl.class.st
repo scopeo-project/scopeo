@@ -13,7 +13,7 @@ Class {
 { #category : #accessing }
 ScpScopeImpl >> at: aKey putObject: anObject [
 
-	self at: aKey putObject: { anObject }
+	self at: aKey putObjects: { anObject }
 ]
 
 { #category : #accessing }

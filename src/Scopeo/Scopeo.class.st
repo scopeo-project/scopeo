@@ -8,7 +8,7 @@ Class {
 Scopeo class >> start [
 
 	<script: 'self start'>
-	ScpDataLoggerImpl start.
+
 	ScpDataStorageImpl start.
 	ScpDataBufferImpl start.
 	ScpScannerImpl start.
@@ -19,7 +19,7 @@ Scopeo class >> start [
 Scopeo class >> stop [
 
 	<script: 'self stop'>
-	ScpDataLoggerImpl stop.
+	
 	ScpDataStorageImpl stop.
 	ScpDataBufferImpl stop.
 	ScpScannerImpl stop.
