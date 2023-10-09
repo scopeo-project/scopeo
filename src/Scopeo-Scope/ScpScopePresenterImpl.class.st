@@ -5,8 +5,6 @@ Class {
 	#classTraits : 'ScpScopePresenter classTrait + ScpScopeEvents classTrait',
 	#instVars : [
 		'pane',
-		'objectsPane',
-		'objectEventsPane',
 		'objectKeys',
 		'objectValues',
 		'objectEventsKeys',
@@ -27,6 +25,18 @@ ScpScopePresenterImpl >> addedObjectEvents: anObjectEventsCollection to: anAssoc
 ScpScopePresenterImpl >> addedObjects: anObjectCollection to: anAssociation [
 
 	self loadObjectsKeys
+]
+
+{ #category : #'life cycle' }
+ScpScopePresenterImpl >> componentActivate [
+
+	self getScpScopeEventsSubscriber subscribe: self
+]
+
+{ #category : #'life cycle' }
+ScpScopePresenterImpl >> componentPassivate [
+
+	self getScpScopeEventsSubscriber unsubscribe: self
 ]
 
 { #category : #'component accessing' }
