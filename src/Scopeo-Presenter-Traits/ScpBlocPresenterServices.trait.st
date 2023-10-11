@@ -2,7 +2,7 @@ Trait {
 	#name : #ScpBlocPresenterServices,
 	#traits : 'ScpSpecPresenterServices',
 	#classTraits : 'ScpSpecPresenterServices classTrait',
-	#category : #Scopeo
+	#category : #'Scopeo-Presenter-Traits'
 }
 
 { #category : #accessing }

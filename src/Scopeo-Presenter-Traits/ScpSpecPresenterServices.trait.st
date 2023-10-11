@@ -1,6 +1,6 @@
 Trait {
 	#name : #ScpSpecPresenterServices,
-	#category : #Scopeo
+	#category : #'Scopeo-Presenter-Traits'
 }
 
 { #category : #accessing }
