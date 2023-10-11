@@ -25,7 +25,7 @@ BaselineOfScopeo >> baseline: spec [
 		spec package: #'Scopeo-DataModel'.
 		spec package: #'Scopeo-DataPredicates'.
 		spec package: #'Scopeo-DataScanner' with: [
-			spec requires: #( #'Molecule') 
+			spec requires: #( #'Molecule' #'DebuggableASTInterpreter') 
 		].
 		
 
