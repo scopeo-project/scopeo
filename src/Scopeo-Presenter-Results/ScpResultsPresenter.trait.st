@@ -2,7 +2,7 @@ Trait {
 	#name : #ScpResultsPresenter,
 	#traits : 'MolComponentType',
 	#classTraits : 'MolComponentType classTrait',
-	#category : #'Scopeo-Results'
+	#category : #'Scopeo-Presenter-Results'
 }
 
 { #category : #'accessing - events' }

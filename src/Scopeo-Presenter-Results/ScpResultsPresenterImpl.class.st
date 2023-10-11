@@ -8,7 +8,7 @@ Class {
 		'objectEvents',
 		'codePane'
 	],
-	#category : #'Scopeo-Results'
+	#category : #'Scopeo-Presenter-Results'
 }
 
 { #category : #accessing }
