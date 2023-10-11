@@ -2,7 +2,7 @@ Trait {
 	#name : #ScpScopeServices,
 	#traits : 'MolComponentServices',
 	#classTraits : 'MolComponentServices classTrait',
-	#category : #'Scopeo-Scope'
+	#category : #'Scopeo-Scope-Model'
 }
 
 { #category : #accessing }

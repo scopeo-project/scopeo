@@ -1,8 +1,8 @@
 Class {
 	#name : #ScpScopePresenterImpl,
 	#superclass : #MolAbstractComponentImpl,
-	#traits : 'ScpScopePresenter + ScpScopeEvents',
-	#classTraits : 'ScpScopePresenter classTrait + ScpScopeEvents classTrait',
+	#traits : 'ScpScopePresenter + ScpScopeEvents + ScpScopePresenterServices',
+	#classTraits : 'ScpScopePresenter classTrait + ScpScopeEvents classTrait + ScpScopePresenterServices classTrait',
 	#instVars : [
 		'pane',
 		'objectKeys',
@@ -12,7 +12,7 @@ Class {
 		'keysPane',
 		'valuesPane'
 	],
-	#category : #'Scopeo-Scope'
+	#category : #'Scopeo-Scope-Presenter'
 }
 
 { #category : #'component events' }
@@ -25,6 +25,12 @@ ScpScopePresenterImpl >> addedObjectEvents: anObjectEventsCollection to: anAssoc
 ScpScopePresenterImpl >> addedObjects: anObjectCollection to: anAssociation [
 
 	self loadObjectsKeys
+]
+
+{ #category : #accessing }
+ScpScopePresenterImpl >> blPresenter [
+
+	^ pane
 ]
 
 { #category : #'life cycle' }
@@ -251,8 +257,8 @@ ScpScopePresenterImpl >> objectKeysNewSelection: anIndex [
 	objectValues data addAll: (sp getObjectsAt: key)
 ]
 
-{ #category : #initialization }
-ScpScopePresenterImpl >> open [
+{ #category : #accessing }
+ScpScopePresenterImpl >> title [
 
-	pane openInSpace title: 'Scopeo - Scope'	
+	^ 'Scopeo - Scope'
 ]

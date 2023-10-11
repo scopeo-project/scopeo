@@ -2,7 +2,7 @@ Trait {
 	#name : #ScpScope,
 	#traits : 'MolComponentType',
 	#classTraits : 'MolComponentType classTrait',
-	#category : #'Scopeo-Scope'
+	#category : #'Scopeo-Scope-Model'
 }
 
 { #category : #'accessing - events' }

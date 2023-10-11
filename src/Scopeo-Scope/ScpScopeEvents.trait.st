@@ -2,7 +2,7 @@ Trait {
 	#name : #ScpScopeEvents,
 	#traits : 'MolComponentEvents',
 	#classTraits : 'MolComponentEvents classTrait',
-	#category : #'Scopeo-Scope'
+	#category : #'Scopeo-Scope-Model'
 }
 
 { #category : #'as yet unclassified' }
