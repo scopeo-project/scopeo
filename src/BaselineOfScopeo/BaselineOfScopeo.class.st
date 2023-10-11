@@ -26,5 +26,7 @@ BaselineOfScopeo >> baseline: spec [
 		spec package: 'Scopeo-DataStorage'.
 		spec package: 'Scopeo-DataPredicates'.
 		spec package: 'Scopeo-Scope'.
-		spec package: 'Scopeo'. ]
+		spec package: 'Scopeo-Results'.
+		spec package: 'Scopeo-Search'.
+		spec package: 'Scopeo' ]
 ]
