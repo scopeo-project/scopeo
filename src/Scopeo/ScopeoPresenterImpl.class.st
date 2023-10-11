@@ -50,13 +50,13 @@ ScopeoPresenterImpl >> initialize [
 
 	presenter := SpPresenter new.
 
-	"presenter layout: (SpBoxLayout newVertical
+	presenter layout: (SpBoxLayout newVertical
 			 add: (SpBoxLayout newVertical
 					  add: self getScpScopePresenterServicesProvider spPresenter;
 					  add: self getScpSearchPresenterServicesProvider spPresenter;
 					  yourself);
 			 add: self getScpResultsPresenterServicesProvider spPresenter;
-			 yourself)""
+			 yourself)
 ]
 
 { #category : #accessing }

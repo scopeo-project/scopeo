@@ -16,7 +16,6 @@ BaselineOfScopeo >> baseline: spec [
 		spec
 			baseline: 'Toplo'
 			with: [ spec repository: 'github://plantec/Toplo/src' ].
-		
 		spec baseline: 'DebuggableASTInterpreter' with: [
 			spec repository:
 				'github://adri09070/DebuggableASTInterpreter:optimized-code-switch' ].
@@ -27,7 +26,6 @@ BaselineOfScopeo >> baseline: spec [
 		spec package: #'Scopeo-DataScanner' with: [
 			spec requires: #( #'Molecule' #'DebuggableASTInterpreter') 
 		].
-		
 
 		spec package: #'Scopeo-DataBuffer' with: [
 			spec requires: #( #'Molecule' #'Scopeo-DataScanner') 
