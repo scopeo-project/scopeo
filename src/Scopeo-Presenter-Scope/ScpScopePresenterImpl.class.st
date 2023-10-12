@@ -27,12 +27,6 @@ ScpScopePresenterImpl >> addedObjects: anObjectCollection to: anAssociation [
 	self loadObjectsKeys
 ]
 
-{ #category : #accessing }
-ScpScopePresenterImpl >> blPresenter [
-
-	^ pane
-]
-
 { #category : #'life cycle' }
 ScpScopePresenterImpl >> componentActivate [
 
@@ -72,15 +66,15 @@ ScpScopePresenterImpl >> getScpScopeServicesProvider [
 { #category : #initialization }
 ScpScopePresenterImpl >> initialize [
 
-	pane := ToPane new.
+	blPresenter := ToPane new.
 
 	self initializeKeysPane.
 	self initializeValuesPane.
 
 	self initializeLayout.
 	
-self loadObjectsKeys.
-self loadObjectEventsKeys
+	self loadObjectsKeys.
+	self loadObjectEventsKeys
 ]
 
 { #category : #initialization }
@@ -109,12 +103,12 @@ ScpScopePresenterImpl >> initializeKeysPaneLayout [
 { #category : #initialization }
 ScpScopePresenterImpl >> initializeLayout [
 
-	pane beHorizontal.
-	pane matchParent.
+	blPresenter beHorizontal.
+	blPresenter matchParent.
 
-	pane addChild: keysPane.
-	pane addChild: valuesPane.
-	pane addDividers
+	blPresenter addChild: keysPane.
+	blPresenter addChild: valuesPane.
+	blPresenter addDividers
 ]
 
 { #category : #initialization }

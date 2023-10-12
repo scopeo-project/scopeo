@@ -1,5 +1,8 @@
 Trait {
 	#name : #ScpBlocPresenterServices,
+	#instVars : [
+		'blPresenter'
+	],
 	#traits : 'ScpSpecPresenterServices',
 	#classTraits : 'ScpSpecPresenterServices classTrait',
 	#category : #'Scopeo-Presenter-Traits'
@@ -8,7 +11,7 @@ Trait {
 { #category : #accessing }
 ScpBlocPresenterServices >> blPresenter [
 
-	^ self explicitRequirement
+	^ blPresenter
 ]
 
 { #category : #accessing }
@@ -20,8 +23,11 @@ ScpBlocPresenterServices >> openInSpace [
 { #category : #accessing }
 ScpBlocPresenterServices >> spPresenter [
 
-	| presenter |
-	presenter := SpBlSpaceInMorphPresenter new.
-	presenter space addChild: self blPresenter.
-	^ presenter
+	spPresenter ifNil: [ 
+		spPresenter := SpBlSpaceInMorphPresenter new.
+		spPresenter space addChild: self blPresenter 
+	].
+
+	^  spPresenter
+
 ]

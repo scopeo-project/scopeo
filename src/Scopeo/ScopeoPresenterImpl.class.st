@@ -9,6 +9,21 @@ Class {
 	#category : #Scopeo
 }
 
+{ #category : #'life cycle' }
+ScopeoPresenterImpl >> componentInitialize [
+
+	self getScpScopePresenterServicesProvider spPresenter inspect.
+
+	spPresenter layout: (SpBoxLayout newVertical
+			 add: (SpBoxLayout newHorizontal
+					  add: self getScpScopePresenterServicesProvider spPresenter height: 50;
+					  add: self getScpSearchPresenterServicesProvider spPresenter;
+					  yourself);
+			add: self getScpResultsPresenterServicesProvider spPresenter expand:true;
+			add: SpBlSpaceInMorphPresenter new;
+			 yourself)
+]
+
 { #category : #'component accessing' }
 ScopeoPresenterImpl >> getScpResultsPresenterServicesProvider [
 	| servicesSymbol servicesProvider itf |
@@ -48,21 +63,8 @@ ScopeoPresenterImpl >> getScpSearchPresenterServicesProvider [
 { #category : #initialization }
 ScopeoPresenterImpl >> initialize [
 
-	presenter := SpPresenter new.
-
-	presenter layout: (SpBoxLayout newVertical
-			 add: (SpBoxLayout newVertical
-					  add: self getScpScopePresenterServicesProvider spPresenter;
-					  add: self getScpSearchPresenterServicesProvider spPresenter;
-					  yourself);
-			 add: self getScpResultsPresenterServicesProvider spPresenter;
-			 yourself)
-]
-
-{ #category : #accessing }
-ScopeoPresenterImpl >> spPresenter [
-
-	^ presenter
+	spPresenter := SpPresenter new.
+	spPresenter layout: (SpBoxLayout newVertical)
 ]
 
 { #category : #accessing }

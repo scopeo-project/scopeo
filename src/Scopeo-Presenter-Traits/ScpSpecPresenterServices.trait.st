@@ -1,5 +1,8 @@
 Trait {
 	#name : #ScpSpecPresenterServices,
+	#instVars : [
+		'spPresenter'
+	],
 	#category : #'Scopeo-Presenter-Traits'
 }
 
@@ -14,7 +17,7 @@ ScpSpecPresenterServices >> openInWorld [
 { #category : #accessing }
 ScpSpecPresenterServices >> spPresenter [
 
-	self explicitRequirement
+	^ spPresenter
 ]
 
 { #category : #accessing }

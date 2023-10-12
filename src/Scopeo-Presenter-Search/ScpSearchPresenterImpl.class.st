@@ -40,7 +40,7 @@ ScpSearchPresenterImpl >> getScpSearchServicesProvider [
 { #category : #initialization }
 ScpSearchPresenterImpl >> initialize [
 
-	presenter := SpPresenter new.
+	spPresenter := SpPresenter new.
 
 	codePane := SpCodePresenter new.
 	codePane syntaxHighlight: true.
@@ -54,7 +54,7 @@ ScpSearchPresenterImpl >> initialize [
 		               action: [ codePane text: String empty ];
 		               yourself.
 
-	presenter layout: (SpBoxLayout newVertical
+	spPresenter layout: (SpBoxLayout newVertical
 			 add: 'Search query:' height: 15;
 			 add: codePane expand: true;
 			 add: (SpBoxLayout newHorizontal
@@ -65,12 +65,6 @@ ScpSearchPresenterImpl >> initialize [
 			 expand: false;
 			 spacing: 8;
 			 yourself)
-]
-
-{ #category : #accessing }
-ScpSearchPresenterImpl >> spPresenter [
-
-	^ presenter
 ]
 
 { #category : #accessing }

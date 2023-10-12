@@ -1,8 +1,8 @@
 Class {
 	#name : #ScpResultsPresenterImpl,
 	#superclass : #MolAbstractComponentImpl,
-	#traits : 'ScpResultsPresenter + ScpSearchEvents',
-	#classTraits : 'ScpResultsPresenter classTrait + ScpSearchEvents classTrait',
+	#traits : 'ScpResultsPresenter + ScpSearchEvents + ScpResultsPresenterServices',
+	#classTraits : 'ScpResultsPresenter classTrait + ScpSearchEvents classTrait + ScpResultsPresenterServices classTrait',
 	#instVars : [
 		'pane',
 		'objectEvents',
