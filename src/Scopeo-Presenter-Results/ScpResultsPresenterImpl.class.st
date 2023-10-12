@@ -4,17 +4,46 @@ Class {
 	#traits : 'ScpResultsPresenter + ScpSearchEvents + ScpResultsPresenterServices',
 	#classTraits : 'ScpResultsPresenter classTrait + ScpSearchEvents classTrait + ScpResultsPresenterServices classTrait',
 	#instVars : [
-		'pane',
 		'objectEvents',
 		'codePane'
 	],
 	#category : #'Scopeo-Presenter-Results'
 }
 
-{ #category : #accessing }
-ScpResultsPresenterImpl >> blPresenter [
+{ #category : #'life cycle' }
+ScpResultsPresenterImpl >> componentActivate [
 
-	^ pane
+	self getScpSearchEventsSubscriber subscribe: self
+]
+
+{ #category : #'life cycle' }
+ScpResultsPresenterImpl >> componentInitialize [
+
+	blPresenter := ToPane new.
+	blPresenter matchParent.
+
+	objectEvents := ToListElement new
+		                id: #objectEvents;
+		                nodeFactory: [ :event |
+			                ToLabeledNode new
+				                labelText: event printString;
+				                hMatchParent;
+				                yourself ].
+	objectEvents margin: (BlInsets all: 2).
+	objectEvents matchParent.
+	
+	codePane := ToAlbumModel new withRowNumbers onWidget.
+	codePane withSoftLine.
+
+	blPresenter addChild: objectEvents.
+	blPresenter addChild: codePane.
+	blPresenter addDividers
+]
+
+{ #category : #'life cycle' }
+ScpResultsPresenterImpl >> componentPassivate [
+
+	self getScpSearchEventsSubscriber unsubscribe: self
 ]
 
 { #category : #'component accessing' }
@@ -39,30 +68,6 @@ ScpResultsPresenterImpl >> getScpSearchEventsSubscriber [
 			[eventsSubscriber := MolComponentManager default locatorServices 
 						searchEventsSubscriberFor: ScpSearchEvents named: eventsSymbol ]. 
 	^eventsSubscriber
-]
-
-{ #category : #initialization }
-ScpResultsPresenterImpl >> initialize [
-
-	pane := ToPane new.
-	pane matchParent.
-
-	objectEvents := ToListElement new
-		                id: #objectEvents;
-		                nodeFactory: [ :event |
-			                ToLabeledNode new
-				                labelText: event printString;
-				                hMatchParent;
-				                yourself ].
-	objectEvents margin: (BlInsets all: 2).
-	objectEvents matchParent.
-	
-	codePane := ToAlbumModel new withRowNumbers onWidget.
-	codePane withSoftLine.
-
-	pane addChild: objectEvents.
-	pane addChild: codePane.
-	pane addDividers
 ]
 
 { #category : #event }

@@ -10,18 +10,22 @@ Class {
 }
 
 { #category : #'life cycle' }
-ScopeoPresenterImpl >> componentInitialize [
+ScopeoPresenterImpl >> componentActivate [
 
-	self getScpScopePresenterServicesProvider spPresenter inspect.
-
+	|scope search results|
+	
+	scope := self getScpScopePresenterServicesProvider spPresenter.
+	search := self getScpSearchPresenterServicesProvider spPresenter.
+	results := self getScpResultsPresenterServicesProvider spPresenter.
+	
 	spPresenter layout: (SpBoxLayout newVertical
 			 add: (SpBoxLayout newHorizontal
-					  add: self getScpScopePresenterServicesProvider spPresenter height: 50;
-					  add: self getScpSearchPresenterServicesProvider spPresenter;
+					  add: scope;
+					  add: search;
 					  yourself);
-			add: self getScpResultsPresenterServicesProvider spPresenter expand:true;
-			add: SpBlSpaceInMorphPresenter new;
+			add: results;
 			 yourself)
+	
 ]
 
 { #category : #'component accessing' }

@@ -25,7 +25,9 @@ ScpBlocPresenterServices >> spPresenter [
 
 	spPresenter ifNil: [ 
 		spPresenter := SpBlSpaceInMorphPresenter new.
-		spPresenter space addChild: self blPresenter 
+		spPresenter space addChild: self blPresenter.
+		spPresenter space root background: Color paleBlue.
+		spPresenter space root layout: BlFlowLayout horizontal.
 	].
 
 	^  spPresenter
