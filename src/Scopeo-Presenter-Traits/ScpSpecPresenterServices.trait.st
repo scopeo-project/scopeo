@@ -6,7 +6,7 @@ Trait {
 	#category : #'Scopeo-Presenter-Traits'
 }
 
-{ #category : #accessing }
+{ #category : #services }
 ScpSpecPresenterServices >> openInWorld [
 
 	^ self spPresenter asWindow
@@ -14,13 +14,13 @@ ScpSpecPresenterServices >> openInWorld [
 		  open
 ]
 
-{ #category : #accessing }
+{ #category : #services }
 ScpSpecPresenterServices >> spPresenter [
 
 	^ spPresenter
 ]
 
-{ #category : #accessing }
+{ #category : #services }
 ScpSpecPresenterServices >> title [
 
 	self explicitRequirement

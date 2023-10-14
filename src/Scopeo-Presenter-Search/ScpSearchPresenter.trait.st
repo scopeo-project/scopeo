@@ -1,20 +1,18 @@
 Trait {
 	#name : #ScpSearchPresenter,
-	#traits : 'MolComponentType',
-	#classTraits : 'MolComponentType classTrait',
+	#traits : 'ScpComponent + ScpSpecPresenterServices',
+	#classTraits : 'ScpComponent classTrait + ScpSpecPresenterServices classTrait',
 	#category : #'Scopeo-Presenter-Search'
 }
 
-{ #category : #'accessing - services' }
-ScpSearchPresenter classSide >> providedComponentServices [
+{ #category : #'meta-data' }
+ScpSearchPresenter classSide >> dependencies [
 
-	<componentContract>
-	^ { ScpSearchPresenterServices }
+	^ { ScpDataStorage }
 ]
 
-{ #category : #'accessing - services' }
-ScpSearchPresenter classSide >> usedComponentServices [
+{ #category : #'scopeo - component' }
+ScpSearchPresenter classSide >> id [
 
-	<componentContract>
-	^ { ScpSearchServices }
+	^ #ScpSearchPresenter
 ]

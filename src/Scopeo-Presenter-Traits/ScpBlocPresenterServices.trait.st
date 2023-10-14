@@ -8,19 +8,19 @@ Trait {
 	#category : #'Scopeo-Presenter-Traits'
 }
 
-{ #category : #accessing }
+{ #category : #services }
 ScpBlocPresenterServices >> blPresenter [
 
 	^ blPresenter
 ]
 
-{ #category : #accessing }
+{ #category : #services }
 ScpBlocPresenterServices >> openInSpace [
 
 	^ self blPresenter openInSpace title: self title
 ]
 
-{ #category : #accessing }
+{ #category : #services }
 ScpBlocPresenterServices >> spPresenter [
 
 	spPresenter ifNil: [ 

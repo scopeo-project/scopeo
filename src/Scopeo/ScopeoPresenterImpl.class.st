@@ -12,20 +12,27 @@ Class {
 { #category : #'life cycle' }
 ScopeoPresenterImpl >> componentActivate [
 
-	|scope search results|
-	
-	scope := self getScpScopePresenterServicesProvider spPresenter.
-	search := self getScpSearchPresenterServicesProvider spPresenter.
-	results := self getScpResultsPresenterServicesProvider spPresenter.
-	
 	spPresenter layout: (SpBoxLayout newVertical
 			 add: (SpBoxLayout newHorizontal
-					  add: scope;
-					  add: search;
+					  add: ScpScopePresenterImpl start spPresenter;
+					  add: ScpSearchPresenterImpl start spPresenter;
 					  yourself);
-			add: results;
+			 add: ScpResultsPresenterImpl start spPresenter;
 			 yourself)
-	
+]
+
+{ #category : #'life cycle' }
+ScopeoPresenterImpl >> componentInitialize [
+
+	spPresenter := SpPresenter new.
+]
+
+{ #category : #'life cycle' }
+ScopeoPresenterImpl >> componentPassivate [
+
+	ScpScopePresenterImpl stop.
+	ScpSearchPresenterImpl stop.
+	ScpResultsPresenterImpl stop.
 ]
 
 { #category : #'component accessing' }
@@ -64,14 +71,7 @@ ScopeoPresenterImpl >> getScpSearchPresenterServicesProvider [
 	^servicesProvider
 ]
 
-{ #category : #initialization }
-ScopeoPresenterImpl >> initialize [
-
-	spPresenter := SpPresenter new.
-	spPresenter layout: (SpBoxLayout newVertical)
-]
-
-{ #category : #accessing }
+{ #category : #services }
 ScopeoPresenterImpl >> title [
 
 	^ 'Scopeo'

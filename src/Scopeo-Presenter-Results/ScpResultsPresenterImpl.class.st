@@ -77,7 +77,7 @@ ScpResultsPresenterImpl >> searchedEvents: anObjectEvents [
 	objectEvents data addAll: anObjectEvents.
 ]
 
-{ #category : #accessing }
+{ #category : #services }
 ScpResultsPresenterImpl >> title [
 
 	^ 'Scopeo - Results'

@@ -32,6 +32,19 @@ ScpScopePresenterImpl >> componentActivate [
 	self getScpScopeEventsSubscriber subscribe: self
 ]
 
+{ #category : #initialization }
+ScpScopePresenterImpl >> componentInitialize [
+
+	blPresenter := ToPane new.
+
+	self initializeKeysPane.
+	self initializeValuesPane.
+	self initializeLayout.
+
+	self loadObjectsKeys.
+	self loadObjectEventsKeys.
+]
+
 { #category : #'life cycle' }
 ScpScopePresenterImpl >> componentPassivate [
 
@@ -63,38 +76,39 @@ ScpScopePresenterImpl >> getScpScopeServicesProvider [
 ]
 
 { #category : #initialization }
-ScpScopePresenterImpl >> initialize [
-
-	blPresenter := ToPane new.
-
-	self initializeKeysPane.
-	self initializeValuesPane.
-
-	self initializeLayout.
-	
-	self loadObjectsKeys.
-	self loadObjectEventsKeys
-]
-
-{ #category : #initialization }
 ScpScopePresenterImpl >> initializeKeysPane [
 
 	keysPane := ToPane new
 		            id: #keys;
 		            yourself.
 
-	self initializeObjectKeysList.
-	self initializeObjectEventsKeysList.
-	self initializeKeysPaneLayout.
-]
-
-{ #category : #initialization }
-ScpScopePresenterImpl >> initializeKeysPaneLayout [
+	objectKeys := ToListElement new
+		              id: #objectKeys;
+		              nodeFactory: [ :keys |
+			              ToLabeledNode new
+				              labelText: keys;
+				              hMatchParent;
+				              yourself ].
+	objectKeys margin: (BlInsets all: 2).
+	objectKeys infinite
+		when: ToInfiniteNodeSelectedEvent
+		do: [ :event | self objectKeysNewSelection: event index ].
+		
+	objectEventsKeys := ToListElement new
+		                    id: #objectEventsKeys;
+		                    nodeFactory: [ :keys |
+			                    ToLabeledNode new
+				                    labelText: keys;
+				                    hMatchParent;
+				                    yourself ].
+	objectEventsKeys margin: (BlInsets all: 2).
+	objectEventsKeys infinite
+		when: ToInfiniteNodeSelectedEvent
+		do: [ :event | self objectEventsKeysNewSelection: event index ].
 
 	keysPane beVertical.
 	keysPane vMatchParent.
 	keysPane hExact: 100.
-
 	keysPane addChild: objectKeys.
 	keysPane addChild: objectEventsKeys
 ]
@@ -111,59 +125,11 @@ ScpScopePresenterImpl >> initializeLayout [
 ]
 
 { #category : #initialization }
-ScpScopePresenterImpl >> initializeObjectEventsKeysList [
+ScpScopePresenterImpl >> initializeValuesPane [
 
-	objectEventsKeys := ToListElement new
-		                    id: #objectEventsKeys;
-		                    nodeFactory: [ :keys |
-			                    ToLabeledNode new
-				                    labelText: keys;
-				                    hMatchParent;
-				                    yourself ].
-
-	objectEventsKeys margin: (BlInsets all: 2).
-
-	objectEventsKeys infinite
-		when: ToInfiniteNodeSelectedEvent
-		do: [ :event |
-			self objectEventsKeysNewSelection: event index ]
-]
-
-{ #category : #initialization }
-ScpScopePresenterImpl >> initializeObjectEventsValuesList [
-
-	objectEventsValues := ToListElement new
-		                id: #objectEventsValues;
-		                nodeFactory: [ :keys |
-			                ToLabeledNode new
-				                labelText: keys;
-				                hMatchParent;
-				                yourself ].
-
-	objectEventsValues margin: (BlInsets all: 2)
-]
-
-{ #category : #initialization }
-ScpScopePresenterImpl >> initializeObjectKeysList [
-
-	objectKeys := ToListElement new
-		              id: #objectKeys;
-		              nodeFactory: [ :keys |
-			              ToLabeledNode new
-				              labelText: keys;
-				              hMatchParent;
-				              yourself ].
-
-	objectKeys margin: (BlInsets all: 2).
-
-	objectKeys infinite
-		when: ToInfiniteNodeSelectedEvent
-		do: [ :event |
-		self objectKeysNewSelection: event index ]
-]
-
-{ #category : #initialization }
-ScpScopePresenterImpl >> initializeObjectValuesList [
+	valuesPane := ToPane new
+		              id: #values;
+		              yourself.
 
 	objectValues := ToListElement new
 		                id: #objectValues;
@@ -172,28 +138,19 @@ ScpScopePresenterImpl >> initializeObjectValuesList [
 				                labelText: keys;
 				                hMatchParent;
 				                yourself ].
-			
-	objectValues margin: (BlInsets all: 2)
-]
+	objectValues margin: (BlInsets all: 2).
 
-{ #category : #initialization }
-ScpScopePresenterImpl >> initializeValuesPane [
-
-	valuesPane := ToPane new
-		              id: #values;
-		              yourself.
-		
-	self initializeObjectValuesList.
-	self initializeObjectEventsValuesList.
-	self initializeValuesPaneLayout.
-]
-
-{ #category : #initialization }
-ScpScopePresenterImpl >> initializeValuesPaneLayout [
-
+	objectEventsValues := ToListElement new
+		                      id: #objectEventsValues;
+		                      nodeFactory: [ :keys |
+			                      ToLabeledNode new
+				                      labelText: keys;
+				                      hMatchParent;
+				                      yourself ].
+	objectEventsValues margin: (BlInsets all: 2).
+	
 	valuesPane beVertical.
 	valuesPane matchParent.
-
 	valuesPane addChild: objectValues.
 	valuesPane addChild: objectEventsValues
 ]
@@ -250,7 +207,7 @@ ScpScopePresenterImpl >> objectKeysNewSelection: anIndex [
 	objectValues data addAll: (sp getObjectsAt: key)
 ]
 
-{ #category : #accessing }
+{ #category : #services }
 ScpScopePresenterImpl >> title [
 
 	^ 'Scopeo - Scope'
