@@ -9,9 +9,9 @@ Scopeo class >> start [
 
 	<script: 'self start'>
 
-	ScpDataStorageImpl start.
-	ScpDataBufferImpl start.
-	ScpScannerImpl start.
+	ScpDataStorage start.
+	ScpDataFilter start.
+	ScpDataScanner start.
 	
 ]
 
@@ -20,9 +20,9 @@ Scopeo class >> stop [
 
 	<script: 'self stop'>
 	
-	ScpDataStorageImpl stop.
-	ScpDataBufferImpl stop.
-	ScpScannerImpl stop.
+	ScpDataStorage stop.
+	ScpDataFilter stop.
+	ScpDataScanner stop.
 
 	MolComponentManager cleanUp
 ]
