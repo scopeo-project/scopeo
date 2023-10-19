@@ -5,24 +5,12 @@ Class {
 }
 
 { #category : #accessing }
-Scopeo class >> start [
+Scopeo class >> open [
 
-	<script: 'self start'>
-
-	ScpDataStorage start.
-	ScpDataFilter start.
-	ScpDataScanner start.
+	| model presentationModel |
 	
-]
-
-{ #category : #accessing }
-Scopeo class >> stop [
-
-	<script: 'self stop'>
 	
-	ScpDataStorage stop.
-	ScpDataFilter stop.
-	ScpDataScanner stop.
-
-	MolComponentManager cleanUp
+	model := ScpModel new.
+	presentationModel := ScpPresentationModel new model: model; yourself.
+	(ScopeoPresenter on: presentationModel) open.
 ]
