@@ -27,10 +27,16 @@ ScpResultsPresenter >> defaultLayout [
 
 	^ SpPanedLayout newHorizontal
 		  add: (SpBoxLayout newVertical
+				   add: 'Results' height: 15;
 				   add: events;
 				   add: addToScopeButton expand: false;
+				   spacing: 8;
 				   yourself);
-		  add: codePane;
+		  add: (SpBoxLayout newVertical
+				   add: 'Method from selected result' height: 15;
+				   add: codePane;
+					spacing: 8;
+				   yourself);
 		  yourself
 ]
 

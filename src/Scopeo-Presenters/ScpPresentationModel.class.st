@@ -16,6 +16,12 @@ Class {
 	#category : #'Scopeo-Presenters'
 }
 
+{ #category : #'instance creation' }
+ScpPresentationModel class >> on: aModel [
+
+	^ self new model: aModel; yourself
+]
+
 { #category : #scope }
 ScpPresentationModel >> addEventsToScope: anEventsCollection withLabel: aLabel [
 

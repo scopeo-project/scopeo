@@ -332,15 +332,16 @@ ScpScopePresenter >> defaultLayout [
 				   add: objectKeys;
 				   add: 'Scope - set of events' height: 15;
 				   add: eventKeys;
-				   spacing: 4;
+				   spacing: 8;
 				   yourself);
 		  add: (SpBoxLayout newVertical
 				   add: 'Scope - objects' height: 15;
 				   add: objectValues;
 				   add: 'Scope - events' height: 15;
 				   add: eventValues;
-				   spacing: 4;
+				   spacing: 8;
 				   yourself);
+			positionOfSlider: 0.3;
 		  yourself
 ]
 
