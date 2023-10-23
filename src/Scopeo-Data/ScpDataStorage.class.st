@@ -18,7 +18,7 @@ ScpDataStorage >> clear [
 { #category : #services }
 ScpDataStorage >> fetch: aScpPredicate [
 
-	^ events select: [ :e | aScpPredicate verify: e ] 
+	^ events select: [ :e | aScpPredicate verify: e ]
 ]
 
 { #category : #initialization }

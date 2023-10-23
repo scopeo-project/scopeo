@@ -22,6 +22,12 @@ ScpScopeObjects >> at: aLabel putAll: anObjectCollection [
 		ifAbsentPut: [ anObjectCollection asOrderedCollection ]
 ]
 
+{ #category : #initialization }
+ScpScopeObjects >> initialize [
+
+	objects := Dictionary new
+]
+
 { #category : #accessing }
 ScpScopeObjects >> keys [
 

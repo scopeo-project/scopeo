@@ -14,7 +14,7 @@ Class {
 ScpSearchPresenter >> connectPresenters [
 
 	searchButton action: [ model search: codePane text ].
-	clearButton action: [ codePane text: String empty ].
+	clearButton action: [ codePane text: String empty ]. 
 ]
 
 { #category : #layout }

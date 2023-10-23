@@ -35,7 +35,7 @@ Scopeo >> initialize [
 { #category : #'instance creation' }
 Scopeo >> open [
 
-	presenter window open
+	presenter open
 ]
 
 { #category : #'public api' }

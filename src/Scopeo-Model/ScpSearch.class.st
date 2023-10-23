@@ -25,5 +25,5 @@ ScpSearch >> mediator: aMediator [
 { #category : #services }
 ScpSearch >> search: aPredicate [
 
-	^ data fetch: aPredicate
+	^ data fetch: (self class compiler evaluate: aPredicate)
 ]

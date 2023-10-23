@@ -15,11 +15,10 @@ ScpResultsPresenter >> connectPresenters [
 
 	events whenSelectionChangedDo: [ :selection |
 		model selectedSearchResults: selection.
-		selection size < 2 ifTrue: [
-			codePane beForMethod:
-				selection sender class << selection senderSelector ] ].
-		
-	addToScopeButton action: [ model addSelectedSearchResultsToScope ]
+		self updateCodePane: selection ].
+
+	addToScopeButton action: [ model addSelectedSearchResultsToScope ].
+	model bind: #searchResults to: [ :r | events items: r ]
 ]
 
 { #category : #'life cycle' }
@@ -53,8 +52,27 @@ ScpResultsPresenter >> initializePresenters [
 	addToScopeButton := self newButton label: 'Add to scope'; yourself.
 ]
 
+{ #category : #'as yet unclassified' }
+ScpResultsPresenter >> resolveMessageMethod: aMessage [
+
+	^ aMessage sender class lookupSelector: aMessage senderSelector
+]
+
 { #category : #'accessing - model' }
 ScpResultsPresenter >> setModelBeforeInitialization: aDomainObject [
 
 	model := aDomainObject
+]
+
+{ #category : #'as yet unclassified' }
+ScpResultsPresenter >> updateCodePane: aSelection [
+
+	| event |
+	codePane text: String empty.
+	aSelection selectedIndexes size ~~ 1 ifTrue: [ ^ self ].
+	event := events items at: aSelection selectedIndexes first.
+
+	event isMessage ifFalse: [ ^ self ].
+	(self resolveMessageMethod: event) ifNotNil: [ :m |
+		codePane text: m asString ]
 ]

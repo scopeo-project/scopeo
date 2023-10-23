@@ -22,6 +22,12 @@ ScpScopeEvents >> at: aLabel putAll: aScpEventCollection [
 		ifAbsentPut: [ aScpEventCollection asOrderedCollection ].
 ]
 
+{ #category : #initialization }
+ScpScopeEvents >> initialize [
+
+	events := Dictionary new.
+]
+
 { #category : #accessing }
 ScpScopeEvents >> keys [
 

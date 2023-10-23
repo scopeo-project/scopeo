@@ -25,18 +25,17 @@ ScpPresentationModel class >> on: aModel [
 { #category : #scope }
 ScpPresentationModel >> addEventsToScope: anEventsCollection withLabel: aLabel [
 
-	self model objects at: aLabel putAll: anEventsCollection.
+	self model addEvents: anEventsCollection toScope: aLabel.
 	self scopeEvents: OrderedCollection empty.
-	self scopeEventsLabels: self model getEventsScopes 
+	self scopeEventsLabels: self model getEventsScopes
 ]
 
 { #category : #scope }
 ScpPresentationModel >> addObjectsToScope: anObjectCollection withLabel: aLabel [
 
-	self model objects at: aLabel putAll: anObjectCollection.
+	self model addObjects: anObjectCollection toScope: aLabel.
 	self scopeObjects: OrderedCollection empty.
 	self scopeObjectsLabels: self model getObjectsScopes
-	
 ]
 
 { #category : #search }
@@ -44,8 +43,9 @@ ScpPresentationModel >> addSelectedSearchResultsToScope [
 
 	| label |
 	label := UIManager default request: 'Label'.
-	label ifNil: [ self error: 'Cannot add elements to scope without a label.' ].
-	self addObjectsToScope: selectedSearchResults withLabel: label
+	label ifNil: [
+		self error: 'Cannot add elements to scope without a label.' ].
+	self addEventsToScope: selectedSearchResults withLabel: label
 ]
 
 { #category : #binding }
@@ -171,8 +171,7 @@ ScpPresentationModel >> scopeSelectedObjectsLabel: aScopeSelectedObjectsLabel [
 { #category : #search }
 ScpPresentationModel >> search: aPredicate [
 
-	self notifyBindingsOf: #search
-	"^ model search: aPredicate"
+	self searchResults: (model search: aPredicate)
 ]
 
 { #category : #search }

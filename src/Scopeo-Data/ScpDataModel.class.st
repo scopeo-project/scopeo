@@ -11,13 +11,13 @@ ScpDataModel class >> isAbstract [
 ]
 
 { #category : #testing }
-ScpDataModel >> isAssignment [
+ScpDataModel >> isMessage [
 
 	^ false
 ]
 
 { #category : #testing }
-ScpDataModel >> isMessage [
+ScpDataModel >> isStateUpdate [
 
 	^ false
 ]

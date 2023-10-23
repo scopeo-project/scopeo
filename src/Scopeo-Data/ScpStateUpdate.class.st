@@ -24,7 +24,7 @@ ScpStateUpdate >> id: anObject [
 ]
 
 { #category : #testing }
-ScpStateUpdate >> isAssignment [
+ScpStateUpdate >> isStateUpdate [
 
 	^ true
 ]

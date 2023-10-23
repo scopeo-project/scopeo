@@ -1,11 +1,12 @@
 Class {
-	#name : #SpcIsMessage,
+	#name : #ScpIsStateUpdate,
 	#superclass : #ScpPredicate,
 	#category : #'Scopeo-Predicates'
 }
 
 { #category : #verifying }
-SpcIsMessage >> verify: aScpData [
+ScpIsStateUpdate >> verify: aScpData [
 
-	^ aScpData isMessage
+	^ aScpData isStateUpdate
+	
 ]
