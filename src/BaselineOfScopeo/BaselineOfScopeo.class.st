@@ -1,10 +1,11 @@
 Class {
-	#name : #BaselineOfScopeo,
-	#superclass : #BaselineOf,
-	#category : #BaselineOfScopeo
+	#name : 'BaselineOfScopeo',
+	#superclass : 'BaselineOf',
+	#category : 'BaselineOfScopeo',
+	#package : 'BaselineOfScopeo'
 }
 
-{ #category : #baselines }
+{ #category : 'baselines' }
 BaselineOfScopeo >> baseline: spec [
 
 	<baseline>
@@ -17,7 +18,7 @@ BaselineOfScopeo >> baseline: spec [
 		spec package: #'Scopeo-Model'.
 		spec package: #'Scopeo-Predicates'.
 		spec package: #'Scopeo-Presenters'.
-		spec package: #'Scopeo-Scopeo'
+		spec package: #'Scopeo'
 		
 		]
 ]
