@@ -73,7 +73,7 @@ ScpModel >> removeObjectsFromScope: aLabel [
 { #category : 'public api' }
 ScpModel >> scan: aProgram [
 
-	data scan: aProgram
+	^ data scan: aProgram
 ]
 
 { #category : 'services' }

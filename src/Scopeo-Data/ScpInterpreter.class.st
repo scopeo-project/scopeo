@@ -1,9 +1,8 @@
 Class {
 	#name : 'ScpInterpreter',
 	#superclass : 'DASTInterpreter',
-	#category : 'Scopeo-Data-',
-	#package : 'Scopeo-Data',
-	#tag : ''
+	#category : 'Scopeo-Data',
+	#package : 'Scopeo-Data'
 }
 
 { #category : 'api' }

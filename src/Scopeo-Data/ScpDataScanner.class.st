@@ -121,8 +121,8 @@ ScpDataScanner >> visitAssignmentNode: aRBAssignmentNode [
 { #category : 'private' }
 ScpDataScanner >> visitMessageNode: aRBMessageNode [
 
-	| senderClass packageIsRejected classIsRejected |
-
+	"| senderClass packageIsRejected classIsRejected |
+	
 	senderClass := self currentContext receiver class.
 	packageIsRejected := rejectedPackages includes: senderClass package name.
 	classIsRejected := rejectedClasses includes: senderClass name.
@@ -130,8 +130,9 @@ ScpDataScanner >> visitMessageNode: aRBMessageNode [
 	(senderClass ~~ UndefinedObject and:
 		 (packageIsRejected or: [ classIsRejected ]))
 		ifTrue: [
-			defaultInterpreter
+			currentContext := defaultInterpreter
 				initializeWithProgram: aRBMessageNode inContext: currentContext;
-				evaluate ]
-		ifFalse: [ self visitAndRecordMessageNode: aRBMessageNode ]
+				evaluate; currentContext ]
+		ifFalse: [  ]."
+	self visitAndRecordMessageNode: aRBMessageNode
 ]

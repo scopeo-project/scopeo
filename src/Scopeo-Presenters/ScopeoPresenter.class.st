@@ -39,13 +39,14 @@ ScopeoPresenter >> initializeWindow: aWindowPresenter [
 	super initializeWindow: aWindowPresenter.
 	aWindowPresenter
 		title: 'Scopeo';
-		initialExtent: ([
+		initialExtent: 850 @ 650		
+	"[
 			 | w h |
 			 w := Display width.
 			 h := Display height.
 			 w - (w // 3) @ (h - (h // 5)) ]
 				 on: Error
-				 do: [ 850 @ 650 ])
+				 do: [ 850 @ 650 ]"
 ]
 
 { #category : 'initialization' }

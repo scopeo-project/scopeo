@@ -1,15 +1,16 @@
 Class {
-	#name : #Scopeo,
-	#superclass : #Object,
+	#name : 'Scopeo',
+	#superclass : 'Object',
 	#instVars : [
 		'model',
 		'presentationModel',
 		'presenter'
 	],
-	#category : #Scopeo
+	#category : 'Scopeo',
+	#package : 'Scopeo'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 Scopeo class >> openOn: aProgram [
 
 	^ self new
@@ -18,13 +19,13 @@ Scopeo class >> openOn: aProgram [
 		  yourself
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 Scopeo >> close [
 
 	presenter window close
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 Scopeo >> initialize [
 
 	model := ScpModel new.
@@ -32,14 +33,14 @@ Scopeo >> initialize [
 	presenter := ScopeoPresenter on: presentationModel
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 Scopeo >> open [
 
 	presenter open
 ]
 
-{ #category : #'public api' }
+{ #category : 'public api' }
 Scopeo >> scan: aProgram [
-
+	
 	^ model scan: aProgram
 ]
