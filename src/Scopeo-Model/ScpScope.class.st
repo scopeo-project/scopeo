@@ -1,27 +1,28 @@
 Class {
-	#name : #ScpScope,
-	#superclass : #Object,
+	#name : 'ScpScope',
+	#superclass : 'Object',
 	#instVars : [
 		'objects',
 		'events'
 	],
-	#category : #'Scopeo-Model'
+	#category : 'Scopeo-Model',
+	#package : 'Scopeo-Model'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpScope >> events [
 
 	^ events
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ScpScope >> initialize [
 
 	objects := ScpScopeObjects new.
 	events := ScpScopeEvents new.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpScope >> objects [
 
 	^ objects

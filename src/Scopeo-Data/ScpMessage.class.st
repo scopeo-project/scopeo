@@ -1,6 +1,6 @@
 Class {
-	#name : #ScpMessage,
-	#superclass : #ScpDataModel,
+	#name : 'ScpMessage',
+	#superclass : 'ScpDataModel',
 	#instVars : [
 		'id',
 		'sender',
@@ -9,40 +9,41 @@ Class {
 		'receiver',
 		'arguments'
 	],
-	#category : #'Scopeo-Data'
+	#category : 'Scopeo-Data',
+	#package : 'Scopeo-Data'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpMessage >> arguments [
 
 	^ arguments
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpMessage >> arguments: anObject [
 
 	arguments := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpMessage >> id [
 
 	^ id
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpMessage >> id: anObject [
 
 	id := anObject
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ScpMessage >> isMessage [
 
 	^ true
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpMessage >> printString [
 
 	^ sender printString 
@@ -52,49 +53,49 @@ ScpMessage >> printString [
 		, ' with ', arguments printString  
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpMessage >> receiver [
 
 	^ receiver
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpMessage >> receiver: anObject [
 
 	receiver := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpMessage >> selector [
 
 	^ selector
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpMessage >> selector: anObject [
 
 	selector := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpMessage >> sender [
 
 	^ sender
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpMessage >> sender: anObject [
 
 	sender := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpMessage >> senderSelector [
 
 	^ senderSelector
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpMessage >> senderSelector: anObject [
 
 	senderSelector := anObject

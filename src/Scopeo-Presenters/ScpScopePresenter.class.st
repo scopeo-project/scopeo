@@ -1,6 +1,6 @@
 Class {
-	#name : #ScpScopePresenter,
-	#superclass : #SpPresenter,
+	#name : 'ScpScopePresenter',
+	#superclass : 'SpPresenter',
 	#instVars : [
 		'objectKeys',
 		'objectValues',
@@ -10,10 +10,11 @@ Class {
 		'removeObjects',
 		'removeEvents'
 	],
-	#category : #'Scopeo-Presenters'
+	#category : 'Scopeo-Presenters',
+	#package : 'Scopeo-Presenters'
 }
 
-{ #category : #'accessing - method dictionary' }
+{ #category : 'accessing - method dictionary' }
 ScpScopePresenter class >> addAndClassifySelector: selector withMethod: compiledMethod inProtocol: aCategory [
 
 	"When a new methods is added, I add it to the localMethodDict and also propagate the changes to my users"
@@ -27,7 +28,7 @@ ScpScopePresenter class >> addAndClassifySelector: selector withMethod: compiled
 	TraitChange addSelector: selector on: self.
 ]
 
-{ #category : #'accessing - method dictionary' }
+{ #category : 'accessing - method dictionary' }
 ScpScopePresenter class >> addSelector: selector withMethod: compiledMethod [
 	"When a new selector is installed in a class I insert the selector in the local methodDict and propagate the changes to my users"
 
@@ -36,7 +37,7 @@ ScpScopePresenter class >> addSelector: selector withMethod: compiledMethod [
 	TraitChange addSelector: selector on: self
 ]
 
-{ #category : #'accessing - method dictionary' }
+{ #category : 'accessing - method dictionary' }
 ScpScopePresenter class >> addSelector: selector withRecompiledMethod: compiledMethod [
 	"When a new selector is installed in a class I insert the selector in the local methodDict and propagate the changes to my users"
 
@@ -48,12 +49,12 @@ ScpScopePresenter class >> addSelector: selector withRecompiledMethod: compiledM
 	TraitChange addSelector: selector on: self
 ]
 
-{ #category : #querying }
+{ #category : 'querying' }
 ScpScopePresenter class >> allTraits [
 	^ self traitComposition allTraits
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ScpScopePresenter class >> doRebuildMethodDictionary [
 	| selectors removedSelectors removeFromOrganization modified|
 
@@ -81,7 +82,7 @@ ScpScopePresenter class >> doRebuildMethodDictionary [
 	^ modified
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ScpScopePresenter class >> findOriginClassOf: aMethod [
 
 	"I return the myself or the trait that has the original implementation of a method.
@@ -96,7 +97,7 @@ ScpScopePresenter class >> findOriginClassOf: aMethod [
 	^ (self traitComposition traitDefining: aMethod selector ifNone: [ ^ self ]) innerClass
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ScpScopePresenter class >> findOriginMethodOf: aMethod [
 
 	"I return the original method for a aMethod.
@@ -117,18 +118,18 @@ ScpScopePresenter class >> findOriginMethodOf: aMethod [
 		compiledMethodAt: aMethod selector ifAbsent: [ ^ aMethod ]
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ScpScopePresenter class >> hasTraitComposition [
 
 	^ self traitComposition isEmpty not
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ScpScopePresenter class >> includesLocalSelector: aSymbol [
 	^ self isLocalSelector: aSymbol
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ScpScopePresenter class >> isAliasSelector: aSymbol [
 	"Return true if the selector aSymbol is an alias defined
 	in my or in another composition somewhere deeper in
@@ -137,7 +138,7 @@ ScpScopePresenter class >> isAliasSelector: aSymbol [
 	^ self traitComposition isAliasSelector: aSymbol
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ScpScopePresenter class >> isLocalAliasSelector: aSymbol [
 	"Return true if the selector aSymbol is an alias defined
 	in my trait composition."
@@ -145,7 +146,7 @@ ScpScopePresenter class >> isLocalAliasSelector: aSymbol [
 	^ self traitComposition isLocalAliasSelector: aSymbol
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ScpScopePresenter class >> isLocalMethodsProtocol: aProtocol [
 	"Checks if the protocol has local selectors"
 
@@ -153,44 +154,44 @@ ScpScopePresenter class >> isLocalMethodsProtocol: aProtocol [
 	^ aProtocol methodSelectors anySatisfy: [ :each | self isLocalSelector: each ]
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ScpScopePresenter class >> isLocalSelector: aSelector [
 
 	^ self localMethodDict includesKey: aSelector
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpScopePresenter class >> localMethodDict [
 	"The local methodDict is in the metaclass. In this way I do not have to recompile the methods during the bootstrap when we don't have a compiler."
 	^ self class baseLocalMethods
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpScopePresenter class >> localMethodDict: aMethodDictionary [
 	^ self class baseLocalMethods: aMethodDictionary
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpScopePresenter class >> localMethods [
 	"returns the methods of classes excluding the ones of the traits that the class uses"
 
 	^ self localMethodDict values
 ]
 
-{ #category : #'accessing - method dictionary' }
+{ #category : 'accessing - method dictionary' }
 ScpScopePresenter class >> localSelectors [
 
 	^ self localMethodDict keys
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ScpScopePresenter class >> rebuildMethodDictionary [
 
 	"Useful to be rewritten in Traits"
 	^ self doRebuildMethodDictionary
 ]
 
-{ #category : #categories }
+{ #category : 'categories' }
 ScpScopePresenter class >> recategorizeSelector: selector from: oldCategory to: newCategory [
 	| original |
 
@@ -211,7 +212,7 @@ ScpScopePresenter class >> recategorizeSelector: selector from: oldCategory to: 
 	self organization removeEmptyCategories
 ]
 
-{ #category : #recompilation }
+{ #category : 'recompilation' }
 ScpScopePresenter class >> recompile: selector from: oldClass [
 	"Compile the method associated with selector in the receiver's method dictionary."
 
@@ -232,13 +233,13 @@ ScpScopePresenter class >> recompile: selector from: oldClass [
 	self addSelector: selector withRecompiledMethod: newMethod
 ]
 
-{ #category : #'trait-composition' }
+{ #category : 'trait-composition' }
 ScpScopePresenter class >> removeFromComposition: aTrait [
 
 	self setTraitComposition: (self traitComposition copyWithoutTrait: aTrait asTraitComposition)
 ]
 
-{ #category : #removing }
+{ #category : 'removing' }
 ScpScopePresenter class >> removeFromSystem: logged [
 
 	"When a traited class is removed the traits it is using should be updated"
@@ -257,7 +258,7 @@ ScpScopePresenter class >> removeFromSystem: logged [
 	mySubclasses do: [ :each | each class initializeBasicMethods ]
 ]
 
-{ #category : #removing }
+{ #category : 'removing' }
 ScpScopePresenter class >> removeSelector: aSelector [
 
 	"When a selector is removed it should be notified to my users.
@@ -268,13 +269,13 @@ ScpScopePresenter class >> removeSelector: aSelector [
 	TraitChange removeSelector: aSelector on: self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpScopePresenter class >> traitComposition [
 	"My trait composition is in my class. So I do not need to recompile the methods when installing them during bootstrap"
 	^ self class baseComposition
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpScopePresenter class >> traitComposition: aComposition [
 
 	aComposition asTraitComposition allTraits do: [ :aMaybeTrait |
@@ -284,27 +285,29 @@ ScpScopePresenter class >> traitComposition: aComposition [
 	self class baseComposition: aComposition
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpScopePresenter class >> traitCompositionString [
 	^ self traitComposition asString
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpScopePresenter class >> traitUsers [
 	"I am a traited class, I have no users, this is for compatibility with traits"
 	^ #()
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpScopePresenter class >> traits [
 	^ self traitComposition traits
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ScpScopePresenter >> connectPresenters [
 
-	objectKeys whenSelectionChangedDo: [ :selection | model scopeSelectedObjectsLabel: selection ].
-	eventKeys whenSelectionChangedDo: [ :selection | model scopeSelectedEventsLabel: selection ].
+	objectKeys whenSelectionChangedDo: [ :selection | 
+		selection selectedIndexes ifNotEmpty: [ :ids | model scopeSelectedObjectsLabel: ids first ] ].
+	eventKeys whenSelectionChangedDo: [ :selection | 
+		selection selectedIndexes ifNotEmpty: [ :ids | model scopeSelectedEventsLabel: ids first ] ].
 
 	removeObjects action: [ model removeSelectedObjectsFromScope ].
 	removeEvents action: [ model removeSelectedEventsFromScope ].
@@ -313,17 +316,17 @@ ScpScopePresenter >> connectPresenters [
 		bind: #scopeObjectsLabels
 		to: [ :labels | objectKeys items: labels ].
 	model
-		bind: #scopeEventLabels
+		bind: #scopeEventsLabels
 		to: [ :labels | eventKeys items: labels ].
 	model
 		bind: #scopeObjects
 		to: [ :objects | objectValues items: objects ].
 	model
 		bind: #scopeEvents
-		to: [ :objects | objectValues items: objects ]
+		to: [ :events | eventValues items: events ]
 ]
 
-{ #category : #layout }
+{ #category : 'layout' }
 ScpScopePresenter >> defaultLayout [
 
 	^ SpPanedLayout newHorizontal
@@ -345,7 +348,7 @@ ScpScopePresenter >> defaultLayout [
 		  yourself
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ScpScopePresenter >> initializePresenters [
 
 	objectKeys := self newList.
@@ -365,7 +368,7 @@ ScpScopePresenter >> initializePresenters [
 		                yourself
 ]
 
-{ #category : #'accessing - model' }
+{ #category : 'accessing - model' }
 ScpScopePresenter >> setModelBeforeInitialization: aDomainObject [
 
 	model := aDomainObject

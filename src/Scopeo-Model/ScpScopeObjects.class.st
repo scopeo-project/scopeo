@@ -1,40 +1,41 @@
 Class {
-	#name : #ScpScopeObjects,
-	#superclass : #Object,
+	#name : 'ScpScopeObjects',
+	#superclass : 'Object',
 	#instVars : [
 		'objects'
 	],
-	#category : #'Scopeo-Model'
+	#category : 'Scopeo-Model',
+	#package : 'Scopeo-Model'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpScopeObjects >> at: aLabel [
 
-	objects at: aLabel
+	^ objects at: aLabel
 ]
 
-{ #category : #services }
+{ #category : 'services' }
 ScpScopeObjects >> at: aLabel putAll: anObjectCollection [
 
 	objects
 		at: aLabel
 		ifPresent: [ :items | items addAll: anObjectCollection ]
-		ifAbsentPut: [ anObjectCollection asOrderedCollection ]
+		ifAbsentPut: [ anObjectCollection ]
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ScpScopeObjects >> initialize [
 
 	objects := Dictionary new
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpScopeObjects >> keys [
 
 	^ objects keys
 ]
 
-{ #category : #services }
+{ #category : 'services' }
 ScpScopeObjects >> remove: aLabel [
 
 	objects removeKey: aLabel

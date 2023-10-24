@@ -1,15 +1,14 @@
 Class {
-	#name : #ScpDataFilter,
-	#superclass : #Object,
-	#traits : 'ScpDataObservable + ScpDataObserver',
-	#classTraits : 'ScpDataObservable classTrait + ScpDataObserver classTrait',
+	#name : 'ScpDataFilter',
+	#superclass : 'Object',
 	#instVars : [
 		'rejectedClasses'
 	],
-	#category : #'Scopeo-Data'
+	#category : 'Scopeo-Data',
+	#package : 'Scopeo-Data'
 }
 
-{ #category : #default }
+{ #category : 'default' }
 ScpDataFilter class >> defaultRejectedClasses [
 
 	| ignored |
@@ -20,7 +19,7 @@ ScpDataFilter class >> defaultRejectedClasses [
 	^ ignored
 ]
 
-{ #category : #default }
+{ #category : 'default' }
 ScpDataFilter class >> defaultRejectedCollections [
 
 
@@ -133,7 +132,7 @@ ScpDataFilter class >> defaultRejectedCollections [
 'SmallDictionary' )
 ]
 
-{ #category : #default }
+{ #category : 'default' }
 ScpDataFilter class >> defaultRejectedKernel [
 
 	^ #( 'ManifestKernelTraits' 'Trait' 'TComparable' 'TEmpty' 'Duration'
@@ -207,14 +206,14 @@ ScpDataFilter class >> defaultRejectedKernel [
 	     'EncoderForSistaV1' 'BytecodeEncoder' )
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ScpDataFilter >> initialize [
 
 	rejectedClasses := OrderedCollection new.
 	rejectedClasses addAll: self class defaultRejectedClasses
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ScpDataFilter >> isRejected: aClassOrObject [
 	"aClassOrObject ifNil: [ ^ false ]."
 
@@ -223,21 +222,21 @@ ScpDataFilter >> isRejected: aClassOrObject [
 			   ifFalse: [ aClassOrObject class name ])
 ]
 
-{ #category : #events }
+{ #category : 'events' }
 ScpDataFilter >> onMessage: aScpScannedMessage [
 
 	(self isRejected: aScpScannedMessage sender) ifTrue: [ ^ nil ].
 	self notifyMessage: aScpScannedMessage
 ]
 
-{ #category : #events }
+{ #category : 'events' }
 ScpDataFilter >> onStateUpdate: anScpStateUpdate [
 "A new value has been assigned to an object instance variable."
 	(self isRejected: anScpStateUpdate object) ifTrue: [ ^ nil ].
 	self notifyStateUpdate: anScpStateUpdate
 ]
 
-{ #category : #parameters }
+{ #category : 'parameters' }
 ScpDataFilter >> rejectClasses: aCollection [
 	"Classes which will be filtered by the buffer"
 

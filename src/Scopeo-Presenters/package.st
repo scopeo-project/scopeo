@@ -1,1 +1,1 @@
-Package { #name : #'Scopeo-Presenters' }
+Package { #name : 'Scopeo-Presenters' }

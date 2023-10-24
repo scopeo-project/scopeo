@@ -1,23 +1,24 @@
 Class {
-	#name : #ScpSearchPresenter,
-	#superclass : #SpPresenter,
+	#name : 'ScpSearchPresenter',
+	#superclass : 'SpPresenter',
 	#instVars : [
 		'searchButton',
 		'clearButton',
 		'codePane',
 		'model'
 	],
-	#category : #'Scopeo-Presenters'
+	#category : 'Scopeo-Presenters',
+	#package : 'Scopeo-Presenters'
 }
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ScpSearchPresenter >> connectPresenters [
 
 	searchButton action: [ model search: codePane text ].
 	clearButton action: [ codePane text: String empty ]. 
 ]
 
-{ #category : #layout }
+{ #category : 'layout' }
 ScpSearchPresenter >> defaultLayout [ 
 
 	^ SpBoxLayout newVertical
@@ -33,7 +34,7 @@ ScpSearchPresenter >> defaultLayout [
 			 yourself
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ScpSearchPresenter >> initializePresenters [
 
 	codePane := self newCode
@@ -47,7 +48,7 @@ ScpSearchPresenter >> initializePresenters [
 		               yourself
 ]
 
-{ #category : #'accessing - model' }
+{ #category : 'accessing - model' }
 ScpSearchPresenter >> setModelBeforeInitialization: aDomainObject [
 
 	model := aDomainObject 

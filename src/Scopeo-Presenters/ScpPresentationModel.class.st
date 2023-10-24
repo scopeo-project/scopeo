@@ -1,6 +1,6 @@
 Class {
-	#name : #ScpPresentationModel,
-	#superclass : #Object,
+	#name : 'ScpPresentationModel',
+	#superclass : 'Object',
 	#instVars : [
 		'model',
 		'bindings',
@@ -13,16 +13,17 @@ Class {
 		'searchResults',
 		'selectedSearchResults'
 	],
-	#category : #'Scopeo-Presenters'
+	#category : 'Scopeo-Presenters',
+	#package : 'Scopeo-Presenters'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 ScpPresentationModel class >> on: aModel [
 
 	^ self new model: aModel; yourself
 ]
 
-{ #category : #scope }
+{ #category : 'scope' }
 ScpPresentationModel >> addEventsToScope: anEventsCollection withLabel: aLabel [
 
 	self model addEvents: anEventsCollection toScope: aLabel.
@@ -30,7 +31,7 @@ ScpPresentationModel >> addEventsToScope: anEventsCollection withLabel: aLabel [
 	self scopeEventsLabels: self model getEventsScopes
 ]
 
-{ #category : #scope }
+{ #category : 'scope' }
 ScpPresentationModel >> addObjectsToScope: anObjectCollection withLabel: aLabel [
 
 	self model addObjects: anObjectCollection toScope: aLabel.
@@ -38,7 +39,7 @@ ScpPresentationModel >> addObjectsToScope: anObjectCollection withLabel: aLabel 
 	self scopeObjectsLabels: self model getObjectsScopes
 ]
 
-{ #category : #search }
+{ #category : 'search' }
 ScpPresentationModel >> addSelectedSearchResultsToScope [
 
 	| label |
@@ -48,7 +49,7 @@ ScpPresentationModel >> addSelectedSearchResultsToScope [
 	self addEventsToScope: selectedSearchResults withLabel: label
 ]
 
-{ #category : #binding }
+{ #category : 'binding' }
 ScpPresentationModel >> bind: anEvent to: aCallbackBlock [
 
 	| callbacks |
@@ -58,25 +59,25 @@ ScpPresentationModel >> bind: anEvent to: aCallbackBlock [
 	callbacks add: aCallbackBlock
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ScpPresentationModel >> initialize [
 
 	bindings := Dictionary new
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ScpPresentationModel >> model [
 
 	^ model
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ScpPresentationModel >> model: aModel [
 
 	model := aModel
 ]
 
-{ #category : #binding }
+{ #category : 'binding' }
 ScpPresentationModel >> notifyBindingsOf: anEvent [
 
 	bindings
@@ -84,7 +85,7 @@ ScpPresentationModel >> notifyBindingsOf: anEvent [
 		ifPresent: [ :callbacks | callbacks do: [ :b | b value ] ]
 ]
 
-{ #category : #binding }
+{ #category : 'binding' }
 ScpPresentationModel >> notifyBindingsOf: anEvent withArgs: anArguments [
 
 	bindings
@@ -93,7 +94,7 @@ ScpPresentationModel >> notifyBindingsOf: anEvent withArgs: anArguments [
 		callbacks do: [ :b | b value: anArguments ] ]
 ]
 
-{ #category : #scope }
+{ #category : 'scope' }
 ScpPresentationModel >> removeSelectedEventsFromScope [
 
 	self model removeEventsFromScope: scopeSelectedEventsLabel.
@@ -101,7 +102,7 @@ ScpPresentationModel >> removeSelectedEventsFromScope [
 	self scopeEventsLabels: self model getEventsScopes
 ]
 
-{ #category : #scope }
+{ #category : 'scope' }
 ScpPresentationModel >> removeSelectedObjectsFromScope [
 
 	self model removeObjectsFromScope: scopeSelectedObjectsLabel.
@@ -109,91 +110,90 @@ ScpPresentationModel >> removeSelectedObjectsFromScope [
 	self scopeObjectsLabels: self model getObjectsScopes
 ]
 
-{ #category : #services }
+{ #category : 'services' }
 ScpPresentationModel >> scan: aProgram [
 ]
 
-{ #category : #scope }
+{ #category : 'scope' }
 ScpPresentationModel >> scopeEvents [
 
 	^ scopeEvents
 ]
 
-{ #category : #scope }
+{ #category : 'scope' }
 ScpPresentationModel >> scopeEvents: aScopeEvents [
 
 	scopeEvents := aScopeEvents.
 	self notifyBindingsOf: #scopeEvents withArgs: scopeEvents
 ]
 
-{ #category : #scope }
+{ #category : 'scope' }
 ScpPresentationModel >> scopeEventsLabels [
 
 	^ scopeEventsLabels
 ]
 
-{ #category : #scope }
+{ #category : 'scope' }
 ScpPresentationModel >> scopeEventsLabels: aScopeEventsLabels [
 
 	scopeEventsLabels := aScopeEventsLabels.
 	self notifyBindingsOf: #scopeEventsLabels withArgs: scopeEventsLabels
 ]
 
-{ #category : #scope }
+{ #category : 'scope' }
 ScpPresentationModel >> scopeObjects: aScopeObjects [
 
 	scopeObjects := aScopeObjects.
 	self notifyBindingsOf: #scopeObjects withArgs: scopeObjects
 ]
 
-{ #category : #scope }
+{ #category : 'scope' }
 ScpPresentationModel >> scopeObjectsLabels: aScopeObjectsLabels [
 
 	scopeObjectsLabels := aScopeObjectsLabels.
 	self notifyBindingsOf: #scopeObjectsLabels withArgs: scopeObjectsLabels
 ]
 
-{ #category : #scope }
-ScpPresentationModel >> scopeSelectedEventsLabel: aScopeSelectedEventsLabel [
+{ #category : 'scope' }
+ScpPresentationModel >> scopeSelectedEventsLabel: aScopeSelectedEventsLabelIndex [
 
-	scopeSelectedEventsLabel := aScopeSelectedEventsLabel.
+	scopeSelectedEventsLabel := scopeEventsLabels at: aScopeSelectedEventsLabelIndex.
 	self scopeEvents: (self model getEventsFromScope: scopeSelectedEventsLabel)
 ]
 
-{ #category : #scope }
-ScpPresentationModel >> scopeSelectedObjectsLabel: aScopeSelectedObjectsLabel [
+{ #category : 'scope' }
+ScpPresentationModel >> scopeSelectedObjectsLabel: aScopeSelectedObjectsLabelIndex [
 
-	scopeSelectedObjectsLabel := aScopeSelectedObjectsLabel.
-	self scopeObjects:
-		(self model getObjectsFromScope: scopeSelectedObjectsLabel)
+	scopeSelectedObjectsLabel := scopeObjectsLabels at: aScopeSelectedObjectsLabelIndex.
+	self scopeObjects: (self model getObjectsFromScope: scopeSelectedObjectsLabel)
 ]
 
-{ #category : #search }
+{ #category : 'search' }
 ScpPresentationModel >> search: aPredicate [
 
 	self searchResults: (model search: aPredicate)
 ]
 
-{ #category : #search }
+{ #category : 'search' }
 ScpPresentationModel >> searchResults [
 
 	^ searchResults
 ]
 
-{ #category : #search }
+{ #category : 'search' }
 ScpPresentationModel >> searchResults: aSearchResults [
 
 	searchResults := aSearchResults.
 	self notifyBindingsOf: #searchResults withArgs: searchResults
 ]
 
-{ #category : #search }
+{ #category : 'search' }
 ScpPresentationModel >> selectedSearchResults [
 ^ selectedSearchResults 
 ]
 
-{ #category : #search }
-ScpPresentationModel >> selectedSearchResults: aSelectedSearchResults [
+{ #category : 'search' }
+ScpPresentationModel >> selectedSearchResults: aSelectedSearchResultsIndexes [
 
-	selectedSearchResults := aSelectedSearchResults.
+	selectedSearchResults := aSelectedSearchResultsIndexes collect: [ :i | searchResults at: i] 
 ]

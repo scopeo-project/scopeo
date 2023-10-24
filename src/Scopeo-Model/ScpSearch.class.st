@@ -1,20 +1,21 @@
 Class {
-	#name : #ScpSearch,
-	#superclass : #Object,
+	#name : 'ScpSearch',
+	#superclass : 'Object',
 	#instVars : [
 		'mediator',
 		'data'
 	],
-	#category : #'Scopeo-Model'
+	#category : 'Scopeo-Model',
+	#package : 'Scopeo-Model'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpSearch >> data: aScpData [
 	"Link the search component to the data layer."
 	data := aScpData.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpSearch >> mediator: aMediator [
 	"Required to communicate with the scope without tight coupling. See Mediator pattern."
 
@@ -22,7 +23,7 @@ ScpSearch >> mediator: aMediator [
 	
 ]
 
-{ #category : #services }
+{ #category : 'services' }
 ScpSearch >> search: aPredicate [
 
 	^ data fetch: (self class compiler evaluate: aPredicate)
