@@ -1,15 +1,13 @@
 Class {
-	#name : 'MyStack',
-	#superclass : 'OrderedCollection',
+	#name : #MyStack,
+	#superclass : #OrderedCollection,
 	#classInstVars : [
 		'instance'
 	],
-	#category : 'Scopeo-Data-',
-	#package : 'Scopeo-Data',
-	#tag : ''
+	#category : 'Scopeo-Data-'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 MyStack class >> instance [
 
 	^ instance ifNil: [ instance := self new ].

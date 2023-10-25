@@ -1,23 +1,22 @@
 Class {
-	#name : 'ScpInterpreter',
-	#superclass : 'DASTInterpreter',
-	#category : 'Scopeo-Data',
-	#package : 'Scopeo-Data'
+	#name : #ScpInterpreter,
+	#superclass : #DASTInterpreter,
+	#category : 'Scopeo-Data'
 }
 
-{ #category : 'api' }
+{ #category : #api }
 ScpInterpreter >> currentContext: aContext [
 
 	currentContext := aContext
 ]
 
-{ #category : 'api' }
+{ #category : #api }
 ScpInterpreter >> flattenedNodesFrom: aRBNode [
 
 	^ DASTPostOrderTreeVisitor new flattenedNodesFrom: aRBNode.
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ScpInterpreter >> programCounter: aCounter [
 
 	programCounter := aCounter
