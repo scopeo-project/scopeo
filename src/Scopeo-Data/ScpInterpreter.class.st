@@ -16,3 +16,9 @@ ScpInterpreter >> flattenedNodesFrom: aRBNode [
 
 	^ DASTPostOrderTreeVisitor new flattenedNodesFrom: aRBNode.
 ]
+
+{ #category : 'accessing' }
+ScpInterpreter >> programCounter: aCounter [
+
+	programCounter := aCounter
+]

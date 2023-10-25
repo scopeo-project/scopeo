@@ -5,11 +5,32 @@ Class {
 		'defaultInterpreter',
 		'rejectedPackages',
 		'rejectedClasses',
-		'storage'
+		'storage',
+		'withRecord',
+		'alternateVisitor'
 	],
 	#category : 'Scopeo-Data',
 	#package : 'Scopeo-Data'
 }
+
+{ #category : 'private' }
+ScpDataScanner >> alternateVisitorStartingAt: aRBNode [
+
+	alternateVisitor := self class new.
+	alternateVisitor beWithoutRecording.
+	alternateVisitor
+		initializeWithProgram: aRBNode
+		forceContext: currentContext.
+	alternateVisitor programCounter: programCounter.
+	"alternateVisitor context stack: currentContext stack"
+	^ alternateVisitor
+]
+
+{ #category : 'accessing' }
+ScpDataScanner >> beWithoutRecording [
+
+	withRecord := false.
+]
 
 { #category : 'initialization' }
 ScpDataScanner >> data: aScpData [
@@ -24,6 +45,21 @@ ScpDataScanner >> initialize [
 	
 	rejectedPackages := OrderedCollection new.
 	rejectedClasses := OrderedCollection new.
+	
+	withRecord := true.
+]
+
+{ #category : 'as yet unclassified' }
+ScpDataScanner >> isRejected: anObject [
+
+	| senderClass packageIsRejected classIsRejected |
+	senderClass := anObject class.
+	packageIsRejected := rejectedPackages includes:
+		                     senderClass package name.
+	classIsRejected := rejectedClasses includes: senderClass name.
+
+	^ (senderClass ~~ UndefinedObject) and: [
+		  packageIsRejected or: [ classIsRejected ] ]
 ]
 
 { #category : 'parameters' }
@@ -45,10 +81,41 @@ ScpDataScanner >> scan: aProgram [
 ]
 
 { #category : 'private' }
-ScpDataScanner >> visitAndRecordMessageNode: aRBMessageNode [
+ScpDataScanner >> visitAssignmentNode: aRBAssignmentNode [
 
-	| arguments receiver method newContext |
-	" Resolve Arguments ""self haltIf: [ aRBMessageNode selector = #methodDict ]."
+	| variable name value |
+	variable := aRBAssignmentNode variable.
+	name := variable name.
+	value := self stackTop.
+	
+	(withRecord and: [ variable isInstanceVariable ])
+	 ifTrue: [
+		storage addStateUpdate:
+			(ScpStateUpdate new
+				 id: programCounter;
+				 object: self currentContext receiver;
+				 variable: variable variable;
+				 newValue: value;
+				 yourself) ].
+
+	self currentContext assignVariable: name value: value
+]
+
+{ #category : 'private' }
+ScpDataScanner >> visitMessageNode: aRBMessageNode [
+
+	| arguments receiver method newContext doThings |
+	"MyStack instance add: currentContext stack."
+	self halt.
+	doThings := true.
+	doThings ifTrue: [
+		(withRecord and: [ self isRejected: self currentContext receiver ])
+			ifTrue: [
+				^ aRBMessageNode acceptVisitor:
+					  (self alternateVisitorStartingAt: aRBMessageNode) ] ].
+	"self haltIf: [
+		withRecord not or: [ aRBMessageNode selector = 'crTrace:' ] ]."
+
 	arguments := (self stackPop: aRBMessageNode numArgs) reverse.
 	(aRBMessageNode isCascaded and: [ aRBMessageNode isFirstCascaded not ])
 		ifTrue: [ self stackPop ].
@@ -64,15 +131,16 @@ ScpDataScanner >> visitAndRecordMessageNode: aRBMessageNode [
 	" Lookup"
 	method := newContext methodOrBlock.
 
-	storage addMessage: (ScpMessage new
-			 id: programCounter;
-			 sender: self currentContext receiver;
-			 senderSelector: (self currentContext messageNode ifNotNil: [
-						  self currentContext messageNode selector ]);
-			 selector: method selector;
-			 receiver: receiver;
-			 arguments: arguments;
-			 yourself).
+	false ifTrue: [
+		storage addMessage: (ScpMessage new
+				 id: programCounter;
+				 sender: self currentContext receiver;
+				 senderSelector: (self currentContext messageNode ifNotNil: [
+							  self currentContext messageNode selector ]);
+				 selector: method selector;
+				 receiver: receiver;
+				 arguments: arguments;
+				 yourself) ].
 
 	" Apply - invoke method "
 	(aRBMessageNode isCascaded and: [
@@ -98,41 +166,8 @@ ScpDataScanner >> visitAndRecordMessageNode: aRBMessageNode [
 		values: arguments
 ]
 
-{ #category : 'private' }
-ScpDataScanner >> visitAssignmentNode: aRBAssignmentNode [
+{ #category : 'accessing' }
+ScpDataScanner >> withRecord [
 
-	| variable name value |
-	variable := aRBAssignmentNode variable.
-	name := variable name.
-	value := self stackTop.
-
-	variable isInstanceVariable ifTrue: [
-		storage addStateUpdate:
-			(ScpStateUpdate new
-				 id: programCounter;
-				 object: self currentContext receiver;
-				 variable: variable variable;
-				 newValue: value;
-				 yourself) ].
-
-	self currentContext assignVariable: name value: value
-]
-
-{ #category : 'private' }
-ScpDataScanner >> visitMessageNode: aRBMessageNode [
-
-	"| senderClass packageIsRejected classIsRejected |
-	
-	senderClass := self currentContext receiver class.
-	packageIsRejected := rejectedPackages includes: senderClass package name.
-	classIsRejected := rejectedClasses includes: senderClass name.
-
-	(senderClass ~~ UndefinedObject and:
-		 (packageIsRejected or: [ classIsRejected ]))
-		ifTrue: [
-			currentContext := defaultInterpreter
-				initializeWithProgram: aRBMessageNode inContext: currentContext;
-				evaluate; currentContext ]
-		ifFalse: [  ]."
-	self visitAndRecordMessageNode: aRBMessageNode
+	^ withRecord
 ]
