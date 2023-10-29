@@ -1,17 +1,16 @@
 Class {
-	#name : 'MyFirstObject',
-	#superclass : 'Object',
-	#category : 'Scopeo-Data',
-	#package : 'Scopeo-Data'
+	#name : #MyFirstObject,
+	#superclass : #Object,
+	#category : 'Scopeo-Data'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : #'as yet unclassified' }
 MyFirstObject >> try [
 
 	 'test' crTrace
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : #'as yet unclassified' }
 MyFirstObject >> try: arg [
 
 	'test' crTrace.

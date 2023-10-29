@@ -1,22 +1,21 @@
 Class {
-	#name : 'ScpData',
-	#superclass : 'Object',
+	#name : #ScpData,
+	#superclass : #Object,
 	#instVars : [
 		'scanner',
 		'filter',
 		'storage'
 	],
-	#category : 'Scopeo-Data',
-	#package : 'Scopeo-Data'
+	#category : #'Scopeo-Data'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : #'as yet unclassified' }
 ScpData class >> defaultRejectedClasses [
 
 	^ {  }
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : #'as yet unclassified' }
 ScpData class >> defaultRejectedPackages [
 
 	^ { 'Kernel'. 'Collections-Sequenceable-Tests'.
@@ -31,28 +30,28 @@ ScpData class >> defaultRejectedPackages [
 	  'Collections-DoubleLinkedList-Tests'.
 	  'Collections-Native-Tests'. 'Collections-Abstract'.
 	  'Collections-Weak'. 'Collections-Streams'. 'Collections-Support-Tests'.
-	  'Collections-DoubleLinkedList' }
+	  'Collections-DoubleLinkedList'. 'Transcript-Core' }
 ]
 
-{ #category : 'private' }
+{ #category : #private }
 ScpData >> addMessage: aMessage [
 
 	storage addMessage: aMessage
 ]
 
-{ #category : 'private' }
+{ #category : #private }
 ScpData >> addStateUpdate: aStateUpdate [
 
 	storage addStateUpdate: aStateUpdate 
 ]
 
-{ #category : 'services' }
+{ #category : #services }
 ScpData >> fetch: aPredicate [
 
 	^ storage fetch: aPredicate
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ScpData >> initialize [
 
 	scanner := ScpDataScanner new
@@ -64,7 +63,7 @@ ScpData >> initialize [
 	self rejectClasses: self class defaultRejectedClasses
 ]
 
-{ #category : 'parameters' }
+{ #category : #parameters }
 ScpData >> rejectClasses: aClassNameCollection [
 
 	scanner rejectClasses: aClassNameCollection
@@ -72,7 +71,7 @@ ScpData >> rejectClasses: aClassNameCollection [
 	 
 ]
 
-{ #category : 'parameters' }
+{ #category : #parameters }
 ScpData >> rejectPackages: aPackageNameCollection [
 
 	scanner rejectPackages: aPackageNameCollection
@@ -80,7 +79,7 @@ ScpData >> rejectPackages: aPackageNameCollection [
 	 
 ]
 
-{ #category : 'services' }
+{ #category : #services }
 ScpData >> scan: aProgram [
 
 	storage clear.

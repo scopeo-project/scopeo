@@ -1,6 +1,6 @@
 Class {
-	#name : 'ScpDataScanner',
-	#superclass : 'ScpInterpreter',
+	#name : #ScpDataScanner,
+	#superclass : #ScpInterpreter,
 	#instVars : [
 		'defaultInterpreter',
 		'rejectedPackages',
@@ -9,36 +9,43 @@ Class {
 		'withRecord',
 		'alternateVisitor'
 	],
-	#category : 'Scopeo-Data',
-	#package : 'Scopeo-Data'
+	#classInstVars : [
+		'logger'
+	],
+	#category : #'Scopeo-Data'
 }
 
-{ #category : 'private' }
+{ #category : #private }
 ScpDataScanner >> alternateVisitorStartingAt: aRBNode [
 
-	alternateVisitor := self class new.
-	alternateVisitor beWithoutRecording.
-	alternateVisitor
-		initializeWithProgram: aRBNode
-		forceContext: currentContext.
-	alternateVisitor programCounter: programCounter.
-	"alternateVisitor context stack: currentContext stack"
+	
+	alternateVisitor := DASTInterpreter new.
+
+	alternateVisitor currentContext: self currentContext copy.
+	alternateVisitor currentContext evaluator:
+		self currentContext evaluator copy.
+	alternateVisitor currentContext evaluator interpreter: alternateVisitor.
+	
+	"self assert: currentContext evaluator interpreter == self."
+	self assert: alternateVisitor currentContext evaluator interpreter == alternateVisitor.
+	self assert: currentContext ~~ alternateVisitor currentContext.
+	self assert: currentContext nodes == alternateVisitor currentContext nodes.
 	^ alternateVisitor
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ScpDataScanner >> beWithoutRecording [
 
 	withRecord := false.
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ScpDataScanner >> data: aScpData [
 
 	storage := aScpData
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ScpDataScanner >> initialize [
 
 	defaultInterpreter := ScpDefaultInterpreter new.
@@ -49,7 +56,7 @@ ScpDataScanner >> initialize [
 	withRecord := true.
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : #'as yet unclassified' }
 ScpDataScanner >> isRejected: anObject [
 
 	| senderClass packageIsRejected classIsRejected |
@@ -62,25 +69,25 @@ ScpDataScanner >> isRejected: anObject [
 		  packageIsRejected or: [ classIsRejected ] ]
 ]
 
-{ #category : 'parameters' }
+{ #category : #parameters }
 ScpDataScanner >> rejectClasses: aClassNameCollection [
 
 	rejectedClasses := aClassNameCollection
 ]
 
-{ #category : 'parameters' }
+{ #category : #parameters }
 ScpDataScanner >> rejectPackages: aPackageNameCollection [
 
 	rejectedPackages := aPackageNameCollection
 ]
 
-{ #category : 'services' }
+{ #category : #services }
 ScpDataScanner >> scan: aProgram [
 
 	self evaluateAST: (RBParser parseExpression: aProgram).
 ]
 
-{ #category : 'private' }
+{ #category : #private }
 ScpDataScanner >> visitAssignmentNode: aRBAssignmentNode [
 
 	| variable name value |
@@ -101,18 +108,21 @@ ScpDataScanner >> visitAssignmentNode: aRBAssignmentNode [
 	self currentContext assignVariable: name value: value
 ]
 
-{ #category : 'private' }
+{ #category : #private }
 ScpDataScanner >> visitMessageNode: aRBMessageNode [
 
-	| arguments receiver method newContext doThings |
+	| arguments receiver method newContext | 
 	"MyStack instance add: currentContext stack."
-	self halt.
-	doThings := true.
-	doThings ifTrue: [
-		(withRecord and: [ self isRejected: self currentContext receiver ])
-			ifTrue: [
-				^ aRBMessageNode acceptVisitor:
-					  (self alternateVisitorStartingAt: aRBMessageNode) ] ].
+	(withRecord and: [ self isRejected: self currentContext receiver ])
+		ifTrue: [		"self halt."
+			self class logger add: self currentContext copy.
+			aRBMessageNode acceptVisitor:
+				  (self alternateVisitorStartingAt: aRBMessageNode). 
+				currentContext := alternateVisitor currentContext.
+				"self halt."
+				currentContext evaluator interpreter: self.
+				^self ].
+			
 	"self haltIf: [
 		withRecord not or: [ aRBMessageNode selector = 'crTrace:' ] ]."
 
@@ -131,7 +141,7 @@ ScpDataScanner >> visitMessageNode: aRBMessageNode [
 	" Lookup"
 	method := newContext methodOrBlock.
 
-	false ifTrue: [
+	withRecord ifTrue: [
 		storage addMessage: (ScpMessage new
 				 id: programCounter;
 				 sender: self currentContext receiver;
@@ -166,7 +176,7 @@ ScpDataScanner >> visitMessageNode: aRBMessageNode [
 		values: arguments
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ScpDataScanner >> withRecord [
 
 	^ withRecord

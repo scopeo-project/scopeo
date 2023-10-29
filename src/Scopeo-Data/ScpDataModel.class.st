@@ -1,23 +1,22 @@
 Class {
-	#name : 'ScpDataModel',
-	#superclass : 'Object',
-	#category : 'Scopeo-Data',
-	#package : 'Scopeo-Data'
+	#name : #ScpDataModel,
+	#superclass : #Object,
+	#category : 'Scopeo-Data'
 }
 
-{ #category : 'testing' }
+{ #category : #testing }
 ScpDataModel class >> isAbstract [
 
 	^ self == ScpDataModel
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 ScpDataModel >> isMessage [
 
 	^ false
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 ScpDataModel >> isStateUpdate [
 
 	^ false

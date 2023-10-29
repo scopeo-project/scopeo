@@ -1,7 +1,5 @@
 Class {
-	#name : 'ScpDefaultInterpreter',
-	#superclass : 'ScpInterpreter',
-	#category : 'Scopeo-Data-',
-	#package : 'Scopeo-Data',
-	#tag : ''
+	#name : #ScpDefaultInterpreter,
+	#superclass : #ScpInterpreter,
+	#category : 'Scopeo-Data-'
 }
