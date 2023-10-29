@@ -1,6 +1,6 @@
 Class {
-	#name : #ScpStateUpdate,
-	#superclass : #ScpDataModel,
+	#name : 'ScpStateUpdate',
+	#superclass : 'ScpTrace',
 	#instVars : [
 		'id',
 		'object',
@@ -8,64 +8,65 @@ Class {
 		'oldValue',
 		'newValue'
 	],
-	#category : 'Scopeo-Data'
+	#category : 'Scopeo-Traces',
+	#package : 'Scopeo-Traces'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpStateUpdate >> id [
 
 	^ id
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpStateUpdate >> id: anObject [
 
 	id := anObject
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ScpStateUpdate >> isStateUpdate [
 
 	^ true
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpStateUpdate >> newValue [
 
 	^ newValue
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpStateUpdate >> newValue: anObject [
 
 	newValue := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpStateUpdate >> object [
 
 	^ object
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpStateUpdate >> object: anObject [
 
 	object := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpStateUpdate >> oldValue [
 
 	^ oldValue
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpStateUpdate >> oldValue: anObject [
 
 	oldValue := anObject
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 ScpStateUpdate >> printString [
 
 	^ object printString 
@@ -73,13 +74,13 @@ ScpStateUpdate >> printString [
 		, ' := ' , newValue printString
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpStateUpdate >> variable [
 
 	^ variable
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpStateUpdate >> variable: anObject [
 
 	variable := anObject

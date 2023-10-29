@@ -1,22 +1,24 @@
 Class {
-	#name : #ScpData,
-	#superclass : #Object,
+	#name : 'ScpTraces',
+	#superclass : 'Object',
 	#instVars : [
 		'scanner',
 		'filter',
-		'storage'
+		'storage',
+		'tracer'
 	],
-	#category : #'Scopeo-Data'
+	#category : 'Scopeo-Traces',
+	#package : 'Scopeo-Traces'
 }
 
-{ #category : #'as yet unclassified' }
-ScpData class >> defaultRejectedClasses [
+{ #category : 'as yet unclassified' }
+ScpTraces class >> defaultRejectedClasses [
 
 	^ {  }
 ]
 
-{ #category : #'as yet unclassified' }
-ScpData class >> defaultRejectedPackages [
+{ #category : 'as yet unclassified' }
+ScpTraces class >> defaultRejectedPackages [
 
 	^ { 'Kernel'. 'Collections-Sequenceable-Tests'.
 	  'Collections-Atomic-Tests'. 'Collections-Unordered-Tests'.
@@ -33,55 +35,39 @@ ScpData class >> defaultRejectedPackages [
 	  'Collections-DoubleLinkedList'. 'Transcript-Core' }
 ]
 
-{ #category : #private }
-ScpData >> addMessage: aMessage [
-
-	storage addMessage: aMessage
-]
-
-{ #category : #private }
-ScpData >> addStateUpdate: aStateUpdate [
-
-	storage addStateUpdate: aStateUpdate 
-]
-
-{ #category : #services }
-ScpData >> fetch: aPredicate [
+{ #category : 'services' }
+ScpTraces >> fetch: aPredicate [
 
 	^ storage fetch: aPredicate
 ]
 
-{ #category : #initialization }
-ScpData >> initialize [
+{ #category : 'initialization' }
+ScpTraces >> initialize [
 
-	scanner := ScpDataScanner new
-		           data: self;
-		           yourself.
-	storage := ScpDataStorage new.
-
+	storage := ScpTraceMemoryStorage new.
+	tracer := ScpTracingInterpreter new
+		          traceStorage: storage;
+		          yourself.
+	
 	self rejectPackages: self class defaultRejectedPackages.
 	self rejectClasses: self class defaultRejectedClasses
 ]
 
-{ #category : #parameters }
-ScpData >> rejectClasses: aClassNameCollection [
+{ #category : 'parameters' }
+ScpTraces >> rejectClasses: aClassNameCollection [
 
-	scanner rejectClasses: aClassNameCollection
-
-	 
+	tracer rejectClasses: aClassNameCollection
 ]
 
-{ #category : #parameters }
-ScpData >> rejectPackages: aPackageNameCollection [
+{ #category : 'parameters' }
+ScpTraces >> rejectPackages: aPackageNameCollection [
 
-	scanner rejectPackages: aPackageNameCollection
-
-	 
+	tracer rejectPackages: aPackageNameCollection
 ]
 
-{ #category : #services }
-ScpData >> scan: aProgram [
+{ #category : 'services' }
+ScpTraces >> scan: aProgram [
 
 	storage clear.
-	^ scanner scan: aProgram
+	^ tracer traceExpressionString: aProgram
 ]
