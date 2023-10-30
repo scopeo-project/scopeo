@@ -1,10 +1,11 @@
 Class {
-	#name : #ScpNot,
-	#superclass : #ScpUnaryPredicate,
-	#category : #'Scopeo-Predicates'
+	#name : 'ScpNot',
+	#superclass : 'ScpUnaryPredicate',
+	#category : 'Scopeo-Predicates',
+	#package : 'Scopeo-Predicates'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpNot class >> predicate: aPredicate [
 	
 	^ self new
@@ -12,7 +13,7 @@ ScpNot class >> predicate: aPredicate [
 		yourself
 ]
 
-{ #category : #'target resize' }
+{ #category : 'target resize' }
 ScpNot >> verify: aScpData [
 
 	^ (value verify: aScpData) not

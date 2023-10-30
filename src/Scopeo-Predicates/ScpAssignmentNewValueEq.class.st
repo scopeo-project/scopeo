@@ -1,10 +1,11 @@
 Class {
-	#name : #ScpAssignmentNewValueEq,
-	#superclass : #ScpUnaryPredicate,
-	#category : #'Scopeo-Predicates'
+	#name : 'ScpAssignmentNewValueEq',
+	#superclass : 'ScpUnaryPredicate',
+	#category : 'Scopeo-Predicates',
+	#package : 'Scopeo-Predicates'
 }
 
-{ #category : #verifying }
+{ #category : 'verifying' }
 ScpAssignmentNewValueEq >> verify: aScpData [
 
 	^ aScpData newValue == value

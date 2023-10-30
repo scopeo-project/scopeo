@@ -1,10 +1,11 @@
 Class {
-	#name : #ScpIsMessage,
-	#superclass : #ScpPredicate,
-	#category : #'Scopeo-Predicates'
+	#name : 'ScpIsMessage',
+	#superclass : 'ScpPredicate',
+	#category : 'Scopeo-Predicates',
+	#package : 'Scopeo-Predicates'
 }
 
-{ #category : #verifying }
+{ #category : 'verifying' }
 ScpIsMessage >> verify: aScpData [
 
 	^ aScpData isMessage

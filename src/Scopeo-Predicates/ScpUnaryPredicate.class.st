@@ -1,32 +1,33 @@
 Class {
-	#name : #ScpUnaryPredicate,
-	#superclass : #ScpPredicate,
+	#name : 'ScpUnaryPredicate',
+	#superclass : 'ScpPredicate',
 	#instVars : [
 		'value'
 	],
-	#category : #'Scopeo-Predicates'
+	#category : 'Scopeo-Predicates',
+	#package : 'Scopeo-Predicates'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 ScpUnaryPredicate class >> isAbstract [
 
 	^ self == ScpUnaryPredicate
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpUnaryPredicate class >> value: aValue [
 	^ self new
 		  value: aValue;
 		  yourself
 ]
 
-{ #category : #evaluating }
+{ #category : 'evaluating' }
 ScpUnaryPredicate >> value [
 
 	^ value
 ]
 
-{ #category : #evaluating }
+{ #category : 'evaluating' }
 ScpUnaryPredicate >> value: aValue [
 
 	value := aValue

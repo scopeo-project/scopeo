@@ -1,10 +1,11 @@
 Class {
-	#name : #ScpMessageArgumentsContains,
-	#superclass : #ScpUnaryPredicate,
-	#category : #'Scopeo-Predicates'
+	#name : 'ScpMessageArgumentsContains',
+	#superclass : 'ScpUnaryPredicate',
+	#category : 'Scopeo-Predicates',
+	#package : 'Scopeo-Predicates'
 }
 
-{ #category : #verifying }
+{ #category : 'verifying' }
 ScpMessageArgumentsContains >> verify: aScpData [
 
 	^ aScpData arguments includesAny: value

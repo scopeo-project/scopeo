@@ -1,1 +1,1 @@
-Package { #name : #'Scopeo-Predicates' }
+Package { #name : 'Scopeo-Predicates' }

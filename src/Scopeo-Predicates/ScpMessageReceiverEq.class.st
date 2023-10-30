@@ -1,10 +1,11 @@
 Class {
-	#name : #ScpMessageReceiverEq,
-	#superclass : #ScpUnaryPredicate,
-	#category : #'Scopeo-Predicates'
+	#name : 'ScpMessageReceiverEq',
+	#superclass : 'ScpUnaryPredicate',
+	#category : 'Scopeo-Predicates',
+	#package : 'Scopeo-Predicates'
 }
 
-{ #category : #verifying }
+{ #category : 'verifying' }
 ScpMessageReceiverEq >> verify: aScpData [
 
 	^ aScpData receiver == value

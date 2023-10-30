@@ -1,13 +1,12 @@
 Class {
-	#name : 'ScpIsStateUpdate',
+	#name : 'ScpAll',
 	#superclass : 'ScpPredicate',
 	#category : 'Scopeo-Predicates',
 	#package : 'Scopeo-Predicates'
 }
 
 { #category : 'verifying' }
-ScpIsStateUpdate >> verify: aScpData [
+ScpAll >> verify: aScpData [
 
-	^ aScpData isStateUpdate
-	
+	^ true
 ]

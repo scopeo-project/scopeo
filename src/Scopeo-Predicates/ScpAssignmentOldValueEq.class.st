@@ -1,10 +1,11 @@
 Class {
-	#name : #ScpAssignmentOldValueEq,
-	#superclass : #ScpUnaryPredicate,
-	#category : #'Scopeo-Predicates'
+	#name : 'ScpAssignmentOldValueEq',
+	#superclass : 'ScpUnaryPredicate',
+	#category : 'Scopeo-Predicates',
+	#package : 'Scopeo-Predicates'
 }
 
-{ #category : #verifying }
+{ #category : 'verifying' }
 ScpAssignmentOldValueEq >> verify: aScpData [
 
 	^ aScpData oldValue == value

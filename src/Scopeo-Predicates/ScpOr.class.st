@@ -1,10 +1,11 @@
 Class {
-	#name : #ScpOr,
-	#superclass : #ScpBinaryPredicate,
-	#category : #'Scopeo-Predicates'
+	#name : 'ScpOr',
+	#superclass : 'ScpBinaryPredicate',
+	#category : 'Scopeo-Predicates',
+	#package : 'Scopeo-Predicates'
 }
 
-{ #category : #'target resize' }
+{ #category : 'target resize' }
 ScpOr >> verify: aScpData [
 
 	^ (left verify: aScpData) or: [

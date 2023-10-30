@@ -1,20 +1,21 @@
 Class {
-	#name : #ScpBinaryPredicate,
-	#superclass : #ScpPredicate,
+	#name : 'ScpBinaryPredicate',
+	#superclass : 'ScpPredicate',
 	#instVars : [
 		'left',
 		'right'
 	],
-	#category : #'Scopeo-Predicates'
+	#category : 'Scopeo-Predicates',
+	#package : 'Scopeo-Predicates'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 ScpBinaryPredicate class >> isAbstract [
 		
 	^ self == ScpBinaryPredicate
 ]
 
-{ #category : #instanciation }
+{ #category : 'instanciation' }
 ScpBinaryPredicate class >> l: aLeftPredicate r: aRightPredicate [
 
 	^ self new 
@@ -23,13 +24,13 @@ ScpBinaryPredicate class >> l: aLeftPredicate r: aRightPredicate [
 		yourself.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpBinaryPredicate >> left: aLeftPredicate [
 
 	left := aLeftPredicate
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpBinaryPredicate >> right: aRightPredicate [
 
 	right := aRightPredicate
