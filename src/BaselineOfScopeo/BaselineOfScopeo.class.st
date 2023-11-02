@@ -14,11 +14,10 @@ BaselineOfScopeo >> baseline: spec [
 			spec repository:
 				'github://adri09070/DebuggableASTInterpreter:optimized-code-switch' ].
 
-		spec package: #'Scopeo-Data'.
+		spec package: #'Scopeo-Traces-Tests'.
+		spec package: #'Scopeo-Traces'.
 		spec package: #'Scopeo-Model'.
 		spec package: #'Scopeo-Predicates'.
 		spec package: #'Scopeo-Presenters'.
-		spec package: #'Scopeo'
-		
-		]
+		spec package: #Scopeo ]
 ]
