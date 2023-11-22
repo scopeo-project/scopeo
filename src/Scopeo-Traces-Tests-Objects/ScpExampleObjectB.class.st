@@ -4,9 +4,8 @@ Class {
 	#instVars : [
 		'exampleInstanceVariable'
 	],
-	#category : 'Scopeo-Traces-Tests-',
-	#package : 'Scopeo-Traces-Tests',
-	#tag : ''
+	#category : 'Scopeo-Traces-Tests-Objects',
+	#package : 'Scopeo-Traces-Tests-Objects'
 }
 
 { #category : 'as yet unclassified' }

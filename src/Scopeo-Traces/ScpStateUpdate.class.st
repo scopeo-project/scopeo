@@ -5,7 +5,6 @@ Class {
 		'id',
 		'object',
 		'variable',
-		'oldValue',
 		'newValue'
 	],
 	#category : 'Scopeo-Traces',
@@ -52,18 +51,6 @@ ScpStateUpdate >> object [
 ScpStateUpdate >> object: anObject [
 
 	object := anObject
-]
-
-{ #category : 'accessing' }
-ScpStateUpdate >> oldValue [
-
-	^ oldValue
-]
-
-{ #category : 'accessing' }
-ScpStateUpdate >> oldValue: anObject [
-
-	oldValue := anObject
 ]
 
 { #category : 'printing' }
