@@ -36,9 +36,9 @@ ScpTraces class >> defaultRejectedPackages [
 ]
 
 { #category : 'services' }
-ScpTraces >> clean [
+ScpTraces >> clear [
 
-	tracer clean
+	tracer clear
 ]
 
 { #category : 'services' }
@@ -47,18 +47,25 @@ ScpTraces >> fetch: aPredicate [
 	^ storage fetch: aPredicate
 ]
 
+{ #category : 'initialization' }
+ScpTraces >> initialize [
+
+	self tracer: ScpInstrumentationTracer new.
+	self storage: ScpTracesMemoryStorage new.
+]
+
+{ #category : 'as yet unclassified' }
+ScpTraces >> matching: aMatcher [
+
+	tracer matching: aMatcher.
+]
+
 { #category : 'services' }
 ScpTraces >> scan: aBlock [
 
 	storage clear.
 	^ tracer scan: aBlock.
 	
-]
-
-{ #category : 'as yet unclassified' }
-ScpTraces >> setup: aMatcher [
-
-	tracer setup: aMatcher.
 ]
 
 { #category : 'parameters' }

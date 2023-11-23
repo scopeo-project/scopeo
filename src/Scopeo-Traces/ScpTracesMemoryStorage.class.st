@@ -1,5 +1,5 @@
 Class {
-	#name : 'ScpTraceMemoryStorage',
+	#name : 'ScpTracesMemoryStorage',
 	#superclass : 'ScpInstrumentationHandler',
 	#instVars : [
 		'traces'
@@ -9,31 +9,31 @@ Class {
 }
 
 { #category : 'services' }
-ScpTraceMemoryStorage >> clear [
+ScpTracesMemoryStorage >> clear [
 
 	traces removeAll
 ]
 
 { #category : 'services' }
-ScpTraceMemoryStorage >> fetch: aScpPredicate [
+ScpTracesMemoryStorage >> fetch: aScpPredicate [
 
 	^ traces select: [ :e | aScpPredicate verify: e ]
 ]
 
 { #category : 'initialization' }
-ScpTraceMemoryStorage >> initialize [
+ScpTracesMemoryStorage >> initialize [
 
 	traces := OrderedCollection new
 ]
 
 { #category : 'services' }
-ScpTraceMemoryStorage >> onCallOf: aSelector on: anObject with: aArguments [
+ScpTracesMemoryStorage >> onCallOf: aSelector on: anObject with: aArguments [
 
 	
 ]
 
 { #category : 'services' }
-ScpTraceMemoryStorage >> onMessage: aSelector to: anObject with: aArguments [
+ScpTracesMemoryStorage >> onMessage: aSelector to: anObject with: aArguments [
 
 	traces add: (ScpMessage new
 		selector: aSelector;
@@ -44,7 +44,7 @@ ScpTraceMemoryStorage >> onMessage: aSelector to: anObject with: aArguments [
 ]
 
 { #category : 'services' }
-ScpTraceMemoryStorage >> onUpdateOf: aVariable of: anObject with: aValue [
+ScpTracesMemoryStorage >> onUpdateOf: aVariable of: anObject with: aValue [
 
 	traces add: (ScpStateUpdate new
 		object: anObject;

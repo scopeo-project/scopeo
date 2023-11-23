@@ -13,18 +13,15 @@ ScpTracesTest >> setUp [
 
 	super setUp.
 	traces := ScpTraces new
-		tracer: ScpInstrumenterTracer new;
-		storage: ScpOldTraceMemoryStorage new;
-		forPackages: { ScpExampleObjectA package name };
-		yourself.
+		matching: (OTMatcher name: ScpExampleObjectA package name);
+		yourself
 ]
 
 { #category : 'running' }
 ScpTracesTest >> tearDown [
 
 	super tearDown.
-
-	traces clean
+	traces clear
 ]
 
 { #category : 'tests' }
