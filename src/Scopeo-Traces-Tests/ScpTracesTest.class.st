@@ -14,7 +14,7 @@ ScpTracesTest >> setUp [
 	super setUp.
 	traces := ScpTraces new
 		tracer: ScpInstrumenterTracer new;
-		traceStorage: ScpTraceMemoryStorage new;
+		storage: ScpOldTraceMemoryStorage new;
 		forPackages: { ScpExampleObjectA package name };
 		yourself.
 ]

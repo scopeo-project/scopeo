@@ -135,6 +135,12 @@ ScpInstrumentation >> instrumentStateUpdatesIn: aMethod [
 	].
 ]
 
+{ #category : 'accessing' }
+ScpInstrumentation >> methods: aMethodCollection [
+
+	methods := aMethodCollection
+]
+
 { #category : 'private - indirection' }
 ScpInstrumentation >> newIndirectionNode [
 

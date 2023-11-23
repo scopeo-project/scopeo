@@ -1,7 +1,6 @@
 Class {
 	#name : 'ScpAbstractIndirection',
 	#superclass : 'Object',
-	#category : 'Scopeo-Instrumentation-',
-	#package : 'Scopeo-Instrumentation',
-	#tag : ''
+	#category : 'Scopeo-Instrumentation',
+	#package : 'Scopeo-Instrumentation'
 }

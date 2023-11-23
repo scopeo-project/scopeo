@@ -47,36 +47,25 @@ ScpTraces >> fetch: aPredicate [
 	^ storage fetch: aPredicate
 ]
 
-{ #category : 'parameters' }
-ScpTraces >> forPackages: aPackageNameCollection [
-
-	tracer forPackages: aPackageNameCollection
-]
-
-{ #category : 'parameters' }
-ScpTraces >> rejectClasses: aClassNameCollection [
-
-	tracer rejectClasses: aClassNameCollection
-]
-
-{ #category : 'parameters' }
-ScpTraces >> rejectPackages: aPackageNameCollection [
-
-	tracer rejectPackages: aPackageNameCollection
-]
-
 { #category : 'services' }
-ScpTraces >> scan: aProgram [
+ScpTraces >> scan: aBlock [
 
 	storage clear.
-	^ tracer traceBlock: aProgram
+	^ tracer scan: aBlock.
+	
+]
+
+{ #category : 'as yet unclassified' }
+ScpTraces >> setup: aMatcher [
+
+	tracer setup: aMatcher.
 ]
 
 { #category : 'parameters' }
-ScpTraces >> traceStorage: aStorage [
+ScpTraces >> storage: aStorage [
 
 	storage := aStorage.
-	tracer traceStorage: aStorage.
+	tracer storage: aStorage.
 ]
 
 { #category : 'parameters' }
@@ -84,5 +73,5 @@ ScpTraces >> tracer: aTracer [
 
 	tracer := aTracer.
 	storage ifNil: [ ^ self ].
-	tracer traceStorage: storage
+	tracer storage: storage
 ]

@@ -10,14 +10,25 @@ BaselineOfScopeo >> baseline: spec [
 
 	<baseline>
 	spec for: #common do: [
-		spec baseline: 'DebuggableASTInterpreter' with: [
-			spec repository:
-				'github://adri09070/DebuggableASTInterpreter:optimized-code-switch' ].
 
-		spec package: #'Scopeo-Traces-Tests'.
-		spec package: #'Scopeo-Traces'.
+		spec baseline: 'OpenTelemetry' 
+			with: [spec repository: 'github://Gabriel-Darbord/opentelemetry-pharo:main'];
+			import: 'OpenTelemetry' provides: #( 'OpenTelemetry-Instrumentation-Matchers' ).
+		
+		spec package: 'Scopeo-Instrumentation'.
+		spec package: 'Scopeo-Traces-Tests-Objects'.
+		
+		spec package: 'Scopeo-Traces' with: [
+			spec requires: #( 'Scopeo-Instrumentation' ) 
+		].
+		
+		spec package: 'Scopeo-Traces-Tests' with: [
+			spec requires: #( 'Scopeo-Traces' 'Scopeo-Traces-Tests-Objects' ) 
+		].
+		
 		spec package: #'Scopeo-Model'.
 		spec package: #'Scopeo-Predicates'.
 		spec package: #'Scopeo-Presenters'.
+		
 		spec package: #Scopeo ]
 ]

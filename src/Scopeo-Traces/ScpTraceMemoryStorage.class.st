@@ -1,26 +1,12 @@
 Class {
 	#name : 'ScpTraceMemoryStorage',
-	#superclass : 'Object',
+	#superclass : 'ScpInstrumentationHandler',
 	#instVars : [
 		'traces'
 	],
 	#category : 'Scopeo-Traces',
 	#package : 'Scopeo-Traces'
 }
-
-{ #category : 'events' }
-ScpTraceMemoryStorage >> addMessage: aScpMessage [
-	"A message has been sent by an object during the execution of the program."
-
-	traces add: aScpMessage
-]
-
-{ #category : 'events' }
-ScpTraceMemoryStorage >> addStateUpdate: aScpStateUpdate [
-	"A new value has been assigned to an object instance variable."
-
-	traces add: aScpStateUpdate
-]
 
 { #category : 'services' }
 ScpTraceMemoryStorage >> clear [
@@ -38,4 +24,32 @@ ScpTraceMemoryStorage >> fetch: aScpPredicate [
 ScpTraceMemoryStorage >> initialize [
 
 	traces := OrderedCollection new
+]
+
+{ #category : 'services' }
+ScpTraceMemoryStorage >> onCallOf: aSelector on: anObject with: aArguments [
+
+	
+]
+
+{ #category : 'services' }
+ScpTraceMemoryStorage >> onMessage: aSelector to: anObject with: aArguments [
+
+	traces add: (ScpMessage new
+		selector: aSelector;
+		receiver: anObject;
+		arguments: aArguments;
+		yourself
+	)
+]
+
+{ #category : 'services' }
+ScpTraceMemoryStorage >> onUpdateOf: aVariable of: anObject with: aValue [
+
+	traces add: (ScpStateUpdate new
+		object: anObject;
+		variable: aVariable;
+		newValue: aValue;
+		yourself	
+	)
 ]
