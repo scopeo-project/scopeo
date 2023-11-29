@@ -18,9 +18,9 @@ BaselineOfScopeo >> baseline: spec [
 { #category : 'accessing' }
 BaselineOfScopeo >> dependencies: spec [
 
-	spec package: 'OpenTelemetry-Instrumentation-Matchers' with: [ 
-		spec repository: 'github://Gabriel-Darbord/opentelemetry-pharo:main'	
-	].
+	spec package: 'OpenTelemetry-Instrumentation-Matchers' with: [
+		spec repository: 'github://Gabriel-Darbord/opentelemetry-pharo:main'
+	]
 ]
 
 { #category : 'accessing' }

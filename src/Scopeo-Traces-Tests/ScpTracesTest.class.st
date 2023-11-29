@@ -13,7 +13,7 @@ ScpTracesTest >> setUp [
 
 	super setUp.
 	traces := ScpTraces new
-		matching: (OTMatcher name: ScpExampleObjectA package name);
+		filter matchClasses: (OTMatcher name: ScpExampleObjectA package name);
 		yourself
 ]
 
@@ -27,19 +27,19 @@ ScpTracesTest >> tearDown [
 { #category : 'tests' }
 ScpTracesTest >> testExampleAccessorCall [
 
-	| stateUdpates messagesToAccessor |
-	traces scan: [
-		|objectA objectB|
-		objectB := ScpExampleObjectB new.
-		objectA := ScpExampleObjectA new
-			exampleObjectB: objectB;
-			yourself.		
-		objectA exampleAccessorCall.
-	].
+	| stateUdpates messagesToAccessor objectA objectB|
+	"Given"
+	objectB := ScpExampleObjectB new.
+	objectA := ScpExampleObjectA new
+		exampleObjectB: objectB;
+		yourself.		
+	objectA exampleAccessorCall.
 
-	stateUdpates := traces fetch: ScpIsStateUpdate new.
-	messagesToAccessor := traces fetch: (ScpIsMessage new and: (ScpMessageSelectorEq value: #exampleAccessor)).
+	"When"
+	stateUdpates := traces storage fetch: ScpIsStateUpdate new.
+	messagesToAccessor := traces storage fetch: (ScpIsMessage new and: (ScpMessageSelectorEq value: #exampleAccessor)).
 
+	"Then"
 	self assert: stateUdpates size equals: 1.
 	
 	self assert: messagesToAccessor size equals: 1.
@@ -53,17 +53,18 @@ ScpTracesTest >> testExampleAccessorCall [
 { #category : 'tests' }
 ScpTracesTest >> testExampleInit [
 
-	| stateUdpates |
-	traces scan: [
-		|objectA objectB|
-		objectB := ScpExampleObjectB new.
-		objectA := ScpExampleObjectA new
-			exampleObjectB: objectB;
-			yourself.
-	].
+	| stateUdpates objectA objectB |
+	
+	"Given"
+	objectB := ScpExampleObjectB new.
+	objectA := ScpExampleObjectA new
+		exampleObjectB: objectB;
+		yourself.
 
+	"When"
 	stateUdpates := traces fetch: ScpIsStateUpdate new.
-
+	
+	"Then"
 	self assert: stateUdpates size equals: 1.
 	self
 		assert: stateUdpates first object class
@@ -77,21 +78,22 @@ ScpTracesTest >> testExampleInit [
 { #category : 'tests' }
 ScpTracesTest >> testExampleSetterCall [
 
-	| stateUdpates messagesToSetter |
-	traces scan: [
-		|objectA objectB|
-		objectB := ScpExampleObjectB new.
-		objectA := ScpExampleObjectA new
-			exampleObjectB: objectB;
-			yourself.		
-		objectA exampleSetterCall.
-	].
-
+	| stateUdpates messagesToSetter objectA objectB|
+		
+	"Given"
+	objectB := ScpExampleObjectB new.
+	objectA := ScpExampleObjectA new
+		exampleObjectB: objectB;
+		yourself.		
+	objectA exampleSetterCall.
+	
+	"When"
 	stateUdpates := traces fetch: ScpIsStateUpdate new.
 	messagesToSetter := traces fetch:
 		                    (ScpIsMessage new and:
 			                     (ScpMessageSelectorEq value: #exampleSetter:)).
-
+	
+	"Then"
 	self assert: stateUdpates size equals: 2.
 	self
 		assert: stateUdpates second object class

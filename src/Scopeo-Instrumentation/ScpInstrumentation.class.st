@@ -24,13 +24,20 @@ ScpInstrumentation >> handler: aHandler [
 	| indice classname |
 	indice := self indirections size + 1.
 	classname := ScpInstrumentationIndirection name , 'X' , indice asString.
+	
+	self class environment at: classname ifAbsent: [ 
+		ScpInstrumentationIndirection duplicateClassWithNewName: classname.
+		self indirectionClass: (self class environment at: classname).
+		self indirectionClass create 
+			instrumentation: self;
+			handler: aHandler.
+	].
 
-	ScpInstrumentationIndirection duplicateClassWithNewName: classname.
-		
-	self indirectionClass: (self class environment at: classname).
-	self indirectionClass create 
-		instrumentation: self;
-		handler: aHandler.
+	self indirectionClass instance handler: aHandler
+
+
+
+	
 ]
 
 { #category : 'private - indirection' }

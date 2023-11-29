@@ -29,7 +29,11 @@ ScpTracesMemoryStorage >> initialize [
 { #category : 'services' }
 ScpTracesMemoryStorage >> onCallOf: aSelector on: anObject with: aArguments [
 
-	
+	traces add: (ScpMessage new
+			 selector: aSelector;
+			 receiver: anObject;
+			 arguments: aArguments;
+			 yourself)
 ]
 
 { #category : 'services' }

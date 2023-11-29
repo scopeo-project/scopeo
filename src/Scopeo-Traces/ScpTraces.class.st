@@ -5,7 +5,8 @@ Class {
 		'scanner',
 		'filter',
 		'storage',
-		'tracer'
+		'tracer',
+		'methods'
 	],
 	#category : 'Scopeo-Traces',
 	#package : 'Scopeo-Traces'
@@ -35,16 +36,11 @@ ScpTraces class >> defaultRejectedPackages [
 	  'Collections-DoubleLinkedList'. 'Transcript-Core' }
 ]
 
-{ #category : 'services' }
-ScpTraces >> clear [
+{ #category : 'accessing' }
+ScpTraces >> filter [
 
-	tracer clear
-]
-
-{ #category : 'services' }
-ScpTraces >> fetch: aPredicate [
-
-	^ storage fetch: aPredicate
+	filter := ScpTracesFilter new.
+	^ filter
 ]
 
 { #category : 'initialization' }
@@ -54,25 +50,32 @@ ScpTraces >> initialize [
 	self storage: ScpTracesMemoryStorage new.
 ]
 
-{ #category : 'as yet unclassified' }
-ScpTraces >> matching: aMatcher [
+{ #category : 'services' }
+ScpTraces >> startRecording [
 
-	tracer matching: aMatcher.
+	methods ifNil: [ methods := filter methods].
+	tracer methods: methods.
+	tracer startTracing
 ]
 
 { #category : 'services' }
-ScpTraces >> scan: aBlock [
+ScpTraces >> stopRecording [
 
-	storage clear.
-	^ tracer scan: aBlock.
-	
+	tracer stopTracing
+]
+
+{ #category : 'accessing' }
+ScpTraces >> storage [
+
+	^ storage
 ]
 
 { #category : 'parameters' }
 ScpTraces >> storage: aStorage [
 
 	storage := aStorage.
-	tracer storage: aStorage.
+	tracer ifNil: [ ^ self ].
+	tracer handler: aStorage.
 ]
 
 { #category : 'parameters' }
@@ -80,5 +83,5 @@ ScpTraces >> tracer: aTracer [
 
 	tracer := aTracer.
 	storage ifNil: [ ^ self ].
-	tracer storage: storage
+	tracer handler: storage
 ]

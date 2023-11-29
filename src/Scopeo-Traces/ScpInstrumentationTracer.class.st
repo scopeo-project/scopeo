@@ -2,22 +2,44 @@ Class {
 	#name : 'ScpInstrumentationTracer',
 	#superclass : 'Object',
 	#instVars : [
-		'intrumentation'
+		'instrumentation',
+		'classMatcher',
+		'packageMatcher',
+		'methodMatcher',
+		'handler'
 	],
 	#category : 'Scopeo-Traces',
 	#package : 'Scopeo-Traces'
 }
 
-{ #category : 'services' }
-ScpInstrumentationTracer >> clear [
+{ #category : 'parameters' }
+ScpInstrumentationTracer >> handler: aHandler [
+
+	handler := aHandler
 ]
 
-{ #category : 'services' }
+{ #category : 'initialization' }
 ScpInstrumentationTracer >> initialize [
 
-	intrumentation := ScpInstrumentation new.
+	instrumentation := ScpInstrumentation new
 ]
 
-{ #category : 'as yet unclassified' }
-ScpInstrumentationTracer >> matching: aOTMatcher [
+{ #category : 'accessing' }
+ScpInstrumentationTracer >> methods: aMethods [
+
+	instrumentation methods: aMethods
+]
+
+{ #category : 'services' }
+ScpInstrumentationTracer >> startTracing [
+
+	instrumentation handler: handler.
+	instrumentation install
+]
+
+{ #category : 'services' }
+ScpInstrumentationTracer >> stopTracing [
+
+	instrumentation handler: ScpInstrumentationHandler new.
+	instrumentation uninstall
 ]
