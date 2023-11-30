@@ -1,6 +1,6 @@
 Class {
 	#name : 'ScpInstrumentationIndirection',
-	#superclass : 'ScpAbstractIndirection',
+	#superclass : 'Object',
 	#instVars : [
 		'handler',
 		'currentObject',
@@ -12,19 +12,6 @@ Class {
 	#category : 'Scopeo-Instrumentation',
 	#package : 'Scopeo-Instrumentation'
 }
-
-{ #category : 'accessing' }
-ScpInstrumentationIndirection class >> create [
-
-	instance := self new.
-	^ instance
-]
-
-{ #category : 'accessing' }
-ScpInstrumentationIndirection class >> instance [
-
-	^ instance
-]
 
 { #category : 'parameters' }
 ScpInstrumentationIndirection >> handler: aHandler [

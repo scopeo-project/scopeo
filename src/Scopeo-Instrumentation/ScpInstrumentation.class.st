@@ -4,9 +4,9 @@ Class {
 	#instVars : [
 		'packages',
 		'methods',
-		'handler',
 		'indirectionClassName',
-		'indirectionClass'
+		'indirectionClass',
+		'identifier'
 	],
 	#category : 'Scopeo-Instrumentation',
 	#package : 'Scopeo-Instrumentation'
@@ -15,25 +15,22 @@ Class {
 { #category : 'private' }
 ScpInstrumentation class >> uninstallAll [
 
-	self allInstancesDo: [ :i | i uninstall ]
+	ScpInstrumentationRegistry instance valuesDo: [ :i | 
+		i uninstall
+	]
+
 ]
 
 { #category : 'parameters' }
 ScpInstrumentation >> handler: aHandler [
 
-	| indice classname |
-	indice := self indirections size + 1.
-	classname := ScpInstrumentationIndirection name , 'X' , indice asString.
-	
-	self class environment at: classname ifAbsent: [ 
-		ScpInstrumentationIndirection duplicateClassWithNewName: classname.
-		self indirectionClass: (self class environment at: classname).
-		self indirectionClass create 
+	ScpInstrumentationRegistry instance at: identifier ifAbsentPut: [ 
+		ScpInstrumentationIndirection new
 			instrumentation: self;
-			handler: aHandler.
+			yourself	
 	].
 
-	self indirectionClass instance handler: aHandler
+	(ScpInstrumentationRegistry at: identifier) handler: aHandler
 
 
 
@@ -41,15 +38,14 @@ ScpInstrumentation >> handler: aHandler [
 ]
 
 { #category : 'private - indirection' }
-ScpInstrumentation >> indirectionClass [
+ScpInstrumentation >> indirectionNode [
 
-	^ indirectionClass
-]
-
-{ #category : 'private - indirection' }
-ScpInstrumentation >> indirectionClass: anIndirectionClass [
-
-	indirectionClass := anIndirectionClass
+	^ RBMessageNode
+		  receiver: (RBMessageNode
+				   receiver: (RBVariableNode named: #ScpInstrumentationRegistry)
+				   selector: #instance)
+		  selector: #at:
+		  arguments: { (RBLiteralValueNode value: identifier) }
 ]
 
 { #category : 'private - indirection' }
@@ -70,10 +66,10 @@ ScpInstrumentation >> indirectionOnStateUpdateSelector [
 	^ (ScpInstrumentationIndirection >> #onUpdateOf:of:with:) selector
 ]
 
-{ #category : 'private - indirection' }
-ScpInstrumentation >> indirections [
+{ #category : 'initialization' }
+ScpInstrumentation >> initialize [
 
-	^ ScpAbstractIndirection subclasses reject: [ :c | c = ScpInstrumentationIndirection ].
+	identifier := ScpInstrumentationRegistry instance size + 1
 ]
 
 { #category : 'services' }
@@ -97,7 +93,7 @@ ScpInstrumentation >> instrumentCallOf: aMethod [
 	methodAST := aMethod ast.
 
 	instrumentation := RBMessageNode
-		receiver: self newIndirectionNode
+		receiver: self indirectionNode
 		selector: self indirectionOnCallSelector
 		arguments: {
 			(RBLiteralValueNode value: methodAST selector) .
@@ -113,7 +109,7 @@ ScpInstrumentation >> instrumentMessagesIn: aMethod [
 	aMethod ast sendNodes do: [ :node |
 		| indirection |
 		indirection := RBMessageNode
-			receiver: self newIndirectionNode
+			receiver: self indirectionNode
 			selector: self indirectionOnMessageSelector
 			arguments: {
 				(RBLiteralValueNode value: node selector).
@@ -131,7 +127,7 @@ ScpInstrumentation >> instrumentStateUpdatesIn: aMethod [
 			| assignment indirection |
 			assignment := node parent.
 			indirection := RBMessageNode
-		         receiver: self newIndirectionNode
+		         receiver: self indirectionNode
 		         selector: self indirectionOnStateUpdateSelector
 		         arguments: {
 						(RBLiteralValueNode value: node name).
@@ -148,30 +144,6 @@ ScpInstrumentation >> methods: aMethodCollection [
 	methods := aMethodCollection
 ]
 
-{ #category : 'private - indirection' }
-ScpInstrumentation >> newIndirectionNode [
-
-	^ RBMessageNode
-			 receiver: (RBVariableNode named: self indirectionClass name)
-			 selector: #instance.
-]
-
-{ #category : 'parameters' }
-ScpInstrumentation >> packages: aPackageNameCollection [
-
-	methods := self packagesMethods: (aPackageNameCollection collect: [ :n | n asPackage ])
-]
-
-{ #category : 'private - filtering' }
-ScpInstrumentation >> packagesMethods: aPackages [
-
-	| classes |
-	classes := aPackages flatCollect: [ :p | p classes ].
-	^ (classes flatCollect: #methods) select: [ :m |
-		  (aPackages includes: m methodClass package) or: [
-			  aPackages anySatisfy: [ :p | m protocol name match: p name ] ] ]
-]
-
 { #category : 'services' }
 ScpInstrumentation >> uninstall [
 
@@ -180,9 +152,5 @@ ScpInstrumentation >> uninstall [
 			m classBinding value compiler install: m ast sourceCode.
 		].
 	].
-	self indirectionClass ifNotNil: [ :c | 
-		c removeFromSystem. 
-		self indirectionClass: nil
-	].
-	
+	ScpInstrumentationRegistry instance removeKey: identifier.	
 ]
