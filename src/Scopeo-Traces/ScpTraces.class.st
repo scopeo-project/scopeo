@@ -37,10 +37,9 @@ ScpTraces class >> defaultRejectedPackages [
 ]
 
 { #category : 'accessing' }
-ScpTraces >> filter [
+ScpTraces >> filter: aFilter [
 
-	filter := ScpTracesFilter new.
-	^ filter
+	filter := aFilter
 ]
 
 { #category : 'initialization' }
@@ -84,4 +83,11 @@ ScpTraces >> tracer: aTracer [
 	tracer := aTracer.
 	storage ifNil: [ ^ self ].
 	tracer handler: storage
+]
+
+{ #category : 'accessing' }
+ScpTraces >> withFilter: aFilterSetUpBlock [
+
+	self filter: ScpTracesFilter new.
+	aFilterSetUpBlock value: filter.
 ]

@@ -55,5 +55,5 @@ ScpInstrumentationIndirection >> onMessage: aSelector to: anObject with: aArgume
 ScpInstrumentationIndirection >> onUpdateOf: aVariable of: anObject with: aValue [
 
 	handler onUpdateOf: aVariable of: anObject with: aValue.
-	MirrorPrimitives fieldOf: anObject at: aVariable put: aValue
+	anObject writeSlotNamed: aVariable value: aValue.
 ]

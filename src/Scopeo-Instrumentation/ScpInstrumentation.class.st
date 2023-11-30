@@ -175,9 +175,14 @@ ScpInstrumentation >> packagesMethods: aPackages [
 { #category : 'services' }
 ScpInstrumentation >> uninstall [
 
-	methods do: [ :m |
-		m classBinding value compiler install: m ast sourceCode.
+	methods ifNotNil: [ :mtds |
+		mtds do: [ :m |
+			m classBinding value compiler install: m ast sourceCode.
+		].
 	].
-	indirectionClass ifNotNil: [ :c | c removeFromSystem ]
+	self indirectionClass ifNotNil: [ :c | 
+		c removeFromSystem. 
+		self indirectionClass: nil
+	].
 	
 ]

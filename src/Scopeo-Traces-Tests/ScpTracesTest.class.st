@@ -13,7 +13,10 @@ ScpTracesTest >> setUp [
 
 	super setUp.
 	traces := ScpTraces new
-		filter matchClasses: (OTMatcher name: ScpExampleObjectA package name);
+		withFilter: [ :filter | 
+			filter matchPackages: (OTMatcher name: ScpExampleObjectA package name) 
+		];
+		startRecording;
 		yourself
 ]
 
@@ -21,7 +24,7 @@ ScpTracesTest >> setUp [
 ScpTracesTest >> tearDown [
 
 	super tearDown.
-	traces clear
+	traces stopRecording
 ]
 
 { #category : 'tests' }
@@ -121,21 +124,20 @@ ScpTracesTest >> testExampleSetterCall [
 { #category : 'tests' }
 ScpTracesTest >> testExampleSetterCallInBlock [
 
-	| stateUdpates messagesToSetter |
-	traces scan: [
-		|objectA objectB|
-		objectB := ScpExampleObjectB new.
-		objectA := ScpExampleObjectA new
-			exampleObjectB: objectB;
-			yourself.		
-		objectA exampleSetterCallInBlock.
-	].
+	| stateUdpates messagesToSetter objectA objectB|
+	"Given"
+	objectB := ScpExampleObjectB new.
+	objectA := ScpExampleObjectA new
+		exampleObjectB: objectB;
+		yourself.		
+	objectA exampleSetterCallInBlock.
 
+	"When"
 	stateUdpates := traces fetch: ScpIsStateUpdate new.
 	messagesToSetter := traces fetch:
 		                    (ScpIsMessage new and:
 			                     (ScpMessageSelectorEq value: #exampleSetter:)).
-
+	"Then"
 	self assert: stateUdpates size equals: 2.
 	self
 		assert: stateUdpates second object class
@@ -165,21 +167,22 @@ ScpTracesTest >> testExampleSetterCallInBlock [
 { #category : 'tests' }
 ScpTracesTest >> testExampleSetterCallInBlockInBlock [
 
-	| stateUdpates messagesToSetter |
-	traces scan: [
-		|objectA objectB|
-		objectB := ScpExampleObjectB new.
-		objectA := ScpExampleObjectA new
-			exampleObjectB: objectB;
-			yourself.		
-		objectA exampleSetterCallInBlockInBlock.
-	].
+	| stateUdpates messagesToSetter objectA objectB|
+	
+	"Given"
+	objectB := ScpExampleObjectB new.
+	objectA := ScpExampleObjectA new
+		exampleObjectB: objectB;
+		yourself.		
+	objectA exampleSetterCallInBlockInBlock.
 
+	"When"
 	stateUdpates := traces fetch: ScpIsStateUpdate new.
 	messagesToSetter := traces fetch:
 		                    (ScpIsMessage new and:
 			                     (ScpMessageSelectorEq value: #exampleSetter:)).
 
+	"Then"
 	self assert: stateUdpates size equals: 2.
 	self
 		assert: stateUdpates second object class

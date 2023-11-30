@@ -34,6 +34,8 @@ ScpInstrumentationTracer >> methods: aMethods [
 ScpInstrumentationTracer >> startTracing [
 
 	instrumentation handler: handler.
+	
+	self halt.
 	instrumentation install
 ]
 

@@ -10,6 +10,14 @@ Class {
 	#package : 'Scopeo-Traces'
 }
 
+{ #category : 'initialization' }
+ScpTracesFilter >> initialize [
+
+	self matchPackages: OTAnyMatcher new.
+	self matchClasses: OTAnyMatcher new.
+	self matchMethods: OTAnyMatcher new
+]
+
 { #category : 'parameters' }
 ScpTracesFilter >> matchClasses: aClassMatcher [
 
