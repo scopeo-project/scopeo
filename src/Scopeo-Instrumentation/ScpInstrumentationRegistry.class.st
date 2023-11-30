@@ -1,6 +1,6 @@
 Class {
 	#name : 'ScpInstrumentationRegistry',
-	#superclass : 'OrderedCollection',
+	#superclass : 'Dictionary',
 	#classInstVars : [
 		'instance'
 	],

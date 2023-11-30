@@ -30,7 +30,7 @@ ScpInstrumentation >> handler: aHandler [
 			yourself	
 	].
 
-	(ScpInstrumentationRegistry at: identifier) handler: aHandler
+	(ScpInstrumentationRegistry instance at: identifier) handler: aHandler
 
 
 
