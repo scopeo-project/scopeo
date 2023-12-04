@@ -109,13 +109,11 @@ ScpInstrumentation >> initialize [
 { #category : 'services' }
 ScpInstrumentation >> install [
 
-	methods do: [ :method | 	
+	methods do: [ :method |
 		self instrumentMethodCallOf: method.
 		self instrumentMessagesIn: method.
 		self instrumentStateUpdatesIn: method.
-
-		method ast doSemanticAnalysis.
-		method ast compiler install	
+		self recompileMethodAST: method.
 	]
 ]
 
@@ -154,10 +152,21 @@ ScpInstrumentation >> instrumentStateUpdatesIn: aMethod [
 	]
 ]
 
-{ #category : 'accessing' }
+{ #category : 'parameters' }
 ScpInstrumentation >> methods: aMethodCollection [
 
 	methods := aMethodCollection
+]
+
+{ #category : 'private - instrumentation' }
+ScpInstrumentation >> recompileMethodAST: aMethod [
+	| methodClass methodCompiler |
+	
+	methodClass := aMethod methodClass ifNil: [ nil class ].
+	methodCompiler := methodClass compiler ast: self.	
+	
+	aMethod ast doSemanticAnalysis.
+	methodCompiler install.
 ]
 
 { #category : 'services' }
