@@ -20,6 +20,12 @@ ScpInstrumentationIndirection >> handler: aHandler [
 ]
 
 { #category : 'accessing' }
+ScpInstrumentationIndirection >> instrumentation [
+
+	^ instrumentation
+]
+
+{ #category : 'accessing' }
 ScpInstrumentationIndirection >> instrumentation: aInstrumentation [
 
 	instrumentation := aInstrumentation
