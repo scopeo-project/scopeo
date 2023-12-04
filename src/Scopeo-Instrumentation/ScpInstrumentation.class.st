@@ -2,12 +2,11 @@ Class {
 	#name : 'ScpInstrumentation',
 	#superclass : 'Object',
 	#instVars : [
-		'packages',
 		'methods',
-		'indirectionClassName',
-		'indirectionClass',
 		'identifier',
-		'indirectionNode'
+		'indirectionNode',
+		'indirectionReceiverNode',
+		'indirectionReceiverNodes'
 	],
 	#category : 'Scopeo-Instrumentation',
 	#package : 'Scopeo-Instrumentation'
@@ -38,7 +37,7 @@ ScpInstrumentation >> handler: aHandler [
 	
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'private - indirection' }
 ScpInstrumentation >> indirectionMessageNode: aMessageNode [
 
 	^ RBMessageNode
@@ -51,7 +50,7 @@ ScpInstrumentation >> indirectionMessageNode: aMessageNode [
 				  (RBArrayNode statements: aMessageNode arguments) }
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'private - indirection' }
 ScpInstrumentation >> indirectionMethodCallNode: aMethodNode [
 
 	^ RBMessageNode
@@ -66,15 +65,16 @@ ScpInstrumentation >> indirectionMethodCallNode: aMethodNode [
 { #category : 'private - indirection' }
 ScpInstrumentation >> indirectionReceiverNode [
 
-	^ RBMessageNode
-		  receiver: (RBMessageNode
-				   receiver: (RBVariableNode named: #ScpInstrumentationRegistry)
-				   selector: #instance)
-		  selector: #at:
-		  arguments: { (RBLiteralValueNode value: identifier) }
+	^ indirectionReceiverNode
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'private - indirection' }
+ScpInstrumentation >> indirectionReceiverNodes [
+
+	^ indirectionReceiverNodes
+]
+
+{ #category : 'private - indirection' }
 ScpInstrumentation >> indirectionStateUpdateNode: anAssignmentNode [
 
 	^ RBMessageNode
@@ -90,7 +90,20 @@ ScpInstrumentation >> indirectionStateUpdateNode: anAssignmentNode [
 { #category : 'initialization' }
 ScpInstrumentation >> initialize [
 
-	identifier := ScpInstrumentationRegistry instance size + 1
+	identifier := ScpInstrumentationRegistry instance size + 1.
+	indirectionReceiverNode := RBMessageNode
+		                           receiver: (RBMessageNode
+				                            receiver:
+				                            (RBVariableNode named:
+					                             #ScpInstrumentationRegistry)
+				                            selector: #instance)
+		                           selector: #at:
+		                           arguments:
+		                           { (RBLiteralValueNode value: identifier) }.
+
+	indirectionReceiverNodes := self indirectionReceiverNode sendNodes
+		                            flatCollect: [ :n | n receiver ].
+	indirectionReceiverNodes add: self indirectionReceiverNode
 ]
 
 { #category : 'services' }
@@ -110,14 +123,14 @@ ScpInstrumentation >> install [
 ScpInstrumentation >> instrumentMessagesIn: aMethod [
 
 	| nodes |
-
 	nodes := aMethod ast sendNodes.
-	nodes := nodes reject: [ :node | node receiver = self indirectionReceiverNode ].
-	nodes := nodes reject: [ :node | node receiver = self superNode ].
+	nodes := nodes reject: [ :node |
+		         self indirectionReceiverNodes includes: node receiver ].
+	nodes := nodes reject: [ :node | node isSuperSend ].
 	nodes do: [ :node |
 		node parent
 			replaceNode: node
-			withNode: (self indirectionMessageNode: node)
+			withNode: (self indirectionMessageNode: node) 
 	]
 ]
 
@@ -145,12 +158,6 @@ ScpInstrumentation >> instrumentStateUpdatesIn: aMethod [
 ScpInstrumentation >> methods: aMethodCollection [
 
 	methods := aMethodCollection
-]
-
-{ #category : 'private - indirection' }
-ScpInstrumentation >> superNode [
-
-	^ RBVariableNode named: #super
 ]
 
 { #category : 'services' }
