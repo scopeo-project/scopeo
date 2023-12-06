@@ -27,33 +27,22 @@ ScpTracesMemoryStorage >> initialize [
 ]
 
 { #category : 'services' }
-ScpTracesMemoryStorage >> onCallOf: aSelector on: anObject with: aArguments [
+ScpTracesMemoryStorage >> onAssignmentOf: aValue to: aVariable of: anObject [ 
 
-	traces add: (ScpMessage new
-			 selector: aSelector;
-			 receiver: anObject;
-			 arguments: aArguments;
+	traces add: (ScpStateUpdate new
+			 object: anObject;
+			 variable: aVariable;
+			 newValue: aValue;
 			 yourself)
 ]
 
 { #category : 'services' }
-ScpTracesMemoryStorage >> onMessage: aSelector to: anObject with: aArguments [
+ScpTracesMemoryStorage >> onCallOf: aMethodSelector on: aReceiver from: aSender with: aArguments [
 
 	traces add: (ScpMessage new
-		selector: aSelector;
-		receiver: anObject;
-		arguments: aArguments;
-		yourself
-	)
-]
-
-{ #category : 'services' }
-ScpTracesMemoryStorage >> onUpdateOf: aVariable of: anObject with: aValue [
-
-	traces add: (ScpStateUpdate new
-		object: anObject;
-		variable: aVariable;
-		newValue: aValue;
-		yourself	
-	)
+			 sender: aSender;
+			 selector: aMethodSelector;
+			 receiver: aReceiver;
+			 arguments: aArguments;
+			 yourself)
 ]

@@ -60,7 +60,10 @@ ScpInstrumentation >> instrumentExecution: aMethod [
 { #category : 'private' }
 ScpInstrumentation >> instrumentInvocations: aMethod [
 
-	aMethod ast sendNodes do: [ :node | 
+	| nodes |
+	nodes := aMethod ast sendNodes.
+	nodes := nodes reject: [ :node | node arguments anySatisfy: [ :a | a isBlock ] ].	
+	nodes do: [ :node |
 		node linkIfAbsent: self linkForInvocation 
 	]
 ]
