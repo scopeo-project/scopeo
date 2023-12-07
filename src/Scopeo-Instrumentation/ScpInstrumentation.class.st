@@ -19,6 +19,8 @@ Class {
 { #category : 'private' }
 ScpInstrumentation class >> uninstallAll [
 
+	<script: 'self uninstallAll'>
+	
 	self allInstancesDo: [ :i | i uninstall ]
 
 ]
@@ -62,7 +64,9 @@ ScpInstrumentation >> instrumentInvocations: aMethod [
 
 	| nodes |
 	nodes := aMethod ast sendNodes.
-	nodes := nodes reject: [ :node | node arguments anySatisfy: [ :a | a isBlock ] ].	
+	"nodes := nodes reject: [ :node | node arguments isNotEmpty ]."
+	nodes := nodes reject: [ :node | node arguments anySatisfy: [ :a | a isBlock ] ].
+	self haltOnCount: 2.	
 	nodes do: [ :node |
 		node linkIfAbsent: self linkForInvocation 
 	]

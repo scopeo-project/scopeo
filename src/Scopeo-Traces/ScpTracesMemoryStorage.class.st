@@ -29,6 +29,8 @@ ScpTracesMemoryStorage >> initialize [
 { #category : 'services' }
 ScpTracesMemoryStorage >> onAssignmentOf: aValue to: aVariable of: anObject [ 
 
+
+	self halt.
 	traces add: (ScpStateUpdate new
 			 object: anObject;
 			 variable: aVariable;
@@ -39,6 +41,7 @@ ScpTracesMemoryStorage >> onAssignmentOf: aValue to: aVariable of: anObject [
 { #category : 'services' }
 ScpTracesMemoryStorage >> onCallOf: aMethodSelector on: aReceiver from: aSender with: aArguments [
 
+	self halt.
 	traces add: (ScpMessage new
 			 sender: aSender;
 			 selector: aMethodSelector;
