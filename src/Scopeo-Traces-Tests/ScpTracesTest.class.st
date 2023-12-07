@@ -12,12 +12,12 @@ Class {
 ScpTracesTest >> setUp [
 
 	super setUp.
-	traces := ScpTraces new
-		withFilter: [ :filter | 
-			filter matchPackages: (OTMatcher name: ScpExampleObjectA package name) 
-		];
-		startRecording;
-		yourself
+	traces := ScpTraces new.
+	traces withFilter: [ :filter | 
+		filter matchPackages: (OTMatcher name: ScpExampleObjectA package name) 
+	].
+	traces startRecording.
+	
 ]
 
 { #category : 'running' }
