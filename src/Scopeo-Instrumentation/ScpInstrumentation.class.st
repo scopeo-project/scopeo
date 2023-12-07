@@ -64,11 +64,8 @@ ScpInstrumentation >> instrumentInvocations: aMethod [
 
 	| nodes |
 	nodes := aMethod ast sendNodes.
-	"nodes := nodes reject: [ :node | node arguments isNotEmpty ]."
-	nodes := nodes reject: [ :node | node arguments anySatisfy: [ :a | a isBlock ] ].
-	self haltOnCount: 2.	
 	nodes do: [ :node |
-		node linkIfAbsent: self linkForInvocation 
+		node link: self linkForInvocation 
 	]
 ]
 
@@ -106,7 +103,7 @@ ScpInstrumentation >> linkForInvocation [
 	^ linkForInvocation ifNil: [
 		  linkForInvocation := MetaLink new.
 		  linkForInvocation control: #before.
-		  linkForInvocation arguments: #( object selector receiver arguments ).
+		  linkForInvocation arguments: #( sender selector receiver arguments ).
 		  linkForInvocation optionArgsAsArray: true.
 		  linkForInvocation optionCompileOnLinkInstallation: true.
 		  linkForInvocation metaObject: self.
