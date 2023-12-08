@@ -10,7 +10,12 @@ Class {
 		'linkForExecution',
 		'linkForAssignment',
 		'linkForInvocation',
-		'handler'
+		'handler',
+		'imageMethods',
+		'methodsToInstrument',
+		'classesOfMethodsToInstrument',
+		'instrumentedMethods',
+		'linkForMessageSend'
 	],
 	#category : 'Scopeo-Instrumentation',
 	#package : 'Scopeo-Instrumentation'
@@ -25,6 +30,19 @@ ScpInstrumentation class >> uninstallAll [
 
 ]
 
+{ #category : 'private' }
+ScpInstrumentation >> classesOfMethodsToInstrument [
+
+	^ classesOfMethodsToInstrument ifNil: [  
+		| classes |
+		classes := self methodsToInstrument flatCollect: [ :m | m methodClass ].
+		classesOfMethodsToInstrument := IdentitySet new 
+			growTo: classes size;
+	 		noCheckNoGrowFillFrom: classes;
+			yourself.
+	]
+]
+
 { #category : 'parameters' }
 ScpInstrumentation >> handler: aHandler [
 
@@ -35,13 +53,26 @@ ScpInstrumentation >> handler: aHandler [
 	
 ]
 
+{ #category : 'accessing' }
+ScpInstrumentation >> imageMethods: aSelector [
+
+	^ imageMethods select: [ :m | m selector = aSelector ]
+]
+
+{ #category : 'parameters' }
+ScpInstrumentation >> initialize [
+
+	imageMethods := SystemNavigation default allMethodsSelect: [ :b | true ].
+
+]
+
 { #category : 'services' }
 ScpInstrumentation >> install [
 
 	methods do: [ :method |
-		self instrumentInvocations: method.
+		self instrumentMethodCall: method.
+		self instrumentMessageSends: method.
 		self instrumentAssignments: method.
-		self instrumentExecution: method.
 	]
 ]
 
@@ -54,19 +85,19 @@ ScpInstrumentation >> instrumentAssignments: aMethod [
 ]
 
 { #category : 'private' }
-ScpInstrumentation >> instrumentExecution: aMethod [
+ScpInstrumentation >> instrumentMessageSends: aMethod [
 
-	aMethod ast linkIfAbsent: self linkForExecution
+	aMethod ast sendNodes do: [ :node | 
+		(self imageMethods: node selector) do: [ :m | 
+			m linkIfAbsent: self linkForMessageSend
+		]
+	].
 ]
 
 { #category : 'private' }
-ScpInstrumentation >> instrumentInvocations: aMethod [
+ScpInstrumentation >> instrumentMethodCall: aMethod [
 
-	| nodes |
-	nodes := aMethod ast sendNodes.
-	nodes do: [ :node |
-		node link: self linkForInvocation 
-	]
+	aMethod ast linkIfAbsent: self linkForMethodCall.
 ]
 
 { #category : 'private' }
@@ -75,81 +106,60 @@ ScpInstrumentation >> linkForAssignment [
 	^ linkForAssignment ifNil: [
 		  linkForAssignment := MetaLink new.
 		  linkForAssignment control: #before.
-		  linkForAssignment arguments: #( object variable value ).
-		  linkForAssignment optionArgsAsArray: true.
+		  linkForAssignment arguments: #( value variable object).
+		  "linkForAssignment optionArgsAsArray: true."
 		  linkForAssignment optionCompileOnLinkInstallation: true.
-		  linkForAssignment metaObject: self.
-		  linkForAssignment selector: #onAssigment:.
+		  linkForAssignment metaObject: handler.
+		  linkForAssignment selector: #onAssignmentOf:to:of:.
 		  ^ linkForAssignment ]
 ]
 
 { #category : 'private' }
-ScpInstrumentation >> linkForExecution [
+ScpInstrumentation >> linkForMessageSend [
+
+	^ linkForMessageSend ifNil: [
+		  linkForMessageSend := MetaLink new.
+		  linkForMessageSend control: #before.
+		  linkForMessageSend arguments: #( method object sender arguments ).
+		  "linkForMessageSend optionArgsAsArray: true."
+		  linkForMessageSend optionCompileOnLinkInstallation: true.
+		  linkForMessageSend metaObject: self.
+		  linkForMessageSend selector: #onMessageSend:to:from:with:.
+		  ^ linkForMessageSend ]
+]
+
+{ #category : 'private' }
+ScpInstrumentation >> linkForMethodCall [
 
 	^ linkForExecution ifNil: [
 		  linkForExecution := MetaLink new.
 		  linkForExecution control: #before.
-		  linkForExecution arguments: #( sender selector receiver arguments ).
-		  linkForExecution optionArgsAsArray: true.
+		  linkForExecution arguments: #( method object sender arguments ).
+		  "linkForExecution optionArgsAsArray: true."
 		  linkForExecution optionCompileOnLinkInstallation: true.
-		  linkForExecution metaObject: self.
-		  linkForExecution selector: #onExecution:.
+		  linkForExecution metaObject: handler.
+		  linkForExecution selector: #onCallOf:on:from:with:.
 		  ^ linkForExecution ]
 ]
 
-{ #category : 'private' }
-ScpInstrumentation >> linkForInvocation [
-
-	^ linkForInvocation ifNil: [
-		  linkForInvocation := MetaLink new.
-		  linkForInvocation control: #before.
-		  linkForInvocation arguments: #( sender selector receiver arguments ).
-		  linkForInvocation optionArgsAsArray: true.
-		  linkForInvocation optionCompileOnLinkInstallation: true.
-		  linkForInvocation metaObject: self.
-		  linkForInvocation selector: #onInvocation:.
-		  ^ linkForInvocation ]
-]
-
 { #category : 'accessing' }
-ScpInstrumentation >> methods [
+ScpInstrumentation >> methodsToInstrument [
 
-	^ methods
+	^ methodsToInstrument
 ]
 
 { #category : 'parameters' }
-ScpInstrumentation >> methods: aMethodCollection [
+ScpInstrumentation >> methodsToInstrument: aMethodCollection [
 
-	methods := aMethodCollection
+	methodsToInstrument := aMethodCollection
 ]
 
 { #category : 'private' }
-ScpInstrumentation >> onAssignments: aArguments [
-	"Arguments: object variable value"
+ScpInstrumentation >> onMessageSend: aMethod to: aReceiver from: aSender with: aArguments [
 	
-	handler onAssignmentOf: aArguments third 
-			to: aArguments second
-			of: aArguments first.
-]
-
-{ #category : 'private' }
-ScpInstrumentation >> onExecution: aArguments [
-	"Arguments: sender selector receiver arguments"
-	
-	handler onCallOf: aArguments second 
-			on: aArguments third 
-			from: aArguments first 
-			with: aArguments fourth.
-]
-
-{ #category : 'private' }
-ScpInstrumentation >> onInvocation: aArguments [
-	"Arguments: object selector receiver method"
-	
-	handler onCallOf: aArguments second 
-			on: aArguments third 
-			from: aArguments first 
-			with: aArguments fourth.
+	(self classesOfMethodsToInstrument includes: aSender class) ifFalse: [ ^ self ].
+	handler onCallOf: aMethod on: aReceiver from: aSender with: aArguments.
+				
 ]
 
 { #category : 'services' }
@@ -157,5 +167,5 @@ ScpInstrumentation >> uninstall [
 	
 	self linkForAssignment uninstall.
 	self linkForInvocation uninstall.
-	self linkForExecution uninstall.
+	self linkForMethodCall uninstall.
 ]
