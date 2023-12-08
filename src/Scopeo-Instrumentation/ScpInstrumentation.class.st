@@ -27,14 +27,7 @@ ScpInstrumentation class >> uninstallAll [
 { #category : 'private' }
 ScpInstrumentation >> classesOfMethodsToInstrument [
 
-	^ classesOfMethodsToInstrument ifNil: [  
-		| classes |
-		classes := self methodsToInstrument flatCollect: [ :m | m methodClass ].
-		classesOfMethodsToInstrument := IdentitySet new 
-			growTo: classes size;
-	 		noCheckNoGrowFillFrom: classes;
-			yourself.
-	]
+	^ classesOfMethodsToInstrument
 ]
 
 { #category : 'parameters' }
@@ -81,11 +74,13 @@ ScpInstrumentation >> instrumentAssignments: aMethod [
 { #category : 'private' }
 ScpInstrumentation >> instrumentMessageSends: aMethod [
 	
-	| nodes |
+	| nodes methods |
 	nodes := aMethod ast sendNodes.
 	nodes := nodes reject: [ :n | n receiver isBlock ].
-	nodes do: [ :n |
-		n linkIfAbsent: self linkForMessageSend.
+	methods := nodes flatCollect: [ :n | self imageMethods: n selector ].
+	methods := methods reject: [ :m | self methodsToInstrument includes: m ].
+	methods do: [ :m |
+		m ast linkIfAbsent: self linkForMessageSend.
 	]
 ]
 
@@ -146,7 +141,9 @@ ScpInstrumentation >> methodsToInstrument [
 { #category : 'parameters' }
 ScpInstrumentation >> methodsToInstrument: aMethodCollection [
 
-	methodsToInstrument := aMethodCollection
+	methodsToInstrument := aMethodCollection asIdentitySet.
+	classesOfMethodsToInstrument := methodsToInstrument flatCollect: [ :m | m methodClass ].
+	classesOfMethodsToInstrument := classesOfMethodsToInstrument asIdentitySet.
 ]
 
 { #category : 'private' }
