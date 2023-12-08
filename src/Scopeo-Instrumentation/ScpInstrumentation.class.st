@@ -2,20 +2,14 @@ Class {
 	#name : 'ScpInstrumentation',
 	#superclass : 'Object',
 	#instVars : [
-		'methods',
-		'identifier',
-		'indirectionNode',
-		'indirectionReceiverNode',
-		'indirectionReceiverNodes',
-		'linkForExecution',
 		'linkForAssignment',
 		'linkForInvocation',
 		'handler',
 		'imageMethods',
 		'methodsToInstrument',
 		'classesOfMethodsToInstrument',
-		'instrumentedMethods',
-		'linkForMessageSend'
+		'linkForMessageSend',
+		'linkForMethodCall'
 	],
 	#category : 'Scopeo-Instrumentation',
 	#package : 'Scopeo-Instrumentation'
@@ -69,7 +63,7 @@ ScpInstrumentation >> initialize [
 { #category : 'services' }
 ScpInstrumentation >> install [
 
-	methods do: [ :method |
+	self methodsToInstrument do: [ :method |
 		self instrumentMethodCall: method.
 		self instrumentMessageSends: method.
 		self instrumentAssignments: method.
@@ -86,12 +80,13 @@ ScpInstrumentation >> instrumentAssignments: aMethod [
 
 { #category : 'private' }
 ScpInstrumentation >> instrumentMessageSends: aMethod [
-
-	aMethod ast sendNodes do: [ :node | 
-		(self imageMethods: node selector) do: [ :m | 
-			m linkIfAbsent: self linkForMessageSend
-		]
-	].
+	
+	| nodes |
+	nodes := aMethod ast sendNodes.
+	nodes := nodes reject: [ :n | n receiver isBlock ].
+	nodes do: [ :n |
+		n linkIfAbsent: self linkForMessageSend.
+	]
 ]
 
 { #category : 'private' }
@@ -120,26 +115,26 @@ ScpInstrumentation >> linkForMessageSend [
 	^ linkForMessageSend ifNil: [
 		  linkForMessageSend := MetaLink new.
 		  linkForMessageSend control: #before.
-		  linkForMessageSend arguments: #( method object sender arguments ).
+		  linkForMessageSend arguments: #( method receiver object arguments ).
 		  "linkForMessageSend optionArgsAsArray: true."
 		  linkForMessageSend optionCompileOnLinkInstallation: true.
-		  linkForMessageSend metaObject: self.
-		  linkForMessageSend selector: #onMessageSend:to:from:with:.
+		  linkForMessageSend metaObject: handler.
+		  linkForMessageSend selector: ##onCallOf:on:from:with:.
 		  ^ linkForMessageSend ]
 ]
 
 { #category : 'private' }
 ScpInstrumentation >> linkForMethodCall [
 
-	^ linkForExecution ifNil: [
-		  linkForExecution := MetaLink new.
-		  linkForExecution control: #before.
-		  linkForExecution arguments: #( method object sender arguments ).
-		  "linkForExecution optionArgsAsArray: true."
-		  linkForExecution optionCompileOnLinkInstallation: true.
-		  linkForExecution metaObject: handler.
-		  linkForExecution selector: #onCallOf:on:from:with:.
-		  ^ linkForExecution ]
+	^ linkForMethodCall ifNil: [
+		  linkForMethodCall := MetaLink new.
+		  linkForMethodCall control: #before.
+		  linkForMethodCall arguments: #( method object sender arguments ).
+		  "linkForMethodCall optionArgsAsArray: true."
+		  linkForMethodCall optionCompileOnLinkInstallation: true.
+		  linkForMethodCall metaObject: handler.
+		  linkForMethodCall selector: #onCallOf:on:from:with:.
+		  ^ linkForMethodCall ]
 ]
 
 { #category : 'accessing' }
@@ -166,6 +161,6 @@ ScpInstrumentation >> onMessageSend: aMethod to: aReceiver from: aSender with: a
 ScpInstrumentation >> uninstall [
 	
 	self linkForAssignment uninstall.
-	self linkForInvocation uninstall.
+	self linkForMessageSend uninstall.
 	self linkForMethodCall uninstall.
 ]

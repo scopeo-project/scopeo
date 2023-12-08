@@ -27,7 +27,7 @@ ScpInstrumentationTracer >> initialize [
 { #category : 'accessing' }
 ScpInstrumentationTracer >> methods: aMethods [
 
-	instrumentation methods: aMethods
+	instrumentation methodsToInstrument: aMethods
 ]
 
 { #category : 'services' }
