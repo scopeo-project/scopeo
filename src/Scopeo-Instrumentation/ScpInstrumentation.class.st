@@ -142,7 +142,7 @@ ScpInstrumentation >> methodsToInstrument [
 ScpInstrumentation >> methodsToInstrument: aMethodCollection [
 
 	methodsToInstrument := aMethodCollection asIdentitySet.
-	classesOfMethodsToInstrument := methodsToInstrument flatCollect: [ :m | m methodClass ].
+	classesOfMethodsToInstrument := aMethodCollection collect: [ :m | m methodClass ].
 	classesOfMethodsToInstrument := classesOfMethodsToInstrument asIdentitySet.
 ]
 
