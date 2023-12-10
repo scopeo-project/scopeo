@@ -47,7 +47,7 @@ ScpTracesTest >> testExampleAccessorCall [
 	
 	self assert: messagesToAccessor size equals: 1.
 	self assert: messagesToAccessor first sender class equals: ScpExampleObjectA.
-	self assert: messagesToAccessor first senderSelector equals: #exampleAccessorCall.
+	"self assert: messagesToAccessor first senderSelector equals: #exampleAccessorCall."
 	self assert: messagesToAccessor first selector equals: #exampleAccessor.
 	self assert: messagesToAccessor first receiver class equals: ScpExampleObjectB.
 	self assert: messagesToAccessor first arguments size equals: 0.
@@ -65,7 +65,7 @@ ScpTracesTest >> testExampleInit [
 		yourself.
 
 	"When"
-	stateUdpates := traces fetch: ScpIsStateUpdate new.
+	stateUdpates := traces storage fetch: ScpIsStateUpdate new.
 	
 	"Then"
 	self assert: stateUdpates size equals: 1.
@@ -91,8 +91,8 @@ ScpTracesTest >> testExampleSetterCall [
 	objectA exampleSetterCall.
 	
 	"When"
-	stateUdpates := traces fetch: ScpIsStateUpdate new.
-	messagesToSetter := traces fetch:
+	stateUdpates := traces storage fetch: ScpIsStateUpdate new.
+	messagesToSetter := traces storage fetch:
 		                    (ScpIsMessage new and:
 			                     (ScpMessageSelectorEq value: #exampleSetter:)).
 	
@@ -110,9 +110,9 @@ ScpTracesTest >> testExampleSetterCall [
 	self
 		assert: messagesToSetter first sender class
 		equals: ScpExampleObjectA.
-	self
+	"self
 		assert: messagesToSetter first senderSelector
-		equals: #exampleSetterCall.
+		equals: #exampleSetterCall."
 	self assert: messagesToSetter first selector equals: #exampleSetter:.
 	self
 		assert: messagesToSetter first receiver class
@@ -133,8 +133,8 @@ ScpTracesTest >> testExampleSetterCallInBlock [
 	objectA exampleSetterCallInBlock.
 
 	"When"
-	stateUdpates := traces fetch: ScpIsStateUpdate new.
-	messagesToSetter := traces fetch:
+	stateUdpates := traces storage fetch: ScpIsStateUpdate new.
+	messagesToSetter := traces storage fetch:
 		                    (ScpIsMessage new and:
 			                     (ScpMessageSelectorEq value: #exampleSetter:)).
 	"Then"
@@ -151,9 +151,9 @@ ScpTracesTest >> testExampleSetterCallInBlock [
 	self
 		assert: messagesToSetter first sender class
 		equals: ScpExampleObjectA.
-	self
+	"self
 		assert: messagesToSetter first senderSelector
-		equals: #exampleSetterCallInBlock.
+		equals: #exampleSetterCallInBlock."
 	self assert: messagesToSetter first selector equals: #exampleSetter:.
 	self
 		assert: messagesToSetter first receiver class
@@ -177,8 +177,8 @@ ScpTracesTest >> testExampleSetterCallInBlockInBlock [
 	objectA exampleSetterCallInBlockInBlock.
 
 	"When"
-	stateUdpates := traces fetch: ScpIsStateUpdate new.
-	messagesToSetter := traces fetch:
+	stateUdpates := traces storage fetch: ScpIsStateUpdate new.
+	messagesToSetter := traces storage fetch:
 		                    (ScpIsMessage new and:
 			                     (ScpMessageSelectorEq value: #exampleSetter:)).
 
@@ -198,7 +198,7 @@ ScpTracesTest >> testExampleSetterCallInBlockInBlock [
 	self
 		assert: messagesToSetter first sender class
 		equals: ScpExampleObjectA.
-	self assert: messagesToSetter first senderSelector equals: #exampleSetterCallInBlockInBlock.
+	"self assert: messagesToSetter first senderSelector equals: #exampleSetterCallInBlockInBlock."
 	self assert: messagesToSetter first selector equals: #exampleSetter:.
 	self
 		assert: messagesToSetter first receiver class

@@ -96,7 +96,7 @@ ScpInstrumentation >> linkForAssignment [
 	^ linkForAssignment ifNil: [
 		  linkForAssignment := MetaLink new.
 		  linkForAssignment control: #before.
-		  linkForAssignment arguments: #( value variable object).
+		  linkForAssignment arguments: #( newValue name object ).
 		  "linkForAssignment optionArgsAsArray: true."
 		  linkForAssignment optionCompileOnLinkInstallation: true.
 		  linkForAssignment metaObject: handler.
@@ -110,7 +110,7 @@ ScpInstrumentation >> linkForMessageSend [
 	^ linkForMessageSend ifNil: [
 		  linkForMessageSend := MetaLink new.
 		  linkForMessageSend control: #before.
-		  linkForMessageSend arguments: #( method receiver object arguments ).
+		  linkForMessageSend arguments: #( selector receiver object arguments ).
 		  "linkForMessageSend optionArgsAsArray: true."
 		  linkForMessageSend optionCompileOnLinkInstallation: true.
 		  linkForMessageSend metaObject: handler.
@@ -124,7 +124,7 @@ ScpInstrumentation >> linkForMethodCall [
 	^ linkForMethodCall ifNil: [
 		  linkForMethodCall := MetaLink new.
 		  linkForMethodCall control: #before.
-		  linkForMethodCall arguments: #( method object sender arguments ).
+		  linkForMethodCall arguments: #( selector object sender arguments ).
 		  "linkForMethodCall optionArgsAsArray: true."
 		  linkForMethodCall optionCompileOnLinkInstallation: true.
 		  linkForMethodCall metaObject: handler.
@@ -147,10 +147,10 @@ ScpInstrumentation >> methodsToInstrument: aMethodCollection [
 ]
 
 { #category : 'private' }
-ScpInstrumentation >> onMessageSend: aMethod to: aReceiver from: aSender with: aArguments [
+ScpInstrumentation >> onMessageSend: aMethodSelector to: aReceiver from: aSender with: aArguments [
 	
 	(self classesOfMethodsToInstrument includes: aSender class) ifFalse: [ ^ self ].
-	handler onCallOf: aMethod on: aReceiver from: aSender with: aArguments.
+	handler onCallOf: aMethodSelector on: aReceiver from: aSender with: aArguments.
 				
 ]
 
