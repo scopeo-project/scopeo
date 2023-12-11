@@ -1,6 +1,9 @@
 Class {
 	#name : 'ScpTrace',
 	#superclass : 'Object',
+	#instVars : [
+		'id'
+	],
 	#category : 'Scopeo-Traces',
 	#package : 'Scopeo-Traces'
 }
@@ -11,14 +14,32 @@ ScpTrace class >> isAbstract [
 	^ self == ScpTrace
 ]
 
+{ #category : 'accessing' }
+ScpTrace >> id [
+
+	^ id
+]
+
+{ #category : 'accessing' }
+ScpTrace >> id: anIdentifier [
+
+	id := anIdentifier
+]
+
 { #category : 'testing' }
-ScpTrace >> isMessage [
+ScpTrace >> isAssignment [
 
 	^ false
 ]
 
 { #category : 'testing' }
-ScpTrace >> isStateUpdate [
+ScpTrace >> isMessageSend [
+
+	^ false
+]
+
+{ #category : 'testing' }
+ScpTrace >> isMethodCall [
 
 	^ false
 ]

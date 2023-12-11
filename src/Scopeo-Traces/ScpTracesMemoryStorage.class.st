@@ -26,25 +26,36 @@ ScpTracesMemoryStorage >> initialize [
 	traces := OrderedCollection new
 ]
 
-{ #category : 'services' }
-ScpTracesMemoryStorage >> onAssignmentOf: aValue to: aVariable of: anObject [ 
- 
-	self halt.
+{ #category : 'events handling' }
+ScpTracesMemoryStorage >> onAssignment: aVariable of: anObject value: aValue [
 
-	traces add: (ScpStateUpdate new
-			 object: anObject;
-			 variable: aVariable;
-			 value: aValue;
-			 yourself)
+	traces add: (ScpAssignmentTrace new
+		variable: aVariable;
+		object: anObject;
+		value: aValue;
+		yourself
+	)
 ]
 
-{ #category : 'services' }
-ScpTracesMemoryStorage >> onCallOf: aMethodSelector on: aReceiver from: aSender with: aArguments [
+{ #category : 'events handling' }
+ScpTracesMemoryStorage >> onMessageSent: aSelector to: aReceiver with: aArguments [
 
-	traces add: (ScpMessage new
-			 sender: aSender;
-			 selector: aMethodSelector;
-			 receiver: aReceiver;
-			 arguments: aArguments;
-			 yourself)
+	traces add: (ScpMessageSendTrace new	
+		selector: aSelector;
+		receiver: aReceiver;
+		arguments: aArguments;
+		yourself
+	)
+]
+
+{ #category : 'events handling' }
+ScpTracesMemoryStorage >> onMethodCall: aMethodSelector of: aReceiver from: aSender with: aArguments [
+
+   traces add: (ScpMethodCallTrace new
+		selector: aMethodSelector;
+		receiver: aReceiver;
+		sender: aSender;
+		arguments: aArguments;
+		yourself
+	)
 ]

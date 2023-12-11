@@ -1,6 +1,6 @@
 Class {
 	#name : 'ScpTracesVoidStorage',
-	#superclass : 'Object',
+	#superclass : 'ScpInstrumentationHandler',
 	#category : 'Scopeo-Traces',
 	#package : 'Scopeo-Traces'
 }
@@ -15,18 +15,4 @@ ScpTracesVoidStorage >> clear [
 ScpTracesVoidStorage >> fetch: aScpPredicate [
 
 	^ []
-]
-
-{ #category : 'handlers' }
-ScpTracesVoidStorage >> onCallOf: aSelector on: anObject with: aArguments [
-
-	
-]
-
-{ #category : 'services' }
-ScpTracesVoidStorage >> onMessage: aSelector to: anObject with: aArguments [
-]
-
-{ #category : 'services' }
-ScpTracesVoidStorage >> onUpdateOf: aVariable of: anObject with: aValue [
 ]

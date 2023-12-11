@@ -32,7 +32,7 @@ ScpInstrumentation >> compileInstrumentedMethod: aMethod [
 	aMethod reflectiveMethod ifNotNil: [ :r |
 		[ r compileAndInstallCompiledMethod ]
 			on: Error
-			do: [ :error | errors add: error ] ]
+			do: [ :error | errors add: error copy ] ]
 ]
 
 { #category : 'accessing' }
@@ -96,10 +96,10 @@ ScpInstrumentation >> linkForAssignment [
 	^ linkForAssignment ifNil: [
 		  linkForAssignment := MetaLink new.
 		  linkForAssignment control: #instead.
-		  linkForAssignment arguments: #( operation ).
+		  linkForAssignment arguments: #( name object newValue ).
 		  "linkForAssignment optionArgsAsArray: true."
-		  linkForAssignment metaObject: self.
-		  linkForAssignment selector: #onAssignment:.
+		  linkForAssignment metaObject: handler.
+		  linkForAssignment selector: #onAssignment:of:value:.
 		  ^ linkForAssignment ]
 ]
 
@@ -108,11 +108,11 @@ ScpInstrumentation >> linkForMessageSend [
 
 	^ linkForMessageSend ifNil: [
 		  linkForMessageSend := MetaLink new.
-		  linkForMessageSend control: #instead.
-		  linkForMessageSend arguments: #( object operation ).
+		  linkForMessageSend control: #after.
+		  linkForMessageSend arguments: #( selector receiver arguments ).
 		  linkForMessageSend optionArgsAsArray: true.
 		  linkForMessageSend metaObject: self.
-		  linkForMessageSend selector: #onMessageSend:.
+		  linkForMessageSend selector: #onMessageSent:to:with:.
 		  ^ linkForMessageSend ]
 ]
 
@@ -122,10 +122,10 @@ ScpInstrumentation >> linkForMethodCall [
 	^ linkForMethodCall ifNil: [
 		  linkForMethodCall := MetaLink new.
 		  linkForMethodCall control: #instead.
-		  linkForMethodCall arguments: #( sender operation ).
+		  linkForMethodCall arguments: #( selector object sender arguments ).
 		  linkForMethodCall optionArgsAsArray: true.
 		  linkForMethodCall metaObject: self.
-		  linkForMethodCall selector: #onMethodCall:.
+		  linkForMethodCall selector: #onMethodCall:of:from:with:.
 		  ^ linkForMethodCall ]
 ]
 
@@ -139,41 +139,6 @@ ScpInstrumentation >> methodsToInstrument [
 ScpInstrumentation >> methodsToInstrument: aMethodCollection [
 
 	methodsToInstrument := aMethodCollection
-]
-
-{ #category : 'private' }
-ScpInstrumentation >> onAssignment: aArguments [
-
-	| operation |
-	
-	operation := aArguments first.
-	
-	handler onAssignmentOf: operation assignedValue to: operation variable name of: operation object.
-	operation value. 
-]
-
-{ #category : 'private' }
-ScpInstrumentation >> onMessageSend: aArguments [
-
-	| sender operation |
-	
-	sender := aArguments first.
-	operation := aArguments second.
-	
-	handler onCallOf: operation selector on: operation receiver from: sender with: operation arguments.
-	operation value. 
-]
-
-{ #category : 'private' }
-ScpInstrumentation >> onMethodCall: aArguments [
-
-	| sender operation |
-	
-	sender := aArguments first.
-	operation := aArguments second.
-	
-	handler onCallOf: operation method selector on: operation receiver from: sender with: operation arguments.
-	operation value.
 ]
 
 { #category : 'services' }

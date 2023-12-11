@@ -9,11 +9,15 @@ Class {
 }
 
 { #category : 'events handling' }
-ScpInstrumentationHandler >> onAssignmentOf: aValue to: aVariable of: anObject [
+ScpInstrumentationHandler >> onAssignment: aVariable of: anObject value: aValue [
 ]
 
 { #category : 'events handling' }
-ScpInstrumentationHandler >> onCallOf: aMethod on: aReceiver from: aSender with: aArguments [
+ScpInstrumentationHandler >> onMessageSent: aSelector to: aReceiver with: aArguments [
+]
+
+{ #category : 'events handling' }
+ScpInstrumentationHandler >> onMethodCall: aMethodSelector of: aReceiver from: aSender with: aArguments [
 
    
 ]
