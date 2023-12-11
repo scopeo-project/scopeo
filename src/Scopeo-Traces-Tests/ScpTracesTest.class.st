@@ -1,16 +1,15 @@
 Class {
-	#name : 'ScpTracesTest',
-	#superclass : 'TestCase',
+	#name : #ScpTracesTest,
+	#superclass : #TestCase,
 	#instVars : [
 		'scpTraces',
 		'objectA',
 		'objectB'
 	],
-	#category : 'Scopeo-Traces-Tests',
-	#package : 'Scopeo-Traces-Tests'
+	#category : #'Scopeo-Traces-Tests'
 }
 
-{ #category : 'running' }
+{ #category : #running }
 ScpTracesTest >> setUp [
 
 	super setUp.
@@ -25,14 +24,14 @@ ScpTracesTest >> setUp [
 	scpTraces startRecording	
 ]
 
-{ #category : 'running' }
+{ #category : #running }
 ScpTracesTest >> tearDown [
 
 	super tearDown.
 	scpTraces stopRecording
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ScpTracesTest >> testExampleAccessorCall [
 
 	| traces |
@@ -60,7 +59,13 @@ ScpTracesTest >> testExampleAccessorCall [
 	self assert: traces third arguments isEmpty equals: true.
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
+ScpTracesTest >> testExampleMethod [
+
+	objectA exampleMethod
+]
+
+{ #category : #tests }
 ScpTracesTest >> testExampleSelfCall [
 
 	| traces |
@@ -96,7 +101,7 @@ ScpTracesTest >> testExampleSelfCall [
 	
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ScpTracesTest >> testExampleSetterCall [
 	
 	| traces |
@@ -132,7 +137,7 @@ ScpTracesTest >> testExampleSetterCall [
 	
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ScpTracesTest >> testExampleSetterCallInBlock [
 
 	| traces |
@@ -167,7 +172,7 @@ ScpTracesTest >> testExampleSetterCallInBlock [
 	self assert: traces fourth value equals: 'exampleInBlock'
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ScpTracesTest >> testExampleSetterCallInBlockInBlock [
 
 	| traces |
@@ -202,7 +207,7 @@ ScpTracesTest >> testExampleSetterCallInBlockInBlock [
 	self assert: traces fourth value equals: 'exampleInBlockInBlock'
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ScpTracesTest >> testExampleSetterObservableCall [
 
 	| traces |
@@ -238,7 +243,7 @@ ScpTracesTest >> testExampleSetterObservableCall [
 	
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ScpTracesTest >> testExampleSuperCall [
 
 	| traces |
