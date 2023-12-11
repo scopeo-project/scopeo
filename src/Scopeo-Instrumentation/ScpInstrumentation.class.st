@@ -79,8 +79,12 @@ ScpInstrumentation >> instrumentAssignments: aMethod [
 { #category : 'private' }
 ScpInstrumentation >> instrumentMessageSends: aMethod [
 	
-	aMethod ast sendNodes do: [ :n |
-		n linkIfAbsent: self linkForMessageSend.
+	| nodes |
+	
+	nodes := aMethod ast sendNodes.
+	nodes := nodes reject: [ :n | n receiver isBlock ].
+	nodes do: [ :node |
+		node linkIfAbsent: self linkForMessageSend.
 	]
 ]
 
@@ -97,7 +101,6 @@ ScpInstrumentation >> linkForAssignment [
 		  linkForAssignment := MetaLink new.
 		  linkForAssignment control: #before.
 		  linkForAssignment arguments: #( name object newValue ).
-		  "linkForAssignment optionArgsAsArray: true."
 		  linkForAssignment metaObject: handler.
 		  linkForAssignment selector: #onAssignment:of:value:.
 		  ^ linkForAssignment ]
@@ -110,7 +113,6 @@ ScpInstrumentation >> linkForMessageSend [
 		  linkForMessageSend := MetaLink new.
 		  linkForMessageSend control: #before.
 		  linkForMessageSend arguments: #( selector receiver arguments ).
-		  linkForMessageSend optionArgsAsArray: true.
 		  linkForMessageSend metaObject: handler.
 		  linkForMessageSend selector: #onMessageSent:to:with:.
 		  ^ linkForMessageSend ]
@@ -123,7 +125,6 @@ ScpInstrumentation >> linkForMethodCall [
 		  linkForMethodCall := MetaLink new.
 		  linkForMethodCall control: #before.
 		  linkForMethodCall arguments: #( selector object sender arguments ).
-		  linkForMethodCall optionArgsAsArray: true.
 		  linkForMethodCall metaObject: handler.
 		  linkForMethodCall selector: #onMethodCall:of:from:with:.
 		  ^ linkForMethodCall ]

@@ -1,6 +1,6 @@
 Class {
 	#name : 'ScpExampleObjectA',
-	#superclass : 'Object',
+	#superclass : 'ScpExampleObject',
 	#instVars : [
 		'exampleObjectB'
 	],

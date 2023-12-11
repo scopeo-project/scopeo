@@ -1,6 +1,6 @@
 Class {
 	#name : 'ScpExampleObjectB',
-	#superclass : 'Object',
+	#superclass : 'ScpExampleObject',
 	#instVars : [
 		'#exampleInstanceVariable',
 		'#exampleInstanceObservable => ObservableSlot'
@@ -16,6 +16,12 @@ ScpExampleObjectB >> exampleAccessor [
 ]
 
 { #category : 'examples' }
+ScpExampleObjectB >> exampleSelfCall [
+
+	^ self exampleSetter: 'exampleSelf'
+]
+
+{ #category : 'examples' }
 ScpExampleObjectB >> exampleSetter: aValue [
 
 	exampleInstanceVariable := aValue
@@ -25,6 +31,12 @@ ScpExampleObjectB >> exampleSetter: aValue [
 ScpExampleObjectB >> exampleSetterObservableSlot: aValue [
 
 	exampleInstanceObservable := aValue
+]
+
+{ #category : 'examples' }
+ScpExampleObjectB >> exampleSuperCall: aValue [
+
+	^ super exampleSuperCall: aValue
 ]
 
 { #category : 'initialization' }

@@ -8,18 +8,6 @@ Class {
 	#package : 'Scopeo-Traces'
 }
 
-{ #category : 'services' }
-ScpTracesMemoryStorage >> clear [
-
-	traces removeAll
-]
-
-{ #category : 'services' }
-ScpTracesMemoryStorage >> fetch: aScpPredicate [
-
-	^ traces select: [ :e | aScpPredicate verify: e ]
-]
-
 { #category : 'initialization' }
 ScpTracesMemoryStorage >> initialize [
 
@@ -58,4 +46,10 @@ ScpTracesMemoryStorage >> onMethodCall: aMethodSelector of: aReceiver from: aSen
 		arguments: aArguments;
 		yourself
 	)
+]
+
+{ #category : 'accessing' }
+ScpTracesMemoryStorage >> traces [
+
+	^ traces
 ]

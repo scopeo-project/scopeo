@@ -43,3 +43,9 @@ ScpTrace >> isMethodCall [
 
 	^ false
 ]
+
+{ #category : 'printing' }
+ScpTrace >> printOn: aStream [
+
+	aStream << self asString
+]

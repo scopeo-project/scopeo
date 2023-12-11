@@ -14,7 +14,7 @@ Class {
 ScpAssignmentTrace >> asString [
 
 	^ object asString 
-		, ': ' , variable name asString
+		, ': ' , variable asString
 		, ' := ' , value asString
 ]
 

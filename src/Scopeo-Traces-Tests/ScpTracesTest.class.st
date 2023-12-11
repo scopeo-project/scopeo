@@ -2,8 +2,9 @@ Class {
 	#name : 'ScpTracesTest',
 	#superclass : 'TestCase',
 	#instVars : [
-		'traces',
-		'object'
+		'scpTraces',
+		'objectA',
+		'objectB'
 	],
 	#category : 'Scopeo-Traces-Tests',
 	#package : 'Scopeo-Traces-Tests'
@@ -13,222 +14,257 @@ Class {
 ScpTracesTest >> setUp [
 
 	super setUp.
-	object := ScpExampleObjectA new
-		exampleObjectB: ScpExampleObjectB new;
+	objectB := ScpExampleObjectB new.
+	objectA := ScpExampleObjectA new
+		exampleObjectB: objectB;
 		yourself.	
-	traces := ScpTraces new.
-	traces withFilter: [ :filter | 
+	scpTraces := ScpTraces new.
+	scpTraces withFilter: [ :filter | 
 		filter matchPackages: (OTMatcher name: ScpExampleObjectA package name) 
 	].
-	traces startRecording	
+	scpTraces startRecording	
 ]
 
 { #category : 'running' }
 ScpTracesTest >> tearDown [
 
 	super tearDown.
-	traces stopRecording
+	scpTraces stopRecording
 ]
 
 { #category : 'tests' }
 ScpTracesTest >> testExampleAccessorCall [
 
-	| messagesToAccessor |
-	"Given"
-	object exampleAccessorCall.
+	| traces |
 
-	"When"
-	messagesToAccessor := traces storage fetch: (ScpIsMessage new and: (ScpMessageSelectorEq value: #exampleAccessor)).
+	objectA exampleAccessorCall.
 
-	"Then"
-	self assert: messagesToAccessor size equals: 1.
-	self assert: messagesToAccessor first sender class equals: ScpExampleObjectA.
-	self assert: messagesToAccessor first selector equals: #exampleAccessor.
-	self assert: messagesToAccessor first receiver class equals: ScpExampleObjectB.
-	self assert: messagesToAccessor first arguments size equals: 0.
+	traces := scpTraces storage traces.
+
+	self assert: traces size equals: 3.
+	self assert: traces first isMethodCall equals: true.
+	self assert: traces first sender identicalTo: self.
+	self assert: traces first selector equals: #exampleAccessorCall.
+	self assert: traces first receiver identicalTo: objectA.
+	self assert: traces first arguments isEmpty equals: true.
+	
+	self assert: traces second isMessageSend equals: true.
+	self assert: traces second selector equals: #exampleAccessor.
+	self assert: traces second receiver identicalTo: objectB.
+	self assert: traces second arguments isEmpty equals: true.
+	
+	self assert: traces third isMethodCall equals: true.
+	self assert: traces third sender identicalTo: objectA.
+	self assert: traces third selector equals: #exampleAccessor.
+	self assert: traces third receiver identicalTo: objectB. 
+	self assert: traces third arguments isEmpty equals: true.
 ]
 
 { #category : 'tests' }
-ScpTracesTest >> testExampleInit [
+ScpTracesTest >> testExampleSelfCall [
 
-	| stateUdpates objectA objectB |
+	| traces |
+		
+	objectB exampleSelfCall.
 	
-	"Given"
-	objectB := ScpExampleObjectB new.
-	objectA := ScpExampleObjectA new
-		exampleObjectB: objectB;
-		yourself.
+	traces := scpTraces storage traces.
+	
+	self assert: traces size equals: 4.
+	self assert: traces first isMethodCall equals: true.
+	self assert: traces first sender identicalTo: self.
+	self assert: traces first selector equals: #exampleSelfCall.
+	self assert: traces first receiver identicalTo: objectB.
+	self assert: traces first arguments isEmpty equals: true.
+	
+	self assert: traces second isMessageSend equals: true.
+	self assert: traces second selector equals: #exampleSetter:.
+	self assert: traces second receiver identicalTo: objectB.
+	self assert: traces second arguments size equals: 1.
+	self assert: traces second arguments first equals: 'exampleSelf'.
 
-	"When"
-	stateUdpates := traces storage fetch: ScpIsStateUpdate new.
+	self assert: traces third isMethodCall equals: true.
+	self assert: traces third sender identicalTo: objectB.
+	self assert: traces third selector equals: #exampleSetter:.
+	self assert: traces third receiver identicalTo: objectB. 
+	self assert: traces third arguments size equals: 1.
+	self assert: traces third arguments first equals: 'exampleSelf'.
 	
-	"Then"
-	self assert: stateUdpates size equals: 1.
-	self
-		assert: stateUdpates first object class
-		equals: ScpExampleObjectA.
-	self assert: stateUdpates first variable equals: #exampleObjectB.
-	self
-		assert: stateUdpates first newValue class
-		equals: ScpExampleObjectB
+	self assert: traces fourth isAssignment equals: true.
+	self assert: traces fourth object identicalTo: objectB.
+	self assert: traces fourth variable equals: #exampleInstanceVariable.
+	self assert: traces fourth value equals: 'exampleSelf'
+	
 ]
 
 { #category : 'tests' }
 ScpTracesTest >> testExampleSetterCall [
-
-	| stateUdpates messagesToSetter |
-		
-	"Given"
-	object exampleSetterCall.
 	
-	"When"
-	stateUdpates := traces storage fetch: ScpIsStateUpdate new.
-	messagesToSetter := traces storage fetch:
-		                    (ScpIsMessage new and:
-			                     (ScpMessageSelectorEq value: #exampleSetter:)).
-	
-	"Then"
-	self assert: stateUdpates size equals: 1.
-	self
-		assert: stateUdpates first object class
-		equals: ScpExampleObjectB.
-	self
-		assert: stateUdpates first variable
-		equals: #exampleInstanceVariable.
-	self assert: stateUdpates first value equals: 'example'.
+	| traces |
 
-	self assert: messagesToSetter size equals: 1.
-	self
-		assert: messagesToSetter first sender class
-		equals: ScpExampleObjectA.
-	self assert: messagesToSetter first selector equals: #exampleSetter:.
-	self
-		assert: messagesToSetter first receiver class
-		equals: ScpExampleObjectB.
-	self assert: messagesToSetter first arguments size equals: 1.
-	self assert: messagesToSetter first arguments first equals: 'example'
+	objectA exampleSetterCall.
+
+	traces := scpTraces storage traces.
+
+	self assert: traces size equals: 4.
+	self assert: traces first isMethodCall equals: true.
+	self assert: traces first sender identicalTo: self.
+	self assert: traces first selector equals: #exampleSetterCall.
+	self assert: traces first receiver identicalTo: objectA.
+	self assert: traces first arguments isEmpty equals: true.
+	
+	self assert: traces second isMessageSend equals: true.
+	self assert: traces second selector equals: #exampleSetter:.
+	self assert: traces second receiver identicalTo: objectB.
+	self assert: traces second arguments size equals: 1.
+	self assert: traces second arguments first equals: 'example'.
+	
+	self assert: traces third isMethodCall equals: true.
+	self assert: traces third sender identicalTo: objectA.
+	self assert: traces third selector equals: #exampleSetter:.
+	self assert: traces third receiver identicalTo: objectB. 
+	self assert: traces third arguments size equals: 1.
+	self assert: traces third arguments first equals: 'example'.
+	
+	self assert: traces fourth isAssignment equals: true.
+	self assert: traces fourth object identicalTo: objectB.
+	self assert: traces fourth variable equals: #exampleInstanceVariable.
+	self assert: traces fourth value equals: 'example'
+	
 ]
 
 { #category : 'tests' }
 ScpTracesTest >> testExampleSetterCallInBlock [
 
-	| stateUdpates messagesToSetter objectA objectB|
-	"Given"
-	objectB := ScpExampleObjectB new.
-	objectA := ScpExampleObjectA new
-		exampleObjectB: objectB;
-		yourself.		
+	| traces |
+
 	objectA exampleSetterCallInBlock.
 
-	"When"
-	stateUdpates := traces storage fetch: ScpIsStateUpdate new.
-	messagesToSetter := traces storage fetch:
-		                    (ScpIsMessage new and:
-			                     (ScpMessageSelectorEq value: #exampleSetter:)).
-	"Then"
-	self assert: stateUdpates size equals: 2.
-	self
-		assert: stateUdpates second object class
-		equals: ScpExampleObjectB.
-	self
-		assert: stateUdpates second variable
-		equals: #exampleInstanceVariable.
-	self assert: stateUdpates second newValue equals: 'exampleInBlock'.
+	traces := scpTraces storage traces.
 
-	self assert: messagesToSetter size equals: 1.
-	self
-		assert: messagesToSetter first sender class
-		equals: ScpExampleObjectA.
-	"self
-		assert: messagesToSetter first senderSelector
-		equals: #exampleSetterCallInBlock."
-	self assert: messagesToSetter first selector equals: #exampleSetter:.
-	self
-		assert: messagesToSetter first receiver class
-		equals: ScpExampleObjectB.
-	self assert: messagesToSetter first arguments size equals: 1.
-	self
-		assert: messagesToSetter first arguments first
-		equals: 'exampleInBlock'
+	self assert: traces size equals: 4.
+	self assert: traces first isMethodCall equals: true.
+	self assert: traces first sender identicalTo: self.
+	self assert: traces first selector equals: #exampleSetterCallInBlock.
+	self assert: traces first receiver identicalTo: objectA.
+	self assert: traces first arguments isEmpty equals: true.
+	
+	self assert: traces second isMessageSend equals: true.
+	self assert: traces second selector equals: #exampleSetter:.
+	self assert: traces second receiver identicalTo: objectB.
+	self assert: traces second arguments size equals: 1.
+	self assert: traces second arguments first equals: 'exampleInBlock'.
+	
+	self assert: traces third isMethodCall equals: true.
+	self assert: traces third sender identicalTo: objectA.
+	self assert: traces third selector equals: #exampleSetter:.
+	self assert: traces third receiver identicalTo: objectB. 
+	self assert: traces third arguments size equals: 1.
+	self assert: traces third arguments first equals: 'exampleInBlock'.
+	
+	self assert: traces fourth isAssignment equals: true.
+	self assert: traces fourth object identicalTo: objectB.
+	self assert: traces fourth variable equals: #exampleInstanceVariable.
+	self assert: traces fourth value equals: 'exampleInBlock'
 ]
 
 { #category : 'tests' }
 ScpTracesTest >> testExampleSetterCallInBlockInBlock [
 
-	| stateUdpates messagesToSetter objectA objectB|
-	
-	"Given"
-	objectB := ScpExampleObjectB new.
-	objectA := ScpExampleObjectA new
-		exampleObjectB: objectB;
-		yourself.		
+	| traces |
+
 	objectA exampleSetterCallInBlockInBlock.
 
-	"When"
-	stateUdpates := traces storage fetch: ScpIsStateUpdate new.
-	messagesToSetter := traces storage fetch:
-		                    (ScpIsMessage new and:
-			                     (ScpMessageSelectorEq value: #exampleSetter:)).
+	traces := scpTraces storage traces.
 
-	"Then"
-	self assert: stateUdpates size equals: 2.
-	self
-		assert: stateUdpates second object class
-		equals: ScpExampleObjectB.
-	self
-		assert: stateUdpates second variable
-		equals: #exampleInstanceVariable.
-	self
-		assert: stateUdpates second newValue
-		equals: 'exampleInBlockInBlock'.
-
-	self assert: messagesToSetter size equals: 1.
-	self
-		assert: messagesToSetter first sender class
-		equals: ScpExampleObjectA.
-	"self assert: messagesToSetter first senderSelector equals: #exampleSetterCallInBlockInBlock."
-	self assert: messagesToSetter first selector equals: #exampleSetter:.
-	self
-		assert: messagesToSetter first receiver class
-		equals: ScpExampleObjectB.
-	self assert: messagesToSetter first arguments size equals: 1.
-	self
-		assert: messagesToSetter first arguments first
-		equals: 'exampleInBlockInBlock'
+	self assert: traces size equals: 4.
+	self assert: traces first isMethodCall equals: true.
+	self assert: traces first sender identicalTo: self.
+	self assert: traces first selector equals: #exampleSetterCallInBlockInBlock.
+	self assert: traces first receiver identicalTo: objectA.
+	self assert: traces first arguments isEmpty equals: true.
+	
+	self assert: traces second isMessageSend equals: true.
+	self assert: traces second selector equals: #exampleSetter:.
+	self assert: traces second receiver identicalTo: objectB.
+	self assert: traces second arguments size equals: 1.
+	self assert: traces second arguments first equals: 'exampleInBlockInBlock'.
+	
+	self assert: traces third isMethodCall equals: true.
+	self assert: traces third sender identicalTo: objectA.
+	self assert: traces third selector equals: #exampleSetter:.
+	self assert: traces third receiver identicalTo: objectB. 
+	self assert: traces third arguments size equals: 1.
+	self assert: traces third arguments first equals: 'exampleInBlockInBlock'.
+	
+	self assert: traces fourth isAssignment equals: true.
+	self assert: traces fourth object identicalTo: objectB.
+	self assert: traces fourth variable equals: #exampleInstanceVariable.
+	self assert: traces fourth value equals: 'exampleInBlockInBlock'
 ]
 
 { #category : 'tests' }
 ScpTracesTest >> testExampleSetterObservableCall [
 
-	| stateUdpates messagesToSetter |
+	| traces |
 		
-	"Given"
-	object exampleSetterObservableCall.
+	objectA exampleSetterObservableCall.
 	
-	"When"
-	stateUdpates := traces storage fetch: ScpIsStateUpdate new.
-	messagesToSetter := traces storage fetch:
-		                    (ScpIsMessage new and:
-			                     (ScpMessageSelectorEq value: #exampleSetterObservableSlot:)).
+	traces := scpTraces storage traces.
 	
-	"Then"
-	self assert: stateUdpates size equals: 1.
-	self
-		assert: stateUdpates first object class
-		equals: ScpExampleObjectB.
-	self
-		assert: stateUdpates first variable
-		equals: #exampleInstanceObservable.
-	self assert: stateUdpates first value equals: 'exampleObservable'.
+	self assert: traces size equals: 4.
+	self assert: traces first isMethodCall equals: true.
+	self assert: traces first sender identicalTo: self.
+	self assert: traces first selector equals: #exampleSetterObservableCall.
+	self assert: traces first receiver identicalTo: objectA.
+	self assert: traces first arguments isEmpty equals: true.
+	
+	self assert: traces second isMessageSend equals: true.
+	self assert: traces second selector equals: #exampleSetterObservableSlot:.
+	self assert: traces second receiver identicalTo: objectB.
+	self assert: traces second arguments size equals: 1.
+	self assert: traces second arguments first equals: 'exampleObservable'.
+	
+	self assert: traces third isMethodCall equals: true.
+	self assert: traces third sender identicalTo: objectA.
+	self assert: traces third selector equals: #exampleSetterObservableSlot:.
+	self assert: traces third receiver identicalTo: objectB. 
+	self assert: traces third arguments size equals: 1.
+	self assert: traces third arguments first equals: 'exampleObservable'.
+	
+	self assert: traces fourth isAssignment equals: true.
+	self assert: traces fourth object identicalTo: objectB.
+	self assert: traces fourth variable equals: #exampleInstanceObservable.
+	self assert: traces fourth value equals: 'exampleObservable'
+	
+]
 
-	self assert: messagesToSetter size equals: 1.
-	self
-		assert: messagesToSetter first sender class
-		equals: ScpExampleObjectA.
-	self assert: messagesToSetter first selector equals: #exampleSetterObservableSlot:.
-	self
-		assert: messagesToSetter first receiver class
-		equals: ScpExampleObjectB.
-	self assert: messagesToSetter first arguments size equals: 1.
-	self assert: messagesToSetter first arguments first equals: 'exampleObservable'
+{ #category : 'tests' }
+ScpTracesTest >> testExampleSuperCall [
+
+	| traces |
+		
+	objectB exampleSuperCall: 'exampleSuper'.
+	
+	traces := scpTraces storage traces.
+	
+	self assert: traces size equals: 3.
+	self assert: traces first isMethodCall equals: true.
+	self assert: traces first sender identicalTo: self.
+	self assert: traces first selector equals: #exampleSuperCall:.
+	self assert: traces first receiver identicalTo: objectB.
+	self assert: traces second arguments size equals: 1.
+	self assert: traces second arguments first equals: 'exampleSuper'.
+
+	self assert: traces second isMessageSend equals: true.
+	self assert: traces second selector equals: #exampleSuperCall:.
+	self assert: traces second receiver identicalTo: objectB.
+	self assert: traces second arguments size equals: 1.
+	self assert: traces second arguments first equals: 'exampleSuper'.
+
+	self assert: traces third isMethodCall equals: true.
+	self assert: traces third sender identicalTo: objectB.
+	self assert: traces third selector equals: #exampleSuperCall:.
+	self assert: traces third receiver identicalTo: objectB. 
+	self assert: traces third arguments size equals: 1.
+	self assert: traces third arguments first equals: 'exampleSuper'.
 ]
