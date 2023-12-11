@@ -4,7 +4,6 @@ Class {
 	#instVars : [
 		'id',
 		'sender',
-		'senderSelector',
 		'selector',
 		'receiver',
 		'arguments'
@@ -47,7 +46,6 @@ ScpMessage >> isMessage [
 ScpMessage >> printString [
 
 	^ sender printString 
-		, ' in ' , senderSelector printString 
 		, ' sent ' , selector printString 
 		, ' to ' , receiver printString 
 		, ' with ', arguments printString  
@@ -87,16 +85,4 @@ ScpMessage >> sender [
 ScpMessage >> sender: anObject [
 
 	sender := anObject
-]
-
-{ #category : 'accessing' }
-ScpMessage >> senderSelector [
-
-	^ senderSelector
-]
-
-{ #category : 'accessing' }
-ScpMessage >> senderSelector: anObject [
-
-	senderSelector := anObject
 ]

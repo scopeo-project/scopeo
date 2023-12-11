@@ -29,10 +29,12 @@ ScpTracesMemoryStorage >> initialize [
 { #category : 'services' }
 ScpTracesMemoryStorage >> onAssignmentOf: aValue to: aVariable of: anObject [ 
  
+	self halt.
+
 	traces add: (ScpStateUpdate new
 			 object: anObject;
 			 variable: aVariable;
-			 newValue: aValue;
+			 value: aValue;
 			 yourself)
 ]
 

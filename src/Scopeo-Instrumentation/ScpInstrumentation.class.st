@@ -9,7 +9,8 @@ Class {
 		'methodsToInstrument',
 		'classesOfMethodsToInstrument',
 		'linkForMessageSend',
-		'linkForMethodCall'
+		'linkForMethodCall',
+		'errors'
 	],
 	#category : 'Scopeo-Instrumentation',
 	#package : 'Scopeo-Instrumentation'
@@ -25,9 +26,19 @@ ScpInstrumentation class >> uninstallAll [
 ]
 
 { #category : 'private' }
-ScpInstrumentation >> classesOfMethodsToInstrument [
+ScpInstrumentation >> compileInstrumentedMethod: aMethod [
 
-	^ classesOfMethodsToInstrument
+	aMethod invalidate.
+	aMethod reflectiveMethod ifNotNil: [ :r |
+		[ r compileAndInstallCompiledMethod ]
+			on: Error
+			do: [ :error | errors add: error ] ]
+]
+
+{ #category : 'accessing' }
+ScpInstrumentation >> errors [
+
+	^ errors
 ]
 
 { #category : 'parameters' }
@@ -40,17 +51,10 @@ ScpInstrumentation >> handler: aHandler [
 	
 ]
 
-{ #category : 'accessing' }
-ScpInstrumentation >> imageMethods: aSelector [
-
-	^ imageMethods select: [ :m | m selector = aSelector ]
-]
-
-{ #category : 'parameters' }
+{ #category : 'initialization' }
 ScpInstrumentation >> initialize [
 
-	imageMethods := SystemNavigation default allMethodsSelect: [ :b | true ].
-
+	errors := OrderedCollection new
 ]
 
 { #category : 'services' }
@@ -60,6 +64,7 @@ ScpInstrumentation >> install [
 		self instrumentMethodCall: method.
 		self instrumentMessageSends: method.
 		self instrumentAssignments: method.
+		self compileInstrumentedMethod: method.
 	]
 ]
 
@@ -74,13 +79,8 @@ ScpInstrumentation >> instrumentAssignments: aMethod [
 { #category : 'private' }
 ScpInstrumentation >> instrumentMessageSends: aMethod [
 	
-	| nodes methods |
-	nodes := aMethod ast sendNodes.
-	nodes := nodes reject: [ :n | n receiver isBlock ].
-	methods := nodes flatCollect: [ :n | self imageMethods: n selector ].
-	methods := methods reject: [ :m | self methodsToInstrument includes: m ].
-	methods do: [ :m |
-		m ast linkIfAbsent: self linkForMessageSend.
+	aMethod ast sendNodes do: [ :n |
+		n linkIfAbsent: self linkForMessageSend.
 	]
 ]
 
@@ -95,12 +95,11 @@ ScpInstrumentation >> linkForAssignment [
 
 	^ linkForAssignment ifNil: [
 		  linkForAssignment := MetaLink new.
-		  linkForAssignment control: #before.
-		  linkForAssignment arguments: #( newValue name object ).
+		  linkForAssignment control: #instead.
+		  linkForAssignment arguments: #( operation ).
 		  "linkForAssignment optionArgsAsArray: true."
-		  linkForAssignment optionCompileOnLinkInstallation: true.
-		  linkForAssignment metaObject: handler.
-		  linkForAssignment selector: #onAssignmentOf:to:of:.
+		  linkForAssignment metaObject: self.
+		  linkForAssignment selector: #onAssignment:.
 		  ^ linkForAssignment ]
 ]
 
@@ -109,12 +108,11 @@ ScpInstrumentation >> linkForMessageSend [
 
 	^ linkForMessageSend ifNil: [
 		  linkForMessageSend := MetaLink new.
-		  linkForMessageSend control: #before.
-		  linkForMessageSend arguments: #( selector receiver object arguments ).
-		  "linkForMessageSend optionArgsAsArray: true."
-		  linkForMessageSend optionCompileOnLinkInstallation: true.
-		  linkForMessageSend metaObject: handler.
-		  linkForMessageSend selector: ##onCallOf:on:from:with:.
+		  linkForMessageSend control: #instead.
+		  linkForMessageSend arguments: #( object operation ).
+		  linkForMessageSend optionArgsAsArray: true.
+		  linkForMessageSend metaObject: self.
+		  linkForMessageSend selector: #onMessageSend:.
 		  ^ linkForMessageSend ]
 ]
 
@@ -123,12 +121,11 @@ ScpInstrumentation >> linkForMethodCall [
 
 	^ linkForMethodCall ifNil: [
 		  linkForMethodCall := MetaLink new.
-		  linkForMethodCall control: #before.
-		  linkForMethodCall arguments: #( selector object sender arguments ).
-		  "linkForMethodCall optionArgsAsArray: true."
-		  linkForMethodCall optionCompileOnLinkInstallation: true.
-		  linkForMethodCall metaObject: handler.
-		  linkForMethodCall selector: #onCallOf:on:from:with:.
+		  linkForMethodCall control: #instead.
+		  linkForMethodCall arguments: #( sender operation ).
+		  linkForMethodCall optionArgsAsArray: true.
+		  linkForMethodCall metaObject: self.
+		  linkForMethodCall selector: #onMethodCall:.
 		  ^ linkForMethodCall ]
 ]
 
@@ -141,17 +138,42 @@ ScpInstrumentation >> methodsToInstrument [
 { #category : 'parameters' }
 ScpInstrumentation >> methodsToInstrument: aMethodCollection [
 
-	methodsToInstrument := aMethodCollection asIdentitySet.
-	classesOfMethodsToInstrument := aMethodCollection collect: [ :m | m methodClass ].
-	classesOfMethodsToInstrument := classesOfMethodsToInstrument asIdentitySet.
+	methodsToInstrument := aMethodCollection
 ]
 
 { #category : 'private' }
-ScpInstrumentation >> onMessageSend: aMethodSelector to: aReceiver from: aSender with: aArguments [
+ScpInstrumentation >> onAssignment: aArguments [
+
+	| operation |
 	
-	(self classesOfMethodsToInstrument includes: aSender class) ifFalse: [ ^ self ].
-	handler onCallOf: aMethodSelector on: aReceiver from: aSender with: aArguments.
-				
+	operation := aArguments first.
+	
+	handler onAssignmentOf: operation assignedValue to: operation variable name of: operation object.
+	operation value. 
+]
+
+{ #category : 'private' }
+ScpInstrumentation >> onMessageSend: aArguments [
+
+	| sender operation |
+	
+	sender := aArguments first.
+	operation := aArguments second.
+	
+	handler onCallOf: operation selector on: operation receiver from: sender with: operation arguments.
+	operation value. 
+]
+
+{ #category : 'private' }
+ScpInstrumentation >> onMethodCall: aArguments [
+
+	| sender operation |
+	
+	sender := aArguments first.
+	operation := aArguments second.
+	
+	handler onCallOf: operation method selector on: operation receiver from: sender with: operation arguments.
+	operation value.
 ]
 
 { #category : 'services' }
@@ -160,4 +182,5 @@ ScpInstrumentation >> uninstall [
 	self linkForAssignment uninstall.
 	self linkForMessageSend uninstall.
 	self linkForMethodCall uninstall.
+	self methodsToInstrument do: [ :m | m recompile ]
 ]

@@ -5,7 +5,7 @@ Class {
 		'id',
 		'object',
 		'variable',
-		'newValue'
+		'value'
 	],
 	#category : 'Scopeo-Traces',
 	#package : 'Scopeo-Traces'
@@ -30,18 +30,6 @@ ScpStateUpdate >> isStateUpdate [
 ]
 
 { #category : 'accessing' }
-ScpStateUpdate >> newValue [
-
-	^ newValue
-]
-
-{ #category : 'accessing' }
-ScpStateUpdate >> newValue: anObject [
-
-	newValue := anObject
-]
-
-{ #category : 'accessing' }
 ScpStateUpdate >> object [
 
 	^ object
@@ -58,7 +46,19 @@ ScpStateUpdate >> printString [
 
 	^ object printString 
 		, ': ' , variable name printString
-		, ' := ' , newValue printString
+		, ' := ' , value printString
+]
+
+{ #category : 'accessing' }
+ScpStateUpdate >> value [
+
+	^ value
+]
+
+{ #category : 'accessing' }
+ScpStateUpdate >> value: anObject [
+
+	value := anObject
 ]
 
 { #category : 'accessing' }

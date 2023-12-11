@@ -51,3 +51,10 @@ ScpExampleObjectA >> exampleSetterCallInBlockInBlock [
 	value := 'exampleInBlockInBlock'.
 	[ :v | [ exampleObjectB exampleSetter: v ] value ] value: value
 ]
+
+{ #category : 'examples' }
+ScpExampleObjectA >> exampleSetterObservableCall [
+
+	exampleObjectB exampleSetterObservableSlot: 'exampleObservable'.
+
+]
