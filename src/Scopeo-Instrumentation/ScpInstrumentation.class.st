@@ -111,7 +111,7 @@ ScpInstrumentation >> linkForMessageSend [
 		  linkForMessageSend control: #after.
 		  linkForMessageSend arguments: #( selector receiver arguments ).
 		  linkForMessageSend optionArgsAsArray: true.
-		  linkForMessageSend metaObject: self.
+		  linkForMessageSend metaObject: handler.
 		  linkForMessageSend selector: #onMessageSent:to:with:.
 		  ^ linkForMessageSend ]
 ]
@@ -124,7 +124,7 @@ ScpInstrumentation >> linkForMethodCall [
 		  linkForMethodCall control: #after.
 		  linkForMethodCall arguments: #( selector object sender arguments ).
 		  linkForMethodCall optionArgsAsArray: true.
-		  linkForMethodCall metaObject: self.
+		  linkForMethodCall metaObject: handler.
 		  linkForMethodCall selector: #onMethodCall:of:from:with:.
 		  ^ linkForMethodCall ]
 ]
