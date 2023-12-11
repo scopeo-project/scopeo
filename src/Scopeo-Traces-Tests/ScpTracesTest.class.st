@@ -20,8 +20,7 @@ ScpTracesTest >> setUp [
 	traces withFilter: [ :filter | 
 		filter matchPackages: (OTMatcher name: ScpExampleObjectA package name) 
 	].
-	traces startRecording.
-	
+	traces startRecording	
 ]
 
 { #category : 'running' }

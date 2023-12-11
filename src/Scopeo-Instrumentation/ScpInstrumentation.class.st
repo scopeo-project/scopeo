@@ -95,7 +95,7 @@ ScpInstrumentation >> linkForAssignment [
 
 	^ linkForAssignment ifNil: [
 		  linkForAssignment := MetaLink new.
-		  linkForAssignment control: #after.
+		  linkForAssignment control: #before.
 		  linkForAssignment arguments: #( name object newValue ).
 		  "linkForAssignment optionArgsAsArray: true."
 		  linkForAssignment metaObject: handler.
@@ -108,7 +108,7 @@ ScpInstrumentation >> linkForMessageSend [
 
 	^ linkForMessageSend ifNil: [
 		  linkForMessageSend := MetaLink new.
-		  linkForMessageSend control: #after.
+		  linkForMessageSend control: #before.
 		  linkForMessageSend arguments: #( selector receiver arguments ).
 		  linkForMessageSend optionArgsAsArray: true.
 		  linkForMessageSend metaObject: handler.
@@ -121,7 +121,7 @@ ScpInstrumentation >> linkForMethodCall [
 
 	^ linkForMethodCall ifNil: [
 		  linkForMethodCall := MetaLink new.
-		  linkForMethodCall control: #after.
+		  linkForMethodCall control: #before.
 		  linkForMethodCall arguments: #( selector object sender arguments ).
 		  linkForMethodCall optionArgsAsArray: true.
 		  linkForMethodCall metaObject: handler.
