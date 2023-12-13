@@ -1,6 +1,6 @@
 Class {
 	#name : #ScpMessageSendIndirection,
-	#superclass : #ScpASTIndirection,
+	#superclass : #ScpRBValueNodeIndirection,
 	#category : #'Scopeo-Instrumentation'
 }
 

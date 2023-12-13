@@ -51,8 +51,8 @@ ScpInstrumentation >> initialize [
 ScpInstrumentation >> install [
 
 	self methodsToInstrument do: [ :method |
-		self instrumentMethodCall: method.
-		self instrumentMessageSends: method.
+		"self instrumentMethodCall: method.
+		self instrumentMessageSends: method."
 		self instrumentAssignments: method.
 	]
 ]
@@ -60,8 +60,13 @@ ScpInstrumentation >> install [
 { #category : #private }
 ScpInstrumentation >> instrumentAssignments: aMethod [
 
-	aMethod ast instanceVariableWriteNodes do: [ :node |
-		node linkIfAbsent: self linkForAssignment
+	aMethod ast instanceVariableWriteNodes do: [ :node |		
+		ScpAssignmentIndirection new 
+			for: node parent;
+			handler: handler;
+			selector: #onAssignment:of:value:;
+			arguments: { node name . #self . node parent value };
+			install.
 	]
 ]
 

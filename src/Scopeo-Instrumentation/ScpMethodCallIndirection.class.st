@@ -1,6 +1,6 @@
 Class {
 	#name : #ScpMethodCallIndirection,
-	#superclass : #ScpASTIndirection,
+	#superclass : #ScpRBNodeIndirection,
 	#category : #'Scopeo-Instrumentation'
 }
 
@@ -14,5 +14,6 @@ ScpMethodCallIndirection >> for: aNode [
 { #category : #actions }
 ScpMethodCallIndirection >> install [
 
+	self register.
 	self node body addNodeFirst: self indirectionNode.
 ]
