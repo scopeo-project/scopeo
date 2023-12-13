@@ -14,6 +14,6 @@ ScpMethodCallIndirection >> for: aNode [
 { #category : #actions }
 ScpMethodCallIndirection >> install [
 
-	self register.
+	super install.
 	self node body addNodeFirst: self indirectionNode.
 ]

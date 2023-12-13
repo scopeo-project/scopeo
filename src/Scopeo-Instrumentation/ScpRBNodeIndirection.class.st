@@ -7,17 +7,10 @@ Class {
 		'arguments',
 		'node',
 		'symbol',
-		'selector',
-		'installedNodes'
+		'selector'
 	],
 	#category : #'Scopeo-Instrumentation'
 }
-
-{ #category : #parameters }
-ScpRBNodeIndirection >> after [
-
-	symbol := 'after'
-]
 
 { #category : #private }
 ScpRBNodeIndirection >> after: aStatementBlock arguments: aArguments [
@@ -37,11 +30,23 @@ ScpRBNodeIndirection >> arguments [
 { #category : #parameters }
 ScpRBNodeIndirection >> arguments: aArguments [
 
-	arguments := aArguments
+	arguments := '{' , ((aArguments collect: [ :a | a sourceCode ]) joinUsing: ' . ') , '}'
 ]
 
 { #category : #parameters }
-ScpRBNodeIndirection >> before [
+ScpRBNodeIndirection >> beAfterNodeExecution [
+
+	symbol := 'before'
+]
+
+{ #category : #parameters }
+ScpRBNodeIndirection >> beBeforeNodeExecution [
+
+	symbol := 'before'
+]
+
+{ #category : #parameters }
+ScpRBNodeIndirection >> beInsteadOfNodeExecution [
 
 	symbol := 'before'
 ]
@@ -79,7 +84,7 @@ ScpRBNodeIndirection >> indirectionNode [
 	^ RBParser parseExpression: (
 		'(ScpInstrumentationRegistry instance at: {1}) {2}: [{3}] arguments: {4}' 
 		format: { identifier . symbol . self node sourceCode . arguments }
-	).
+	)
 	
 ]
 
@@ -87,7 +92,6 @@ ScpRBNodeIndirection >> indirectionNode [
 ScpRBNodeIndirection >> initialize [
 
 	identifier := ScpInstrumentationRegistry instance size + 1.
-	installedNodes := OrderedCollection new
 ]
 
 { #category : #services }
@@ -102,18 +106,6 @@ ScpRBNodeIndirection >> installAndCompile [
 
 	self install.
 	self node method recompileAST
-]
-
-{ #category : #'as yet unclassified' }
-ScpRBNodeIndirection >> installedOn: aNode [
-
-	installedNodes add: aNode
-]
-
-{ #category : #parameters }
-ScpRBNodeIndirection >> instead [
-
-	symbol := 'instead'
 ]
 
 { #category : #private }
