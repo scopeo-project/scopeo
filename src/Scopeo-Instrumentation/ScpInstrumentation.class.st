@@ -1,6 +1,6 @@
 Class {
-	#name : 'ScpInstrumentation',
-	#superclass : 'Object',
+	#name : #ScpInstrumentation,
+	#superclass : #Object,
 	#instVars : [
 		'linkForAssignment',
 		'linkForInvocation',
@@ -10,38 +10,25 @@ Class {
 		'classesOfMethodsToInstrument',
 		'linkForMessageSend',
 		'linkForMethodCall',
-		'errors'
+		'errors',
+		'identifier',
+		'indirectionReceiverNode'
 	],
-	#category : 'Scopeo-Instrumentation',
-	#package : 'Scopeo-Instrumentation'
+	#category : #'Scopeo-Instrumentation'
 }
 
-{ #category : 'private' }
+{ #category : #private }
 ScpInstrumentation class >> uninstallAll [
 
 	<script: 'self uninstallAll'>
 	
-	self allInstancesDo: [ :i | i uninstall ]
+	ScpInstrumentationRegistry instance valuesDo: [ :i | 
+		i instrumentation uninstall
+	]
 
 ]
 
-{ #category : 'private' }
-ScpInstrumentation >> compileInstrumentedMethod: aMethod [
-
-	aMethod invalidate.
-	aMethod reflectiveMethod ifNotNil: [ :r |
-		[ r compileAndInstallCompiledMethod ]
-			on: Error
-			do: [ :error | errors add: error copy ] ]
-]
-
-{ #category : 'accessing' }
-ScpInstrumentation >> errors [
-
-	^ errors
-]
-
-{ #category : 'parameters' }
+{ #category : #parameters }
 ScpInstrumentation >> handler: aHandler [
 
 	handler := aHandler
@@ -51,24 +38,26 @@ ScpInstrumentation >> handler: aHandler [
 	
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ScpInstrumentation >> initialize [
 
-	errors := OrderedCollection new
+	identifier := ScpInstrumentationRegistry instance size + 1.
+	indirectionReceiverNode := RBParser parseExpression: (
+		'ScpInstrumentationRegistry instance at: {1}' format: { identifier }
+	)
 ]
 
-{ #category : 'services' }
+{ #category : #services }
 ScpInstrumentation >> install [
 
 	self methodsToInstrument do: [ :method |
 		self instrumentMethodCall: method.
 		self instrumentMessageSends: method.
 		self instrumentAssignments: method.
-		self compileInstrumentedMethod: method.
 	]
 ]
 
-{ #category : 'private' }
+{ #category : #private }
 ScpInstrumentation >> instrumentAssignments: aMethod [
 
 	aMethod ast instanceVariableWriteNodes do: [ :node |
@@ -76,7 +65,7 @@ ScpInstrumentation >> instrumentAssignments: aMethod [
 	]
 ]
 
-{ #category : 'private' }
+{ #category : #private }
 ScpInstrumentation >> instrumentMessageSends: aMethod [
 	
 	| nodes |
@@ -88,13 +77,13 @@ ScpInstrumentation >> instrumentMessageSends: aMethod [
 	]
 ]
 
-{ #category : 'private' }
+{ #category : #private }
 ScpInstrumentation >> instrumentMethodCall: aMethod [
 
 	aMethod ast linkIfAbsent: self linkForMethodCall.
 ]
 
-{ #category : 'private' }
+{ #category : #private }
 ScpInstrumentation >> linkForAssignment [
 
 	^ linkForAssignment ifNil: [
@@ -106,7 +95,7 @@ ScpInstrumentation >> linkForAssignment [
 		  ^ linkForAssignment ]
 ]
 
-{ #category : 'private' }
+{ #category : #private }
 ScpInstrumentation >> linkForMessageSend [
 
 	^ linkForMessageSend ifNil: [
@@ -118,7 +107,7 @@ ScpInstrumentation >> linkForMessageSend [
 		  ^ linkForMessageSend ]
 ]
 
-{ #category : 'private' }
+{ #category : #private }
 ScpInstrumentation >> linkForMethodCall [
 
 	^ linkForMethodCall ifNil: [
@@ -130,23 +119,23 @@ ScpInstrumentation >> linkForMethodCall [
 		  ^ linkForMethodCall ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ScpInstrumentation >> methodsToInstrument [
 
 	^ methodsToInstrument
 ]
 
-{ #category : 'parameters' }
+{ #category : #parameters }
 ScpInstrumentation >> methodsToInstrument: aMethodCollection [
 
 	methodsToInstrument := aMethodCollection
 ]
 
-{ #category : 'services' }
+{ #category : #services }
 ScpInstrumentation >> uninstall [
 	
-	self linkForAssignment uninstall.
-	self linkForMessageSend uninstall.
-	self linkForMethodCall uninstall.
-	self methodsToInstrument do: [ :m | m recompile ]
+	self methodsToInstrument do: [ :m |
+		m classBinding value compiler install: m ast sourceCode.
+	].
+	ScpInstrumentationRegistry instance removeKey: identifier.	
 ]
