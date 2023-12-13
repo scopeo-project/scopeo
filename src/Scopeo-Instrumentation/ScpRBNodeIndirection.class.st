@@ -12,15 +12,6 @@ Class {
 	#category : #'Scopeo-Instrumentation'
 }
 
-{ #category : #private }
-ScpRBNodeIndirection >> after: aStatementBlock arguments: aArguments [
-	
-	| result |
-	result := aStatementBlock value.
-	handler perform: selector withArguments: aArguments.
-	^ result
-]
-
 { #category : #accessing }
 ScpRBNodeIndirection >> arguments [
 
@@ -30,25 +21,13 @@ ScpRBNodeIndirection >> arguments [
 { #category : #parameters }
 ScpRBNodeIndirection >> arguments: aArguments [
 
-	arguments := '{' , ((aArguments collect: [ :a | a sourceCode ]) joinUsing: ' . ') , '}'
-]
-
-{ #category : #parameters }
-ScpRBNodeIndirection >> beAfterNodeExecution [
-
-	symbol := 'before'
+	arguments := aArguments
 ]
 
 { #category : #parameters }
 ScpRBNodeIndirection >> beBeforeNodeExecution [
 
-	symbol := 'before'
-]
-
-{ #category : #parameters }
-ScpRBNodeIndirection >> beInsteadOfNodeExecution [
-
-	symbol := 'before'
+	symbol := #keyword:arguments:
 ]
 
 { #category : #private }
@@ -81,11 +60,19 @@ ScpRBNodeIndirection >> handler: aHandler [
 { #category : #private }
 ScpRBNodeIndirection >> indirectionNode [
 
-	^ RBParser parseExpression: (
-		'(ScpInstrumentationRegistry instance at: {1}) {2}: [{3}] arguments: {4}' 
-		format: { identifier . symbol . self node sourceCode . arguments }
-	)
-	
+	^ RBMessageNode
+		  receiver: (RBMessageNode
+				   receiver: (RBMessageNode
+						    receiver:
+						    (RBVariableNode named: #ScpInstrumentationRegistry)
+						    selector: #instance)
+				   selector: #at:
+				   arguments: { (RBLiteralValueNode value: identifier) })
+		  selector: symbol
+		  arguments: { 
+				  (RBBlockNode body: (RBSequenceNode statements: { self node })).
+				  (RBArrayNode statements: arguments) 
+		  }
 ]
 
 { #category : #initialization }
@@ -97,8 +84,7 @@ ScpRBNodeIndirection >> initialize [
 { #category : #services }
 ScpRBNodeIndirection >> install [
 
-	self register.
-	self installedOn: self node
+	self register
 ]
 
 { #category : #services }
@@ -106,12 +92,6 @@ ScpRBNodeIndirection >> installAndCompile [
 
 	self install.
 	self node method recompileAST
-]
-
-{ #category : #private }
-ScpRBNodeIndirection >> instead: aStatementBlock arguments: aArguments [
-
-	^ handler perform: selector withArguments: aArguments
 ]
 
 { #category : #accessing }
@@ -132,12 +112,6 @@ ScpRBNodeIndirection >> register [
 ScpRBNodeIndirection >> selector: aHandlerSelector [
 
 	selector := aHandlerSelector
-]
-
-{ #category : #services }
-ScpRBNodeIndirection >> uninstall [
-
-	self unregister
 ]
 
 { #category : #'tools registry' }

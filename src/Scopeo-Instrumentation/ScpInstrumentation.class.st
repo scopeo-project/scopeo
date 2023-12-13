@@ -135,6 +135,7 @@ ScpInstrumentation >> instrumentMessageSends: aMethod [
 ScpInstrumentation >> instrumentMethodCall: aMethod [
 
 	| node |
+	self halt.
 	node := aMethod ast.
 	self indirectionForMethodCall
 		for: node;

@@ -7,7 +7,7 @@ Class {
 { #category : #'instance creation' }
 ScpMethodCallIndirection >> for: aNode [
 
-	aNode isInstanceVariable ifFalse: [ self error: 'Cannot install method call indirection on node: ', aNode ].
+	aNode isMethod ifFalse: [ self error: 'Cannot install method call indirection on node: ', aNode asString ].
 	super for: aNode
 ]
 

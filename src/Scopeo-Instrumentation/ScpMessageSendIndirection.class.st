@@ -7,6 +7,6 @@ Class {
 { #category : #'instance creation' }
 ScpMessageSendIndirection >> for: aNode [
 
-	aNode isInstanceVariable ifFalse: [ self error: 'Cannot install message send indirection on node: ', aNode ].
+	aNode isMessage ifFalse: [ self error: 'Cannot install message send indirection on node: ', aNode ].
 	super for: aNode
 ]
