@@ -4,37 +4,15 @@ Class {
 	#category : #'Scopeo-Instrumentation'
 }
 
-{ #category : #accessing }
-ScpMethodCallIndirection >> indirectionNode: aNode [
+{ #category : #'instance creation' }
+ScpMethodCallIndirection >> for: aNode [
 
-	^ RBParser parseExpression: (
-		'(ScpInstrumentationRegistry instance at: {1}) onMethodCall: {2} of: self from: thisContext receiver with: {3}' 
-		format: {identifier . aNode selector . aNode arguments}
-	  ).
-	
+	aNode isInstanceVariable ifFalse: [ self error: 'Cannot install method call indirection on node: ', aNode ].
+	super for: aNode
 ]
 
-{ #category : #displaying }
-ScpMethodCallIndirection >> installOn: aNode [
+{ #category : #actions }
+ScpMethodCallIndirection >> install [
 
-	super installOn: aNode.
-	aNode ast body addNodeFirst: (self indirectionNode: aNode ast).
-]
-
-{ #category : #testing }
-ScpMethodCallIndirection >> isCompatibleWith: aNode [
-
-	^ aNode isMethod
-]
-
-{ #category : #accessing }
-ScpMethodCallIndirection >> name [
-
-	^ 'Method call indirection'
-]
-
-{ #category : #'events handling' }
-ScpMethodCallIndirection >> onMethodCall: aMethodSelector of: aReceiver from: aSender with: aArguments [
-   
-	handler onMethodCall: aMethodSelector of: aReceiver from: aSender with: aArguments
+	self node body addNodeFirst: self indirectionNode.
 ]

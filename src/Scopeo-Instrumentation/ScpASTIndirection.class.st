@@ -3,21 +3,11 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'handler',
-		'nodes',
 		'identifier',
 		'arguments',
-		'selector',
-		'before',
-		'instead',
-		'after',
-		'indirectionSelector',
-		'afterSelector',
-		'beforeSelector',
-		'insteadSelector',
 		'node',
-		'indirectionNode',
-		'indirection',
-		'symbol'
+		'symbol',
+		'selector'
 	],
 	#category : #'Scopeo-Instrumentation'
 }
@@ -33,7 +23,7 @@ ScpASTIndirection >> after: aStatementBlock arguments: aArguments [
 	
 	| result |
 	result := aStatementBlock value.
-	handler perform: afterSelector withArguments: aArguments.
+	handler perform: selector withArguments: aArguments.
 	^ result
 ]
 
@@ -95,7 +85,6 @@ ScpASTIndirection >> indirectionNode [
 { #category : #initialization }
 ScpASTIndirection >> initialize [
 
-	nodes := IdentitySet new.
 	identifier := ScpInstrumentationRegistry instance size + 1
 ]
 
@@ -123,7 +112,7 @@ ScpASTIndirection >> instead [
 { #category : #private }
 ScpASTIndirection >> instead: aStatementBlock arguments: aArguments [
 
-	^ handler perform: insteadSelector withArguments: aArguments
+	^ handler perform: selector withArguments: aArguments
 ]
 
 { #category : #accessing }
@@ -132,8 +121,8 @@ ScpASTIndirection >> node [
 	^ node
 ]
 
-{ #category : #accessing }
-ScpASTIndirection >> nodes [
+{ #category : #parameters }
+ScpASTIndirection >> selector: aHandlerSelector [
 
-	^ nodes
+	selector := aHandlerSelector
 ]
