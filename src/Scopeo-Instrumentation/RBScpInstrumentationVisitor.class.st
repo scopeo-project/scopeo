@@ -16,7 +16,7 @@ RBScpInstrumentationVisitor class >> isAbstract [
 { #category : #accessing }
 RBScpInstrumentationVisitor >> indirectionIdentifier [
 
-	^ 1
+	^ indirectionIdentifier
 ]
 
 { #category : #accessing }
@@ -40,6 +40,13 @@ RBScpInstrumentationVisitor >> visitArrayNode: anArrayNode [
 { #category : #visiting }
 RBScpInstrumentationVisitor >> visitAssignmentNode: anAssignmentNode [
 
+	anAssignmentNode variable isInstanceVariable ifFalse: [
+		^ anAssignmentNode
+			  variable: (self visitNode: anAssignmentNode variable);
+			  value: (self visitNode: anAssignmentNode value);
+			  yourself ].
+
+
 	^ RBMessageNode
 		  receiver: (RBMessageNode
 				   receiver: (RBMessageNode
@@ -53,7 +60,7 @@ RBScpInstrumentationVisitor >> visitAssignmentNode: anAssignmentNode [
 		  arguments: {
 				  (RBBlockNode body:
 					   (RBSequenceNode statements: { anAssignmentNode })).
-				  anAssignmentNode variable.
+				  (RBLiteralValueNode value: anAssignmentNode variable name).
 				  (RBVariableNode named: #self).
 				  anAssignmentNode value }
 ]
@@ -106,6 +113,14 @@ RBScpInstrumentationVisitor >> visitLiteralNode: aLiteralNode [
 
 { #category : #visiting }
 RBScpInstrumentationVisitor >> visitMessageNode: aMessageNode [
+
+	aMessageNode receiver isBlock ifTrue: [
+		^ aMessageNode
+			  receiver: (self visitNode: aMessageNode receiver);
+			  selector: (self visitNode: aMessageNode selectorNode);
+			  arguments:
+				  (aMessageNode arguments collect: [ :each | self visitNode: each ]);
+			  yourself ].
 
 	^ RBMessageNode
 		  receiver: (RBMessageNode

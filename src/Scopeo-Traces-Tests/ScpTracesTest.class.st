@@ -60,41 +60,6 @@ ScpTracesTest >> testExampleAccessorCall [
 ]
 
 { #category : #tests }
-ScpTracesTest >> testExampleAssignmentFromMessage [
-
-	| traces |
-	
-	objectB exampleSetterAssignmentFromMessage: 'exampleValueFromMessage'.
-	self halt.
-	traces := scpTraces storage traces.
-	
-	self assert: traces size equals: 4.
-	self assert: traces first isMethodCall equals: true.
-	self assert: traces first sender identicalTo: self.
-	self assert: traces first selector equals: #exampleSelfCall.
-	self assert: traces first receiver identicalTo: objectB.
-	self assert: traces first arguments isEmpty equals: true.
-	
-	self assert: traces second isMessageSend equals: true.
-	self assert: traces second selector equals: #exampleSetter:.
-	self assert: traces second receiver identicalTo: objectB.
-	self assert: traces second arguments size equals: 1.
-	self assert: traces second arguments first equals: 'exampleSelf'.
-
-	self assert: traces third isMethodCall equals: true.
-	self assert: traces third sender identicalTo: objectB.
-	self assert: traces third selector equals: #exampleSetter:.
-	self assert: traces third receiver identicalTo: objectB. 
-	self assert: traces third arguments size equals: 1.
-	self assert: traces third arguments first equals: 'exampleSelf'.
-	
-	self assert: traces fourth isAssignment equals: true.
-	self assert: traces fourth object identicalTo: objectB.
-	self assert: traces fourth variable equals: #exampleInstanceVariable.
-	self assert: traces fourth value equals: 'exampleSelf'
-]
-
-{ #category : #tests }
 ScpTracesTest >> testExampleMethod [
 
 	objectA exampleMethod

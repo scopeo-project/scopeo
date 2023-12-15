@@ -2,8 +2,8 @@ Class {
 	#name : #ScpInstrumentationRegistry,
 	#superclass : #Object,
 	#instVars : [
-		'instrumentedMethods',
-		'instrumentations'
+		'instrumentations',
+		'instrumentedMethods'
 	],
 	#classInstVars : [
 		'instance'
@@ -28,9 +28,17 @@ ScpInstrumentationRegistry >> addMethod: aMethod [
 { #category : #accessing }
 ScpInstrumentationRegistry >> at: anIdentifier [
 
-	^ self instrumentations at: anIdentifier ifAbsent: [
+	^ instrumentations at: anIdentifier ifAbsent: [
 		self error: 'Code instrumented without a matching instrumentation in the registry.'
 	]
+]
+
+{ #category : #initialization }
+ScpInstrumentationRegistry >> initialize [
+
+	instrumentations := Dictionary new.
+	instrumentedMethods := IdentitySet new
+
 ]
 
 { #category : #accessing }
@@ -55,7 +63,7 @@ ScpInstrumentationRegistry >> register: anInstrumentation [
 { #category : #private }
 ScpInstrumentationRegistry >> removeMethod: aMethod [
 
-	self instrumentedMethods removeKey: aMethod name ifAbsent: [ "Do nothing" ]
+	instrumentedMethods remove: aMethod name ifAbsent: [ "Do nothing" ]
 ]
 
 { #category : #private }

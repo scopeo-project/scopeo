@@ -17,7 +17,9 @@ Class {
 ScpInstrumentation class >> uninstallAll [
 
 	<script: 'self uninstallAll'>
-	self allInstancesDo: [ :i | i uninstall ]
+	ScpInstrumentationRegistry instance instrumentations do: [ :i | 
+		i uninstall 
+	]
 
 ]
 
@@ -49,6 +51,10 @@ ScpInstrumentation >> initialize [
 { #category : #services }
 ScpInstrumentation >> install [
 
+	self methodsToInstrument ifEmpty: [ ^ self ].
+	
+	self registry register: self.
+	
 	self methodsToInstrument do: [ :method |
 		| ast |
 		ast := method ast copy.
