@@ -1,45 +1,44 @@
 Class {
-	#name : 'ScpExampleObjectB',
-	#superclass : 'ScpExampleObject',
+	#name : #ScpExampleObjectB,
+	#superclass : #ScpExampleObject,
 	#instVars : [
 		'#exampleInstanceVariable',
 		'#exampleInstanceObservable => ObservableSlot'
 	],
-	#category : 'Scopeo-Traces-Tests-Objects',
-	#package : 'Scopeo-Traces-Tests-Objects'
+	#category : 'Scopeo-Traces-Tests-Objects'
 }
 
-{ #category : 'examples' }
+{ #category : #examples }
 ScpExampleObjectB >> exampleAccessor [
 
 	^ exampleInstanceVariable
 ]
 
-{ #category : 'examples' }
+{ #category : #examples }
 ScpExampleObjectB >> exampleSelfCall [
 
 	^ self exampleSetter: 'exampleSelf'
 ]
 
-{ #category : 'examples' }
+{ #category : #examples }
 ScpExampleObjectB >> exampleSetter: aValue [
 
 	exampleInstanceVariable := aValue
 ]
 
-{ #category : 'examples' }
+{ #category : #examples }
 ScpExampleObjectB >> exampleSetterObservableSlot: aValue [
 
 	exampleInstanceObservable := aValue
 ]
 
-{ #category : 'examples' }
+{ #category : #examples }
 ScpExampleObjectB >> exampleSuperCall: aValue [
 
 	^ super exampleSuperCall: aValue
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ScpExampleObjectB >> initialize [
 
 	self class initializeSlots: self.

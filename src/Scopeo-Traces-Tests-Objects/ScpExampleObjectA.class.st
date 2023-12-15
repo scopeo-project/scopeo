@@ -1,20 +1,19 @@
 Class {
-	#name : 'ScpExampleObjectA',
-	#superclass : 'ScpExampleObject',
+	#name : #ScpExampleObjectA,
+	#superclass : #ScpExampleObject,
 	#instVars : [
 		'exampleObjectB'
 	],
-	#category : 'Scopeo-Traces-Tests-Objects',
-	#package : 'Scopeo-Traces-Tests-Objects'
+	#category : #'Scopeo-Traces-Tests-Objects'
 }
 
-{ #category : 'examples' }
+{ #category : #examples }
 ScpExampleObjectA >> exampleAccessorCall [
 
 	^ exampleObjectB exampleAccessor.
 ]
 
-{ #category : 'examples' }
+{ #category : #examples }
 ScpExampleObjectA >> exampleMethod [
 
 	exampleObjectB exampleSetter: 'example'.
@@ -24,27 +23,26 @@ ScpExampleObjectA >> exampleMethod [
 	^ exampleObjectB exampleAccessor.
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ScpExampleObjectA >> exampleObjectB: anObject [
 
 	exampleObjectB := anObject
 ]
 
-{ #category : 'examples' }
+{ #category : #examples }
 ScpExampleObjectA >> exampleSetterCall [
 
-	exampleObjectB exampleSetter: 'example'.
-
+	exampleObjectB exampleSetter: 'example' 
 ]
 
-{ #category : 'examples' }
+{ #category : #examples }
 ScpExampleObjectA >> exampleSetterCallInBlock [
 
 	[ exampleObjectB exampleSetter: 'exampleInBlock' ] value.
 	
 ]
 
-{ #category : 'examples' }
+{ #category : #examples }
 ScpExampleObjectA >> exampleSetterCallInBlockInBlock [
 
 	| value |
@@ -52,9 +50,20 @@ ScpExampleObjectA >> exampleSetterCallInBlockInBlock [
 	[ :v | [ exampleObjectB exampleSetter: v ] value ] value: value
 ]
 
-{ #category : 'examples' }
+{ #category : #examples }
 ScpExampleObjectA >> exampleSetterObservableCall [
 
 	exampleObjectB exampleSetterObservableSlot: 'exampleObservable'.
 
+]
+
+{ #category : #tests }
+ScpExampleObjectA >> testFilter [
+
+	^ ScpTracesFilter new
+		  matchPackages: OTMatcher any;
+		  matchClasses: OTMatcher any;
+		  matchMethods: OTMatcher any;
+		  methods;
+		  yourself
 ]
