@@ -17,17 +17,50 @@ Class {
 		'indirectionForMessageSend',
 		'indirectionForMethodCall'
 	],
+	#classInstVars : [
+		'instrumentedMethods'
+	],
 	#category : #'Scopeo-Instrumentation'
 }
+
+{ #category : #accessing }
+ScpInstrumentation class >> addInstrumentedMethod: aMethod [
+
+	(self instrumentedMethodsIncludes: aMethod) ifTrue: [ 
+		self error: 'Method ', aMethod name, ' already instrumented'
+	].
+	self instrumentedMethods add: aMethod name
+]
+
+{ #category : #accessing }
+ScpInstrumentation class >> instrumentedMethods [
+
+	^ instrumentedMethods ifNil: [ instrumentedMethods := OrderedCollection new ]
+]
+
+{ #category : #testing }
+ScpInstrumentation class >> instrumentedMethodsIncludes: aMethod [
+
+	^ self instrumentedMethods includes: aMethod name
+]
+
+{ #category : #testing }
+ScpInstrumentation class >> instrumentedMethodsIncludesAny: aMethodCollection [
+	
+	^ self instrumentedMethods includesAny: (aMethodCollection collect: [ :m | m name ])
+]
+
+{ #category : #removing }
+ScpInstrumentation class >> removeInstrumentedMethod: aMethod [
+
+	self instrumentedMethods remove: aMethod name ifAbsent: [ "Do nothing" ]
+]
 
 { #category : #private }
 ScpInstrumentation class >> uninstallAll [
 
 	<script: 'self uninstallAll'>
-	
-	ScpInstrumentationRegistry instance valuesDo: [ :i | 
-		i instrumentation uninstall
-	]
+	self allInstancesDo: [ :i | i uninstall ]
 
 ]
 
@@ -44,108 +77,89 @@ ScpInstrumentation >> handler: aHandler [
 { #category : #private }
 ScpInstrumentation >> indirectionForAssignment [
 
-	^ indirectionForAssignment ifNil: [ 
+	^ indirectionForAssignment ifNil: [
 		  indirectionForAssignment := ScpAssignmentIndirection new.
-		  "indirectionForAssignment for: node parent;"
 		  indirectionForAssignment handler: handler.
-		  indirectionForAssignment beBeforeNodeExecution.
-		  indirectionForAssignment selector: #onAssignment:of:value:.
-		  "indirectionForAssignment arguments: { self nodeForString: node name . self selfNode . node parent value }."
+		
+		ScpInstrumentationRegistry instance
+			  at: indirectionForAssignment hash
+			  ifAbsentPut: [ indirectionForAssignment ].
+		
 		  ^ indirectionForAssignment ]
 ]
 
 { #category : #private }
 ScpInstrumentation >> indirectionForMessageSend [
 
-	^ indirectionForMessageSend ifNil: [ 
+	^ indirectionForMessageSend ifNil: [
 		  indirectionForMessageSend := ScpMessageSendIndirection new.
 		  indirectionForMessageSend handler: handler.
-		  indirectionForMessageSend beBeforeNodeExecution.
-		  indirectionForMessageSend selector: #onMessageSent:to:with:.
-		  "indirectionForMessageSend arguments: { self nodeForSymbol: node selector . node receiver . self nodeForArray: node arguments }."
+		
+		ScpInstrumentationRegistry instance
+			  at: indirectionForMessageSend hash
+			  ifAbsentPut: [ indirectionForMessageSend ].
+			
 		  ^ indirectionForMessageSend ]
 ]
 
 { #category : #private }
 ScpInstrumentation >> indirectionForMethodCall [
 
-	^ indirectionForMethodCall ifNil: [ 
+	^ indirectionForMethodCall ifNil: [
 		  indirectionForMethodCall := ScpMethodCallIndirection new.
 		  indirectionForMethodCall handler: handler.
-		  indirectionForMethodCall beBeforeNodeExecution.
-		  indirectionForMethodCall selector: #onMethodCall:of:from:with:.
-		  "indirectionForMethodCall arguments: { self nodeForSymbol: node selector . node receiver . self nodeForArray: node arguments };"
-		  ^ indirectionForMethodCall ]
-]
 
-{ #category : #initialization }
-ScpInstrumentation >> initialize [
+		  ScpInstrumentationRegistry instance
+			  at: indirectionForMethodCall hash
+			  ifAbsentPut: [ indirectionForMethodCall ].
 
-	identifier := ScpInstrumentationRegistry instance size + 1.
-	indirectionReceiverNode := RBParser parseExpression: (
-		'ScpInstrumentationRegistry instance at: {1}' format: { identifier }
-	)
+		  ^ indirectionForMethodCall 
+	  ]
 ]
 
 { #category : #services }
 ScpInstrumentation >> install [
 
 	self methodsToInstrument do: [ :method |
-		self instrumentMethodCall: method.
-		self instrumentMessageSends: method.
-		self instrumentAssignments: method.
+		|ast |
+
+		ast := method ast copy.
+
+		self instrumentMessageSends: ast.
+		self instrumentMethodCall: ast.
+		self instrumentAssignments: ast.
+		
+		ast := (RBParser parseExpression: ast dump) evaluate.
+		
+		method methodClass compile: ast formattedCode.
+		
+		self class addInstrumentedMethod: method.
 	]
 ]
 
 { #category : #private }
-ScpInstrumentation >> instrumentAssignments: aMethod [
+ScpInstrumentation >> instrumentAssignments: aMethodNode [
 
-	aMethod ast instanceVariableWriteNodes do: [ :node | 
-		self indirectionForAssignment 
-			for: node parent;
-			arguments: { 
-				self nodeForLiteral: node name
-				. self nodeSelf
-				. node parent value 
-			};
-			install 
+	aMethodNode instanceVariableWriteNodes do: [ :node |
+		self indirectionForAssignment installOn: node parent
 	]
 ]
 
 { #category : #private }
-ScpInstrumentation >> instrumentMessageSends: aMethod [
-	
+ScpInstrumentation >> instrumentMessageSends: aMethodNode [
+
 	| nodes |
-	
-	nodes := aMethod ast sendNodes.
+	nodes := aMethodNode sendNodes.
 	nodes := nodes reject: [ :n | n receiver isBlock ].
 	nodes do: [ :node |
-		self indirectionForMessageSend  
-			for: node;
-			arguments: { 
-				self nodeForLiteral: node selector asSymbol 
-				. node receiver 
-				. self nodeForArray: node arguments 
-			};
-			install
+		self indirectionForMessageSend installOn: node 
 	]
 ]
 
 { #category : #private }
-ScpInstrumentation >> instrumentMethodCall: aMethod [
+ScpInstrumentation >> instrumentMethodCall: aMethodNode [
 
-	| node |
-	self halt.
-	node := aMethod ast.
-	self indirectionForMethodCall
-		for: node;
-		arguments: { 
-			self nodeForLiteral: node selector 
-			. self nodeSelf 
-			. self nodeFor: 'thisContext receiver' 
-			. self nodeForArray: node arguments
-		};
-		install
+	self indirectionForMethodCall installOn: aMethodNode
 ]
 
 { #category : #accessing }
@@ -157,38 +171,23 @@ ScpInstrumentation >> methodsToInstrument [
 { #category : #parameters }
 ScpInstrumentation >> methodsToInstrument: aMethodCollection [
 
+	(self class instrumentedMethodsIncludesAny: aMethodCollection) ifTrue: [
+		self error: 'At least one of the methods provided has already been instrumented.'
+	].
 	methodsToInstrument := aMethodCollection
-]
-
-{ #category : #helpers }
-ScpInstrumentation >> nodeFor: anExpression [
-
-	^ RBParser parseExpression: anExpression
-]
-
-{ #category : #helpers }
-ScpInstrumentation >> nodeForArray: anArray [
-
-	^ RBArrayNode statements: anArray
-]
-
-{ #category : #helpers }
-ScpInstrumentation >> nodeForLiteral: aString [
-
-	^ RBLiteralValueNode value: aString
-]
-
-{ #category : #'instance creation' }
-ScpInstrumentation >> nodeSelf [
-
-	^ RBParser parseExpression: 'self'
 ]
 
 { #category : #services }
 ScpInstrumentation >> uninstall [
 	
-	self methodsToInstrument do: [ :m |
-		m classBinding value compiler install: m ast sourceCode.
+	self methodsToInstrument ifNotNil: [ :methods | 
+		methods do: [ :m | 
+			m methodClass addSelector: m selector withMethod: m.
+			self class removeInstrumentedMethod: m
+		]
 	].
-	ScpInstrumentationRegistry instance removeKey: identifier.	
+
+	ScpInstrumentationRegistry instance removeKey: self indirectionForAssignment hash ifAbsent: ["nothing"].
+	ScpInstrumentationRegistry instance removeKey: self indirectionForMessageSend hash ifAbsent: ["nothing"].
+	ScpInstrumentationRegistry instance removeKey: self indirectionForMethodCall hash ifAbsent: ["nothing"].			
 ]
