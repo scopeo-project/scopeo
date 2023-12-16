@@ -1,6 +1,6 @@
 Class {
-	#name : #ScpInstrumentationRegistry,
-	#superclass : #Object,
+	#name : 'ScpInstrumentationRegistry',
+	#superclass : 'Object',
 	#instVars : [
 		'instrumentations',
 		'instrumentedMethods'
@@ -8,16 +8,17 @@ Class {
 	#classInstVars : [
 		'instance'
 	],
-	#category : #'Scopeo-Instrumentation'
+	#category : 'Scopeo-Instrumentation',
+	#package : 'Scopeo-Instrumentation'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpInstrumentationRegistry class >> instance [
 
 	^ instance ifNil: [ instance := self new ]
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 ScpInstrumentationRegistry >> addMethod: aMethod [
 
 	(self instrumentedMethods includes: aMethod) ifTrue: [
@@ -25,7 +26,7 @@ ScpInstrumentationRegistry >> addMethod: aMethod [
 	self instrumentedMethods add: aMethod name
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpInstrumentationRegistry >> at: anIdentifier [
 
 	^ instrumentations at: anIdentifier ifAbsent: [
@@ -33,7 +34,7 @@ ScpInstrumentationRegistry >> at: anIdentifier [
 	]
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ScpInstrumentationRegistry >> initialize [
 
 	instrumentations := Dictionary new.
@@ -41,32 +42,32 @@ ScpInstrumentationRegistry >> initialize [
 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpInstrumentationRegistry >> instrumentations [
 
 	^ instrumentations values
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpInstrumentationRegistry >> instrumentedMethods [
 
 	^ instrumentedMethods ifNil: [
 		  instrumentedMethods := IdentitySet new ]
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 ScpInstrumentationRegistry >> register: anInstrumentation [
 
 	^ instrumentations at: anInstrumentation hash ifAbsentPut: [ anInstrumentation ]
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 ScpInstrumentationRegistry >> removeMethod: aMethod [
 
 	instrumentedMethods remove: aMethod name ifAbsent: [ "Do nothing" ]
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 ScpInstrumentationRegistry >> unregister: anInstrumentation [
 
 	^ instrumentations

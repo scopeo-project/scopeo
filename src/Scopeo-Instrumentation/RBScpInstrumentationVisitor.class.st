@@ -1,43 +1,44 @@
 Class {
-	#name : #RBScpInstrumentationVisitor,
-	#superclass : #RBProgramNodeVisitor,
+	#name : 'RBScpInstrumentationVisitor',
+	#superclass : 'RBProgramNodeVisitor',
 	#instVars : [
 		'indirectionIdentifier'
 	],
-	#category : #'Scopeo-Instrumentation'
+	#category : 'Scopeo-Instrumentation',
+	#package : 'Scopeo-Instrumentation'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 RBScpInstrumentationVisitor class >> isAbstract [
 
 	^ self == RBProgramNodeVisitor
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RBScpInstrumentationVisitor >> indirectionIdentifier [
 
 	^ indirectionIdentifier
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RBScpInstrumentationVisitor >> indirectionIdentifier: anIdentifier [
 
 	indirectionIdentifier := anIdentifier
 ]
 
-{ #category : #API }
+{ #category : 'API' }
 RBScpInstrumentationVisitor >> visit: aRBMessageNode [
 	^ aRBMessageNode acceptVisitor: self
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 RBScpInstrumentationVisitor >> visitArrayNode: anArrayNode [
 
 	^ anArrayNode statements:
 		(anArrayNode children collect: [ :each | self visitNode: each ]);yourself
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 RBScpInstrumentationVisitor >> visitAssignmentNode: anAssignmentNode [
 
 	anAssignmentNode variable isInstanceVariable ifFalse: [
@@ -65,7 +66,7 @@ RBScpInstrumentationVisitor >> visitAssignmentNode: anAssignmentNode [
 				  anAssignmentNode value }
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 RBScpInstrumentationVisitor >> visitBlockNode: aBlockNode [
 
 	^ aBlockNode arguments:( self visitArgumentNodes: aBlockNode arguments);
@@ -73,7 +74,7 @@ RBScpInstrumentationVisitor >> visitBlockNode: aBlockNode [
 		yourself
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 RBScpInstrumentationVisitor >> visitCascadeNode: aCascadeNode [
 
 	| receiverNode receiverNodeVariable statements |
@@ -93,25 +94,25 @@ RBScpInstrumentationVisitor >> visitCascadeNode: aCascadeNode [
 		  selector: #value
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 RBScpInstrumentationVisitor >> visitEnglobingErrorNode: anEnglobingErrorNode [
 
 	^ anEnglobingErrorNode contents:  ( anEnglobingErrorNode contents collect: [ :each | self visitNode: each ]); yourself
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 RBScpInstrumentationVisitor >> visitLiteralArrayNode: aRBLiteralArrayNode [
 
 	^ aRBLiteralArrayNode contents: ( aRBLiteralArrayNode contents collect: [ :each | self visitNode: each ]);yourself
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 RBScpInstrumentationVisitor >> visitLiteralNode: aLiteralNode [
 
 	^ aLiteralNode
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 RBScpInstrumentationVisitor >> visitMessageNode: aMessageNode [
 
 	aMessageNode receiver isBlock ifTrue: [
@@ -139,7 +140,7 @@ RBScpInstrumentationVisitor >> visitMessageNode: aMessageNode [
 				  (RBArrayNode statements: aMessageNode arguments) }
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 RBScpInstrumentationVisitor >> visitMethodNode: aMethodNode [
 
 	aMethodNode arguments:
@@ -169,13 +170,13 @@ RBScpInstrumentationVisitor >> visitMethodNode: aMethodNode [
 	^ aMethodNode
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 RBScpInstrumentationVisitor >> visitParseErrorNode: anErrorNode [
 
 	^ anErrorNode
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 RBScpInstrumentationVisitor >> visitPatternBlockNode: aRBPatternBlockNode [
 
 	^ aRBPatternBlockNode
@@ -184,7 +185,7 @@ RBScpInstrumentationVisitor >> visitPatternBlockNode: aRBPatternBlockNode [
 		yourself
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 RBScpInstrumentationVisitor >> visitPatternWrapperBlockNode: aRBPatternWrapperBlockNode [
 
 	^ aRBPatternWrapperBlockNode wrappedNode: (
@@ -194,25 +195,25 @@ RBScpInstrumentationVisitor >> visitPatternWrapperBlockNode: aRBPatternWrapperBl
 	self visitNode: aRBPatternWrapperBlockNode body);yourself
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 RBScpInstrumentationVisitor >> visitPragmaNode: aPragmaNode [
 
 	^ aPragmaNode arguments: (aPragmaNode  arguments do: [ :each | self visitNode: each ]); yourself
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 RBScpInstrumentationVisitor >> visitReturnNode: aReturnNode [
 
 	^ aReturnNode value: ( self visitNode: aReturnNode value); yourself
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 RBScpInstrumentationVisitor >> visitSelectorNode: aSelectorNode [
 
 	^ aSelectorNode
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 RBScpInstrumentationVisitor >> visitSequenceNode: aSequenceNode [
 
 	^ aSequenceNode temporaries: (

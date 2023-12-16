@@ -1,18 +1,19 @@
 Class {
-	#name : #ScpInstrumentationHandler,
-	#superclass : #Object,
-	#category : #'Scopeo-Instrumentation'
+	#name : 'ScpInstrumentationHandler',
+	#superclass : 'Object',
+	#category : 'Scopeo-Instrumentation',
+	#package : 'Scopeo-Instrumentation'
 }
 
-{ #category : #'events handling' }
+{ #category : 'events handling' }
 ScpInstrumentationHandler >> onAssignment: aVariable of: anObject value: aValue [
 ]
 
-{ #category : #'events handling' }
+{ #category : 'events handling' }
 ScpInstrumentationHandler >> onMessageSent: aSelector to: aReceiver with: aArguments [
 ]
 
-{ #category : #'events handling' }
+{ #category : 'events handling' }
 ScpInstrumentationHandler >> onMethodCall: aMethodSelector of: aReceiver from: aSender with: aArguments [
 
    
