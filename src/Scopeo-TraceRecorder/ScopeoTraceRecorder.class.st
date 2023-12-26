@@ -2,7 +2,6 @@ Class {
 	#name : 'ScopeoTraceRecorder',
 	#superclass : 'Object',
 	#instVars : [
-		'filter',
 		'instrumentation',
 		'storage',
 		'methodsToRecord'
@@ -36,12 +35,6 @@ ScopeoTraceRecorder class >> defaultRejectedPackages [
 	  'Collections-DoubleLinkedList'. 'Transcript-Core' }
 ]
 
-{ #category : 'accessing' }
-ScopeoTraceRecorder >> filter: aFilter [
-
-	filter := aFilter
-]
-
 { #category : 'initialization' }
 ScopeoTraceRecorder >> initialize [
 
@@ -61,10 +54,19 @@ ScopeoTraceRecorder >> methodsToRecord [
 	^ instrumentation methodsToInstrument
 ]
 
-{ #category : 'accessing' }
+{ #category : 'parameters' }
 ScopeoTraceRecorder >> methodsToRecord: aMethodCollection [
 
 	instrumentation methodsToInstrument: aMethodCollection
+]
+
+{ #category : 'parameters' }
+ScopeoTraceRecorder >> seekMethodsToRecord: aSetUpBlock [
+
+	| methodSeeker |
+	methodSeeker := ScpMethodSeeker new.
+	aSetUpBlock value: methodSeeker.
+	self methodsToRecord: methodSeeker methods
 ]
 
 { #category : 'services' }
@@ -97,6 +99,7 @@ ScopeoTraceRecorder >> storage: aStorage [
 { #category : 'services' }
 ScopeoTraceRecorder >> switchOff [
 
+	self stopRecording.
 	instrumentation uninstall
 ]
 
@@ -104,11 +107,4 @@ ScopeoTraceRecorder >> switchOff [
 ScopeoTraceRecorder >> switchOn [
 
 	instrumentation install
-]
-
-{ #category : 'accessing' }
-ScopeoTraceRecorder >> withFilter: aFilterSetUpBlock [
-
-	self filter: ScpTraceFilter new.
-	aFilterSetUpBlock value: filter.
 ]

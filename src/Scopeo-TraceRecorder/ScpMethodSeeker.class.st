@@ -1,5 +1,5 @@
 Class {
-	#name : 'ScpTraceFilter',
+	#name : 'ScpMethodSeeker',
 	#superclass : 'Object',
 	#instVars : [
 		'packageMatcher',
@@ -12,7 +12,7 @@ Class {
 }
 
 { #category : 'initialization' }
-ScpTraceFilter >> initialize [
+ScpMethodSeeker >> initialize [
 
 	self matchPackages: OTAnyMatcher new.
 	self matchClasses: OTAnyMatcher new.
@@ -20,25 +20,25 @@ ScpTraceFilter >> initialize [
 ]
 
 { #category : 'parameters' }
-ScpTraceFilter >> matchClasses: aClassMatcher [
+ScpMethodSeeker >> matchClasses: aClassMatcher [
 
 	classMatcher := aClassMatcher
 ]
 
 { #category : 'parameters' }
-ScpTraceFilter >> matchMethods: aMethodMatcher [
+ScpMethodSeeker >> matchMethods: aMethodMatcher [
 
 	methodMatcher := aMethodMatcher
 ]
 
 { #category : 'parameters' }
-ScpTraceFilter >> matchPackages: aPackageMatcher [
+ScpMethodSeeker >> matchPackages: aPackageMatcher [
 
 	packageMatcher := aPackageMatcher 
 ]
 
 { #category : 'services' }
-ScpTraceFilter >> methods [
+ScpMethodSeeker >> methods [
 
 	| packages classes |
 	packages := self selectMatchingPackages: Smalltalk packages.
@@ -47,19 +47,19 @@ ScpTraceFilter >> methods [
 ]
 
 { #category : 'private' }
-ScpTraceFilter >> selectMatchingClassesOf: aPackage [
+ScpMethodSeeker >> selectMatchingClassesOf: aPackage [
 
 	^ aPackage classes select: [ :class | classMatcher matches: class ]
 ]
 
 { #category : 'private' }
-ScpTraceFilter >> selectMatchingMethodsOf: aClass [
+ScpMethodSeeker >> selectMatchingMethodsOf: aClass [
 
 	^ aClass methods select: [ :method | methodMatcher matches: method ]
 ]
 
 { #category : 'private' }
-ScpTraceFilter >> selectMatchingPackages: aPackages [
+ScpMethodSeeker >> selectMatchingPackages: aPackages [
 
 	^ aPackages select: [ :package | packageMatcher matches: package ]
 ]
