@@ -4,7 +4,6 @@ Class {
 	#instVars : [
 		'handler',
 		'methodsToInstrument',
-		'identifier',
 		'visitor'
 	],
 	#classInstVars : [

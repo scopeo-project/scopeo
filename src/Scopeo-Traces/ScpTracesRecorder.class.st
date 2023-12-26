@@ -1,25 +1,23 @@
 Class {
-	#name : 'ScpTraces',
+	#name : 'ScpTracesRecorder',
 	#superclass : 'Object',
 	#instVars : [
-		'scanner',
 		'filter',
-		'storage',
-		'tracer',
-		'methods'
+		'instrumentation',
+		'storage'
 	],
 	#category : 'Scopeo-Traces',
 	#package : 'Scopeo-Traces'
 }
 
 { #category : 'as yet unclassified' }
-ScpTraces class >> defaultRejectedClasses [
+ScpTracesRecorder class >> defaultRejectedClasses [
 
 	^ {  }
 ]
 
 { #category : 'as yet unclassified' }
-ScpTraces class >> defaultRejectedPackages [
+ScpTracesRecorder class >> defaultRejectedPackages [
 
 	^ { 'Kernel'. 'Collections-Sequenceable-Tests'.
 	  'Collections-Atomic-Tests'. 'Collections-Unordered-Tests'.
@@ -37,56 +35,69 @@ ScpTraces class >> defaultRejectedPackages [
 ]
 
 { #category : 'accessing' }
-ScpTraces >> filter: aFilter [
+ScpTracesRecorder >> filter: aFilter [
 
 	filter := aFilter
 ]
 
 { #category : 'initialization' }
-ScpTraces >> initialize [
+ScpTracesRecorder >> initialize [
 
-	self tracer: ScpInstrumentationTracer new.
-	self storage: ScpTracesMemoryStorage new.
+	self instrumentation: ScpInstrumentation new.
+	self storage: ScpTracesMemoryStorage new
+]
+
+{ #category : 'parameters' }
+ScpTracesRecorder >> instrumentation: aInstrumentation [
+
+	instrumentation := aInstrumentation
 ]
 
 { #category : 'services' }
-ScpTraces >> startRecording [
+ScpTracesRecorder >> startRecording [
 
-	methods ifNil: [ methods := filter methods].
-	tracer methods: methods.
-	tracer startTracing
+	storage ifNil: [
+		self error: 'Please provide a storage component to record program events.'
+	].
+	instrumentation handler: storage
 ]
 
 { #category : 'services' }
-ScpTraces >> stopRecording [
+ScpTracesRecorder >> stopRecording [
 
-	tracer stopTracing
+	instrumentation handler: ScpInstrumentationHandler new
 ]
 
 { #category : 'accessing' }
-ScpTraces >> storage [
+ScpTracesRecorder >> storage [
 
 	^ storage
 ]
 
 { #category : 'parameters' }
-ScpTraces >> storage: aStorage [
+ScpTracesRecorder >> storage: aStorage [
 
-	storage := aStorage.
-	tracer ifNil: [ ^ self ].
-	tracer handler: aStorage.
+	storage := aStorage
 ]
 
-{ #category : 'parameters' }
-ScpTraces >> tracer: aTracer [
+{ #category : 'as yet unclassified' }
+ScpTracesRecorder >> switchOff [
 
-	tracer := aTracer.
-	storage ifNil: [ ^ self ].
-	tracer handler: storage
+	instrumentation uninstall
+]
+
+{ #category : 'as yet unclassified' }
+ScpTracesRecorder >> switchOn [
+
+	filter ifNil: [
+		self error: 'Provide a filter to select the methods whose events are to be recorded.' 
+	].
+	instrumentation methods: filter methods.
+	instrumentation install
 ]
 
 { #category : 'accessing' }
-ScpTraces >> withFilter: aFilterSetUpBlock [
+ScpTracesRecorder >> withFilter: aFilterSetUpBlock [
 
 	self filter: ScpTracesFilter new.
 	aFilterSetUpBlock value: filter.

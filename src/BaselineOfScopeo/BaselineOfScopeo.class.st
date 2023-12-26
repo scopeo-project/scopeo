@@ -11,8 +11,8 @@ BaselineOfScopeo >> baseline: spec [
 	<baseline>
 	spec for: #common do: [
 		self dependencies: spec.
-		self packages: spec.		
- 	]
+		self packages: spec 
+	]
 ]
 
 { #category : 'accessing' }
