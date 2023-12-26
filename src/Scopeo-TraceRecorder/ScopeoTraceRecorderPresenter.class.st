@@ -1,16 +1,17 @@
 Class {
-	#name : 'ScpTracesRecorderPresenter',
+	#name : 'ScopeoTraceRecorderPresenter',
 	#superclass : 'SpPresenter',
 	#instVars : [
 		'onOffButton',
 		'recordButton'
 	],
-	#category : 'Scopeo-Presenters',
-	#package : 'Scopeo-Presenters'
+	#category : 'Scopeo-TraceRecorder-Presenters',
+	#package : 'Scopeo-TraceRecorder',
+	#tag : 'Presenters'
 }
 
 { #category : 'instance creation' }
-ScpTracesRecorderPresenter class >> open [
+ScopeoTraceRecorderPresenter class >> open [
 
 	^ (self newApplication: SpScopeoApplication new)
 		  open;
@@ -18,7 +19,7 @@ ScpTracesRecorderPresenter class >> open [
 ]
 
 { #category : 'initialization' }
-ScpTracesRecorderPresenter >> connectPresenters [
+ScopeoTraceRecorderPresenter >> connectPresenters [
 
 	onOffButton whenSwitchedOnDo: [
 		recordButton enabled: true ].
@@ -28,7 +29,7 @@ ScpTracesRecorderPresenter >> connectPresenters [
 ]
 
 { #category : 'initialization' }
-ScpTracesRecorderPresenter >> defaultLayout [
+ScopeoTraceRecorderPresenter >> defaultLayout [
 
 	^ SpBoxLayout newHorizontal
 		  add: onOffButton;
@@ -38,7 +39,7 @@ ScpTracesRecorderPresenter >> defaultLayout [
 ]
 
 { #category : 'initialization' }
-ScpTracesRecorderPresenter >> initializePresenters [
+ScopeoTraceRecorderPresenter >> initializePresenters [
 
 	onOffButton := ScpSwitchButtonPresenter new
 		               switchedOnIcon: (self iconNamed: #switchedOn);
@@ -59,8 +60,8 @@ ScpTracesRecorderPresenter >> initializePresenters [
 ]
 
 { #category : 'initialization' }
-ScpTracesRecorderPresenter >> initializeWindow: aWindowPresenter [
+ScopeoTraceRecorderPresenter >> initializeWindow: aWindowPresenter [
 
-	aWindowPresenter title: 'Scopeo traces recorder'.
+	aWindowPresenter title: 'Scopeo trace recorder'.
 	aWindowPresenter initialExtent: 325 @ 115
 ]

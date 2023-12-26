@@ -49,7 +49,7 @@ ScpModel >> getObjectsScopes [
 { #category : 'services' }
 ScpModel >> initialize [
 
-	data := ScpTracesRecorder new.
+	data := ScopeoTraceRecorder new.
 
 	scope := ScpScope new.
 	search := ScpSearch new

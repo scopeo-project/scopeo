@@ -12,8 +12,9 @@ Class {
 		'whenSwitchedOnDoBlock',
 		'whenSwitchedOffDoBlock'
 	],
-	#category : 'Scopeo-Presenters',
-	#package : 'Scopeo-Presenters'
+	#category : 'Scopeo-TraceRecorder-Presenters',
+	#package : 'Scopeo-TraceRecorder',
+	#tag : 'Presenters'
 }
 
 { #category : 'initialization' }
