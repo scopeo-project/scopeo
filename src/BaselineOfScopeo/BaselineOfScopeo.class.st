@@ -17,8 +17,9 @@ BaselineOfScopeo >> baseline: spec [
 { #category : #accessing }
 BaselineOfScopeo >> dependencies: spec [
 
-	
-	spec repository: 'github://scopeo-project/scopeo-instrumentation:main'.
+	spec baseline: 'ScopeoInstrumentation' with: [
+		spec repository:
+			'github://scopeo-project/scopeo-instrumentation:main' ].
 
 	spec package: 'OpenTelemetry-Instrumentation-Matchers' with: [
 		spec repository: 'github://Gabriel-Darbord/opentelemetry-pharo:main' ]
@@ -29,13 +30,12 @@ BaselineOfScopeo >> packages: spec [
 
 	spec package: 'Scopeo-TraceRecorder-TestObjects'.
 
-	spec package: 'Scopeo-TraceRecorder' with: [
-		spec requires:
-			#( 'Scopeo-Instrumentation' 'Scopeo-TraceRecorder-TestObjects' ) ].
+	spec
+		package: 'Scopeo-TraceRecorder'
+		with: [ spec requires: #( 'Scopeo-TraceRecorder-TestObjects' ) ].
 
 	spec package: #'Scopeo-Model'.
 	spec package: #'Scopeo-Predicates'.
-	spec package: #'Scopeo-Presenters'.
 
 	spec package: #Scopeo
 ]
