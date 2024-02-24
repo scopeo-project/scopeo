@@ -1,11 +1,10 @@
 Class {
-	#name : 'BaselineOfScopeo',
-	#superclass : 'BaselineOf',
-	#category : 'BaselineOfScopeo',
-	#package : 'BaselineOfScopeo'
+	#name : #BaselineOfScopeo,
+	#superclass : #BaselineOf,
+	#category : #BaselineOfScopeo
 }
 
-{ #category : 'baselines' }
+{ #category : #baselines }
 BaselineOfScopeo >> baseline: spec [
 
 	<baseline>
@@ -15,23 +14,24 @@ BaselineOfScopeo >> baseline: spec [
 	]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BaselineOfScopeo >> dependencies: spec [
 
+	
+	spec repository: 'github://scopeo-project/scopeo-instrumentation:main'.
+
 	spec package: 'OpenTelemetry-Instrumentation-Matchers' with: [
-		spec repository: 'github://Gabriel-Darbord/opentelemetry-pharo:main'
-	]
+		spec repository: 'github://Gabriel-Darbord/opentelemetry-pharo:main' ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BaselineOfScopeo >> packages: spec [
 
-	spec package: 'Scopeo-Instrumentation'.
 	spec package: 'Scopeo-TraceRecorder-TestObjects'.
 
-	spec
-		package: 'Scopeo-TraceRecorder'
-		with: [ spec requires: #( 'Scopeo-Instrumentation' 'Scopeo-TraceRecorder-TestObjects') ].
+	spec package: 'Scopeo-TraceRecorder' with: [
+		spec requires:
+			#( 'Scopeo-Instrumentation' 'Scopeo-TraceRecorder-TestObjects' ) ].
 
 	spec package: #'Scopeo-Model'.
 	spec package: #'Scopeo-Predicates'.

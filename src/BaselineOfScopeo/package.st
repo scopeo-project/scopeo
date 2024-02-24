@@ -1,1 +1,1 @@
-Package { #name : 'BaselineOfScopeo' }
+Package { #name : #BaselineOfScopeo }
