@@ -11,8 +11,8 @@ BaselineOfScopeo >> baseline: spec [
 	<baseline>
 	spec for: #common do: [
 		self dependencies: spec.
-		self packages: spec.		
- 	]
+		self packages: spec 
+	]
 ]
 
 { #category : 'accessing' }
@@ -27,16 +27,11 @@ BaselineOfScopeo >> dependencies: spec [
 BaselineOfScopeo >> packages: spec [
 
 	spec package: 'Scopeo-Instrumentation'.
-	spec package: 'Scopeo-Traces-Tests-Objects'.
+	spec package: 'Scopeo-TraceRecorder-TestObjects'.
 
 	spec
-		package: 'Scopeo-Traces'
-		with: [ spec requires: #( 'Scopeo-Instrumentation' ) ].
-
-	spec
-		package: 'Scopeo-Traces-Tests'
-		with: [
-		spec requires: #( 'Scopeo-Traces' 'Scopeo-Traces-Tests-Objects' ) ].
+		package: 'Scopeo-TraceRecorder'
+		with: [ spec requires: #( 'Scopeo-Instrumentation' 'Scopeo-TraceRecorder-TestObjects') ].
 
 	spec package: #'Scopeo-Model'.
 	spec package: #'Scopeo-Predicates'.

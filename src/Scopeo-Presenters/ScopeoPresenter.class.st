@@ -1,6 +1,6 @@
 Class {
-	#name : 'ScopeoPresenter',
-	#superclass : 'SpPresenter',
+	#name : #ScopeoPresenter,
+	#superclass : #SpPresenter,
 	#instVars : [
 		'presenter',
 		'model',
@@ -8,11 +8,10 @@ Class {
 		'search',
 		'results'
 	],
-	#category : 'Scopeo-Presenters',
-	#package : 'Scopeo-Presenters'
+	#category : 'Scopeo-Presenters'
 }
 
-{ #category : 'layout' }
+{ #category : #layout }
 ScopeoPresenter >> defaultLayout [
 
 	^ SpPanedLayout newVertical
@@ -24,7 +23,7 @@ ScopeoPresenter >> defaultLayout [
 		  yourself
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ScopeoPresenter >> initializePresenters [
 
 	scope := ScpScopePresenter on: model.
@@ -33,7 +32,7 @@ ScopeoPresenter >> initializePresenters [
 	
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ScopeoPresenter >> initializeWindow: aWindowPresenter [
 
 	super initializeWindow: aWindowPresenter.
@@ -49,13 +48,13 @@ ScopeoPresenter >> initializeWindow: aWindowPresenter [
 				 do: [ 850 @ 650 ]"
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ScopeoPresenter >> setModelBeforeInitialization: aDomainObject [
 
 	model := aDomainObject.
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ScopeoPresenter >> title [
 
 	^ 'Scopeo'
