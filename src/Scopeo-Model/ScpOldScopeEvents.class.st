@@ -1,21 +1,22 @@
 Class {
-	#name : 'ScpScopeEvents',
+	#name : 'ScpOldScopeEvents',
 	#superclass : 'Object',
 	#instVars : [
 		'events'
 	],
-	#category : 'Scopeo-Model',
-	#package : 'Scopeo-Model'
+	#category : 'Scopeo-Model-Deprecated',
+	#package : 'Scopeo-Model',
+	#tag : 'Deprecated'
 }
 
 { #category : 'accessing' }
-ScpScopeEvents >> at: aLabel [
+ScpOldScopeEvents >> at: aLabel [
 
 	^ events at: aLabel
 ]
 
 { #category : 'services' }
-ScpScopeEvents >> at: aLabel putAll: aScpEventCollection [
+ScpOldScopeEvents >> at: aLabel putAll: aScpEventCollection [
 
 	events
 		at: aLabel
@@ -24,19 +25,19 @@ ScpScopeEvents >> at: aLabel putAll: aScpEventCollection [
 ]
 
 { #category : 'initialization' }
-ScpScopeEvents >> initialize [
+ScpOldScopeEvents >> initialize [
 
 	events := Dictionary new.
 ]
 
 { #category : 'accessing' }
-ScpScopeEvents >> keys [
+ScpOldScopeEvents >> keys [
 
 	^ events keys
 ]
 
 { #category : 'services' }
-ScpScopeEvents >> remove: aLabel [
+ScpOldScopeEvents >> remove: aLabel [
 
 	events removeKey: aLabel
 ]

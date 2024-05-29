@@ -1,83 +1,84 @@
 Class {
-	#name : 'ScpModel',
+	#name : 'ScpOldModel',
 	#superclass : 'Object',
 	#instVars : [
 		'scope',
 		'search',
 		'data'
 	],
-	#category : 'Scopeo-Model',
-	#package : 'Scopeo-Model'
+	#category : 'Scopeo-Model-Deprecated',
+	#package : 'Scopeo-Model',
+	#tag : 'Deprecated'
 }
 
 { #category : 'services' }
-ScpModel >> addEvents: anEventsCollection toScope: aLabel [
+ScpOldModel >> addEvents: anEventsCollection toScope: aLabel [
 
 	scope events at: aLabel putAll: anEventsCollection
 ]
 
 { #category : 'services' }
-ScpModel >> addObjects: anObjectCollection toScope: aLabel [
+ScpOldModel >> addObjects: anObjectCollection toScope: aLabel [
 
 	scope objects at: aLabel putAll: anObjectCollection
 ]
 
 { #category : 'services' }
-ScpModel >> getEventsFromScope: aLabel [
+ScpOldModel >> getEventsFromScope: aLabel [
 
 	^ scope events at: aLabel
 ]
 
 { #category : 'as yet unclassified' }
-ScpModel >> getEventsScopes [
+ScpOldModel >> getEventsScopes [
 
 	^ scope events keys
 ]
 
 { #category : 'services' }
-ScpModel >> getObjectsFromScope: aLabel [
+ScpOldModel >> getObjectsFromScope: aLabel [
 
 	^ scope objects at: aLabel
 ]
 
 { #category : 'as yet unclassified' }
-ScpModel >> getObjectsScopes [
+ScpOldModel >> getObjectsScopes [
 
 	^ scope objects keys
 ]
 
 { #category : 'services' }
-ScpModel >> initialize [
+ScpOldModel >> initialize [
 
 	data := ScopeoTraceRecorder new.
 
-	scope := ScpScope new.
-	search := ScpSearch new
+	scope := ScpOldScope new.
+	search := ScpOldSearch new
 		          mediator: self;
 		data: data;
 		          yourself
 ]
 
 { #category : 'services' }
-ScpModel >> removeEventsFromScope: aLabel [
+ScpOldModel >> removeEventsFromScope: aLabel [
 
 	scope events remove: aLabel
 ]
 
 { #category : 'services' }
-ScpModel >> removeObjectsFromScope: aLabel [
+ScpOldModel >> removeObjectsFromScope: aLabel [
 
 	scope objects remove: aLabel
 ]
 
 { #category : 'public api' }
-ScpModel >> scan: aProgram [
+ScpOldModel >> scan: aProgram [
 
 	^ data scan: aProgram
 ]
 
 { #category : 'services' }
-ScpModel >> search: aPredicate [
+ScpOldModel >> search: aPredicate [
 
 	^ search search: aPredicate
 ]

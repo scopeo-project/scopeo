@@ -1,0 +1,73 @@
+Class {
+	#name : 'ScpObjectEvent',
+	#superclass : 'Object',
+	#instVars : [
+		'timestamp',
+		'object',
+		'previous',
+		'next',
+		'source'
+	],
+	#category : 'Scopeo-Model',
+	#package : 'Scopeo-Model'
+}
+
+{ #category : 'accessing' }
+ScpObjectEvent >> next [
+
+	^ next
+]
+
+{ #category : 'accessing' }
+ScpObjectEvent >> next: anObjectEvent [
+
+	next := anObjectEvent
+]
+
+{ #category : 'accessing' }
+ScpObjectEvent >> object [
+
+	^ object
+]
+
+{ #category : 'accessing' }
+ScpObjectEvent >> object: anObject [
+
+	object := anObject
+]
+
+{ #category : 'accessing' }
+ScpObjectEvent >> previous [
+
+	^ previous 
+]
+
+{ #category : 'accessing' }
+ScpObjectEvent >> previous: anObjectEvent [
+
+	previous := anObjectEvent
+]
+
+{ #category : 'accessing' }
+ScpObjectEvent >> source [
+
+	^ source
+]
+
+{ #category : 'accessing' }
+ScpObjectEvent >> source: aNode [
+
+	source := aNode
+]
+
+{ #category : 'accessing' }
+ScpObjectEvent >> timestamp [
+
+	^ timestamp
+]
+
+{ #category : 'accessing' }
+ScpObjectEvent >> timestamp: anObject [
+
+	timestamp := anObject
+]

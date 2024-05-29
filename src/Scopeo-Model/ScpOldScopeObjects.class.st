@@ -1,21 +1,22 @@
 Class {
-	#name : 'ScpScopeObjects',
+	#name : 'ScpOldScopeObjects',
 	#superclass : 'Object',
 	#instVars : [
 		'objects'
 	],
-	#category : 'Scopeo-Model',
-	#package : 'Scopeo-Model'
+	#category : 'Scopeo-Model-Deprecated',
+	#package : 'Scopeo-Model',
+	#tag : 'Deprecated'
 }
 
 { #category : 'accessing' }
-ScpScopeObjects >> at: aLabel [
+ScpOldScopeObjects >> at: aLabel [
 
 	^ objects at: aLabel
 ]
 
 { #category : 'services' }
-ScpScopeObjects >> at: aLabel putAll: anObjectCollection [
+ScpOldScopeObjects >> at: aLabel putAll: anObjectCollection [
 
 	objects
 		at: aLabel
@@ -24,19 +25,19 @@ ScpScopeObjects >> at: aLabel putAll: anObjectCollection [
 ]
 
 { #category : 'initialization' }
-ScpScopeObjects >> initialize [
+ScpOldScopeObjects >> initialize [
 
 	objects := Dictionary new
 ]
 
 { #category : 'accessing' }
-ScpScopeObjects >> keys [
+ScpOldScopeObjects >> keys [
 
 	^ objects keys
 ]
 
 { #category : 'services' }
-ScpScopeObjects >> remove: aLabel [
+ScpOldScopeObjects >> remove: aLabel [
 
 	objects removeKey: aLabel
 ]

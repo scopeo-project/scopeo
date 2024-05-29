@@ -1,22 +1,23 @@
 Class {
-	#name : 'ScpSearch',
+	#name : 'ScpOldSearch',
 	#superclass : 'Object',
 	#instVars : [
 		'mediator',
 		'data'
 	],
-	#category : 'Scopeo-Model',
-	#package : 'Scopeo-Model'
+	#category : 'Scopeo-Model-Deprecated',
+	#package : 'Scopeo-Model',
+	#tag : 'Deprecated'
 }
 
 { #category : 'accessing' }
-ScpSearch >> data: aScpData [
+ScpOldSearch >> data: aScpData [
 	"Link the search component to the data layer."
 	data := aScpData.
 ]
 
 { #category : 'accessing' }
-ScpSearch >> mediator: aMediator [
+ScpOldSearch >> mediator: aMediator [
 	"Required to communicate with the scope without tight coupling. See Mediator pattern."
 
 	mediator := aMediator.	
@@ -24,7 +25,7 @@ ScpSearch >> mediator: aMediator [
 ]
 
 { #category : 'services' }
-ScpSearch >> search: aPredicate [
+ScpOldSearch >> search: aPredicate [
 
 	^ data fetch: (self class compiler evaluate: aPredicate)
 ]

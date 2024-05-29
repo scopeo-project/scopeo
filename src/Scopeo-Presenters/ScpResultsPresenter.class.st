@@ -1,16 +1,17 @@
 Class {
-	#name : #ScpResultsPresenter,
-	#superclass : #SpPresenter,
+	#name : 'ScpResultsPresenter',
+	#superclass : 'SpPresenter',
 	#instVars : [
 		'codePane',
 		'events',
 		'model',
 		'addToScopeButton'
 	],
-	#category : 'Scopeo-Presenters'
+	#category : 'Scopeo-Presenters',
+	#package : 'Scopeo-Presenters'
 }
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ScpResultsPresenter >> connectPresenters [
 
 	events whenSelectionChangedDo: [ :selection |
@@ -22,7 +23,7 @@ ScpResultsPresenter >> connectPresenters [
 	model bind: #searchResults to: [ :r | events items: r ]
 ]
 
-{ #category : #'life cycle' }
+{ #category : 'life cycle' }
 ScpResultsPresenter >> defaultLayout [
 
 	^ SpPanedLayout newHorizontal
@@ -40,7 +41,7 @@ ScpResultsPresenter >> defaultLayout [
 		  yourself
 ]
 
-{ #category : #'life cycle' }
+{ #category : 'life cycle' }
 ScpResultsPresenter >> initializePresenters [
 
 	events := self newList
@@ -53,19 +54,19 @@ ScpResultsPresenter >> initializePresenters [
 	addToScopeButton := self newButton label: 'Add to scope'; yourself.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 ScpResultsPresenter >> resolveMessageMethod: aMessage [
 
 	^ aMessage sender class lookupSelector: aMessage senderSelector
 ]
 
-{ #category : #'accessing - model' }
+{ #category : 'accessing - model' }
 ScpResultsPresenter >> setModelBeforeInitialization: aDomainObject [
 
 	model := aDomainObject
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 ScpResultsPresenter >> updateCodePane: aSelection [
 
 	| event |
