@@ -1,46 +1,45 @@
 Class {
-	#name : 'ScpMessageSend',
-	#superclass : 'ScpExpression',
+	#name : #ScpMessageSend,
+	#superclass : #ScpExpression,
 	#instVars : [
 		'receiver',
 		'selector',
 		'arguments'
 	],
-	#category : 'Scopeo-Model',
-	#package : 'Scopeo-Model'
+	#category : 'Scopeo-Model'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ScpMessageSend >> arguments [
 
 	^ arguments
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ScpMessageSend >> arguments: anObject [
 
 	arguments := anObject
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ScpMessageSend >> receiver [
 
 	^ receiver
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ScpMessageSend >> receiver: anObject [
 
 	receiver := anObject
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ScpMessageSend >> selector [
 
 	^ selector
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ScpMessageSend >> selector: anObject [
 
 	selector := anObject

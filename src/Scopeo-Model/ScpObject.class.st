@@ -1,33 +1,32 @@
 Class {
-	#name : 'ScpObject',
-	#superclass : 'Object',
+	#name : #ScpObject,
+	#superclass : #Object,
 	#instVars : [
 		'objectClass',
 		'state'
 	],
-	#category : 'Scopeo-Model',
-	#package : 'Scopeo-Model'
+	#category : 'Scopeo-Model'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ScpObject >> objectClass [
 
 	^ objectClass
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ScpObject >> objectClass: aScpClass [
 
 	objectClass := aScpClass
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ScpObject >> state [
 
 	^ state
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ScpObject >> state: aBindedVariableList [
 
 	state := aBindedVariableList

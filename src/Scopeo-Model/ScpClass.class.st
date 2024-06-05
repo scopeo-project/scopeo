@@ -1,17 +1,16 @@
 Class {
-	#name : 'ScpClass',
-	#superclass : 'Object',
+	#name : #ScpClass,
+	#superclass : #Object,
 	#instVars : [
 		'parent',
 		'name',
 		'attributes',
 		'methods'
 	],
-	#category : 'Scopeo-Model',
-	#package : 'Scopeo-Model'
+	#category : 'Scopeo-Model'
 }
 
-{ #category : 'adding' }
+{ #category : #adding }
 ScpClass >> addAttribute: aAttribute [
 
 	^ attributes at: aAttribute name asString ifAbsentPut: [ 
@@ -20,56 +19,56 @@ ScpClass >> addAttribute: aAttribute [
 	  ]
 ]
 
-{ #category : 'adding' }
+{ #category : #adding }
 ScpClass >> addMethod: aMethod [
 
 	^ methods at: aMethod name ifAbsentPut: [ aMethod methodClass: self; yourself]
 ]
 
-{ #category : 'adding' }
+{ #category : #adding }
 ScpClass >> attributeNamed: aStringOrSymbol [
 
 	^ attributes at: aStringOrSymbol asString
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ScpClass >> attributes [
 
 	^ attributes
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ScpClass >> initialize [
 
 	attributes := Dictionary new.
 	methods := Dictionary new.
 ]
 
-{ #category : 'adding' }
+{ #category : #adding }
 ScpClass >> methodNamed: aString [
 
 	^ methods at: aString
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ScpClass >> methods [
 
 	^ methods
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ScpClass >> name [
 
 	^ name
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ScpClass >> name: anObject [
 
 	name := anObject
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ScpClass >> parent [
 
 	^ parent

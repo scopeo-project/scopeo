@@ -1,26 +1,25 @@
 Class {
-	#name : 'ScpVariable',
-	#superclass : 'Object',
+	#name : #ScpVariable,
+	#superclass : #Object,
 	#instVars : [
 		'name'
 	],
-	#category : 'Scopeo-Model',
-	#package : 'Scopeo-Model'
+	#category : 'Scopeo-Model'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ScpVariable >> name [
 
 	^ name
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ScpVariable >> name: aString [
 
 	name := aString
 ]
 
-{ #category : 'printing' }
+{ #category : #printing }
 ScpVariable >> printOn: aStream [
 
 	aStream << 'Var(' << self name asString << ')'

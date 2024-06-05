@@ -1,39 +1,38 @@
 Class {
-	#name : 'ScpBindedVariable',
-	#superclass : 'Object',
+	#name : #ScpBindedVariable,
+	#superclass : #Object,
 	#instVars : [
 		'variable',
 		'value'
 	],
-	#category : 'Scopeo-Model',
-	#package : 'Scopeo-Model'
+	#category : 'Scopeo-Model'
 }
 
-{ #category : 'printing' }
+{ #category : #printing }
 ScpBindedVariable >> printOn: aStream [
 
 	aStream << variable asString << ' value: ' << value asString
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ScpBindedVariable >> value [
 
 	^ value
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ScpBindedVariable >> value: anObject [
 
 	value := anObject
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ScpBindedVariable >> variable [
 
 	^ variable
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ScpBindedVariable >> variable: anObject [
 
 	variable := anObject

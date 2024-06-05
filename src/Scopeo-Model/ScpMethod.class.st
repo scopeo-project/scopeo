@@ -1,72 +1,71 @@
 Class {
-	#name : 'ScpMethod',
-	#superclass : 'Object',
+	#name : #ScpMethod,
+	#superclass : #Object,
 	#instVars : [
 		'methodClass',
 		'name',
 		'parameters',
 		'coverage'
 	],
-	#category : 'Scopeo-Model',
-	#package : 'Scopeo-Model'
+	#category : 'Scopeo-Model'
 }
 
-{ #category : 'adding' }
+{ #category : #adding }
 ScpMethod >> addCoveredExpression: anExpression [
 
 	anExpression method: self.
 	coverage add: anExpression.
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ScpMethod >> coverage [
 
 	^ coverage
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ScpMethod >> coverage: anObject [
 
 	coverage := anObject
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ScpMethod >> initialize [
 
 	coverage := Set new
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ScpMethod >> methodClass [
 
 	^ methodClass
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ScpMethod >> methodClass: anObject [
 
 	methodClass := anObject
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ScpMethod >> name [
 
 	^ name
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ScpMethod >> name: anObject [
 
 	name := anObject
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ScpMethod >> parameters [
 
 	^ parameters
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ScpMethod >> parameters: aVariable [
 
 	parameters := aVariable
