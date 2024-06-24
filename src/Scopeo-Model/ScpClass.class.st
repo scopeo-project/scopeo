@@ -1,13 +1,13 @@
 Class {
 	#name : #ScpClass,
-	#superclass : #Object,
+	#superclass : #ScpExecutionElement,
 	#instVars : [
 		'parent',
 		'name',
 		'attributes',
 		'methods'
 	],
-	#category : 'Scopeo-Model'
+	#category : #'Scopeo-Model'
 }
 
 { #category : #adding }
@@ -72,4 +72,10 @@ ScpClass >> name: anObject [
 ScpClass >> parent [
 
 	^ parent
+]
+
+{ #category : #printing }
+ScpClass >> printOn: aStream [
+
+	aStream << self name asString
 ]

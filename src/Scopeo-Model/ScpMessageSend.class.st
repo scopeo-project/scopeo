@@ -6,8 +6,14 @@ Class {
 		'selector',
 		'arguments'
 	],
-	#category : 'Scopeo-Model'
+	#category : #'Scopeo-Model'
 }
+
+{ #category : #visiting }
+ScpMessageSend >> accept: aVisitor [
+
+	^ aVisitor visitMessageSend: self
+]
 
 { #category : #accessing }
 ScpMessageSend >> arguments [

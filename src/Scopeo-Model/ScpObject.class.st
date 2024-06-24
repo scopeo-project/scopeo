@@ -1,23 +1,16 @@
 Class {
 	#name : #ScpObject,
-	#superclass : #Object,
+	#superclass : #ScpAbstractObject,
 	#instVars : [
-		'objectClass',
 		'state'
 	],
-	#category : 'Scopeo-Model'
+	#category : #'Scopeo-Model'
 }
 
-{ #category : #accessing }
-ScpObject >> objectClass [
+{ #category : #printing }
+ScpObject >> printOn: aStream [
 
-	^ objectClass
-]
-
-{ #category : #accessing }
-ScpObject >> objectClass: aScpClass [
-
-	objectClass := aScpClass
+	aStream << 'a ' << self objectClass asString
 ]
 
 { #category : #accessing }

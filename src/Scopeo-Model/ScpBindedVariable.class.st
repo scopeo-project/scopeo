@@ -1,11 +1,11 @@
 Class {
 	#name : #ScpBindedVariable,
-	#superclass : #Object,
+	#superclass : #ScpExecutionElement,
 	#instVars : [
 		'variable',
 		'value'
 	],
-	#category : 'Scopeo-Model'
+	#category : #'Scopeo-Model'
 }
 
 { #category : #printing }

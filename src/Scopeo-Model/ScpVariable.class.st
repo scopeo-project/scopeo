@@ -1,10 +1,10 @@
 Class {
 	#name : #ScpVariable,
-	#superclass : #Object,
+	#superclass : #ScpExecutionElement,
 	#instVars : [
 		'name'
 	],
-	#category : 'Scopeo-Model'
+	#category : #'Scopeo-Model'
 }
 
 { #category : #accessing }

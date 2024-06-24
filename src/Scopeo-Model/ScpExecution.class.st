@@ -1,5 +1,5 @@
 Class {
-	#name : #ScpExecutionModel,
+	#name : #ScpExecution,
 	#superclass : #Object,
 	#instVars : [
 		'classes',
@@ -13,7 +13,7 @@ Class {
 }
 
 { #category : #'adding events' }
-ScpExecutionModel >> addAssignmentEvent: aVariable object: anObject value: aValue node: aNodeId [
+ScpExecution >> addAssignmentEvent: aVariable object: anObject value: aValue node: aNodeId [
 
 	| update expression value |
 
@@ -37,7 +37,7 @@ ScpExecutionModel >> addAssignmentEvent: aVariable object: anObject value: aValu
 ]
 
 { #category : #'adding source' }
-ScpExecutionModel >> addClass: aClass [
+ScpExecution >> addClass: aClass [
 
 	| class |
 	classes at: aClass name ifPresent: [ :c | ^ c ].
@@ -56,7 +56,7 @@ ScpExecutionModel >> addClass: aClass [
 ]
 
 { #category : #'adding events' }
-ScpExecutionModel >> addMessageEvent: aSelector sender: aSender receiver: aReceiver arguments: anArguments node: aNodeId [
+ScpExecution >> addMessageEvent: aSelector sender: aSender receiver: aReceiver arguments: anArguments node: aNodeId [
 
 	| call expression |
 	
@@ -82,7 +82,7 @@ ScpExecutionModel >> addMessageEvent: aSelector sender: aSender receiver: aRecei
 ]
 
 { #category : #'adding source' }
-ScpExecutionModel >> addMethod: aMethod class: aClass [
+ScpExecution >> addMethod: aMethod class: aClass [
 	
 	| class method |
 	class := self addClass: aClass.
@@ -98,7 +98,7 @@ ScpExecutionModel >> addMethod: aMethod class: aClass [
 ]
 
 { #category : #'adding events' }
-ScpExecutionModel >> addMethodEvent: aSelector sender: aSender receiver: aReceiver arguments: anArguments [
+ScpExecution >> addMethodEvent: aSelector sender: aSender receiver: aReceiver arguments: anArguments [
 	
 	| call |
 
@@ -122,35 +122,42 @@ ScpExecutionModel >> addMethodEvent: aSelector sender: aSender receiver: aReceiv
 ]
 
 { #category : #'adding source' }
-ScpExecutionModel >> addObject: anObject [
+ScpExecution >> addObject: anObject [
 
 	| class object |
-	
+
 	anObject isClass ifTrue: [ ^ self addClass: anObject ].
-	objects at: anObject ifPresent: [ :o | ^ o ].
+	objects at: anObject hash ifPresent: [ :o | ^ o ].
 	
 	class := self addClass: anObject class.
-	object := ScpObject new.
+	anObject isLiteral 
+		ifTrue: [ 
+			 object := ScpObjectLiteral new.
+			 object literalValue: anObject. 
+		]
+		ifFalse: [ 
+			 object := ScpObject new.
+			 object state: (class attributes collect: [ :a |
+			 ScpBindedVariable new 
+				variable: a;
+				value: (self addObject: (anObject readSlotNamed: a name)); 
+				yourself	
+			]). 	
+		].
 	object objectClass: class.
-	object state: (class attributes collect: [ :a |
-		ScpBindedVariable new 
-			variable: a;
-			value: (self addObject: (anObject readSlotNamed: a name)); 
-			yourself	
-	]). 
-	objects at: anObject put: object .
+	objects at: anObject hash put: object .
 	
 	^ object
 ]
 
 { #category : #'adding events' }
-ScpExecutionModel >> addReturnEvent: aValue node: aNodeId [ 
+ScpExecution >> addReturnEvent: aValue node: aNodeId [ 
 
 	calls pop return: (self addObject: aValue)
 ]
 
 { #category : #'adding events' }
-ScpExecutionModel >> addSuperEvent: aSelector sender: aSender arguments: anArguments node: aNodeId [
+ScpExecution >> addSuperEvent: aSelector sender: aSender arguments: anArguments node: aNodeId [
 
 	| call expression |
 
@@ -176,19 +183,19 @@ ScpExecutionModel >> addSuperEvent: aSelector sender: aSender arguments: anArgum
 ]
 
 { #category : #accessing }
-ScpExecutionModel >> classes [
+ScpExecution >> classes [
 
-	^ classes
+	^ classes values
 ]
 
 { #category : #accessing }
-ScpExecutionModel >> events [
+ScpExecution >> events [
 
 	^ events
 ]
 
 { #category : #initialization }
-ScpExecutionModel >> initialize [
+ScpExecution >> initialize [
 
 	timestamp := 0.
 	
@@ -200,27 +207,27 @@ ScpExecutionModel >> initialize [
 ]
 
 { #category : #private }
-ScpExecutionModel >> nextEvent: anEvent [
+ScpExecution >> nextEvent: anEvent [
 
 	self previousEvent ifNotNil: [ :e | e next: anEvent ].
 	events push: anEvent
 ]
 
 { #category : #accessing }
-ScpExecutionModel >> objects [
+ScpExecution >> objects [
 
 	^ objects
 ]
 
 { #category : #private }
-ScpExecutionModel >> previousEvent [
+ScpExecution >> previousEvent [
 
 	events ifEmpty: [ ^ nil ].
 	^ events top.
 ]
 
 { #category : #private }
-ScpExecutionModel >> timestamp [
+ScpExecution >> timestamp [
 
 	timestamp := timestamp + 1.
 	^ timestamp

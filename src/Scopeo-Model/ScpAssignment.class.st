@@ -5,8 +5,14 @@ Class {
 		'variable',
 		'expression'
 	],
-	#category : 'Scopeo-Model'
+	#category : #'Scopeo-Model'
 }
+
+{ #category : #visiting }
+ScpAssignment >> accept: aVisitor [
+
+	^ aVisitor visitAssignment: self
+]
 
 { #category : #accessing }
 ScpAssignment >> expression [

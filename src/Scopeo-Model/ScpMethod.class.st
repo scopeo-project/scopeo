@@ -1,38 +1,31 @@
 Class {
 	#name : #ScpMethod,
-	#superclass : #Object,
+	#superclass : #ScpExecutionElement,
 	#instVars : [
 		'methodClass',
 		'name',
-		'parameters',
-		'coverage'
+		'body',
+		'parameters'
 	],
-	#category : 'Scopeo-Model'
+	#category : #'Scopeo-Model'
 }
 
-{ #category : #adding }
-ScpMethod >> addCoveredExpression: anExpression [
+{ #category : #accessing }
+ScpMethod >> body [
 
-	anExpression method: self.
-	coverage add: anExpression.
+	^ body
 ]
 
 { #category : #accessing }
-ScpMethod >> coverage [
+ScpMethod >> body: aSequenceExpression [
 
-	^ coverage
-]
-
-{ #category : #accessing }
-ScpMethod >> coverage: anObject [
-
-	coverage := anObject
+	body := aSequenceExpression
 ]
 
 { #category : #initialization }
 ScpMethod >> initialize [
 
-	coverage := Set new
+	parameters := OrderedCollection new.
 ]
 
 { #category : #accessing }
@@ -54,9 +47,9 @@ ScpMethod >> name [
 ]
 
 { #category : #accessing }
-ScpMethod >> name: anObject [
+ScpMethod >> name: aName [
 
-	name := anObject
+	name := aName
 ]
 
 { #category : #accessing }
@@ -66,7 +59,7 @@ ScpMethod >> parameters [
 ]
 
 { #category : #accessing }
-ScpMethod >> parameters: aVariable [
+ScpMethod >> parameters: anObject [
 
-	parameters := aVariable
+	parameters := anObject
 ]

@@ -2,20 +2,21 @@ Class {
 	#name : #ScpTraceHandler,
 	#superclass : #ScpInstrumentationHandler,
 	#instVars : [
-		'timestamp',
-		'events',
-		'callStack',
-		'storedObjects',
-		'storedClasses',
 		'execution'
 	],
 	#category : #Scopeo
 }
 
+{ #category : #accessing }
+ScpTraceHandler >> execution [
+
+	^ execution
+]
+
 { #category : #initialization }
 ScpTraceHandler >> initialize [
 
-	execution := ScpExecutionModel new
+	execution := ScpExecution new
 ]
 
 { #category : #'events handling' }
@@ -63,10 +64,4 @@ ScpTraceHandler >> node: aNodeId super: aSelector sender: aSender arguments: anA
 		sender: aSender 
 		arguments: anArguments 
 		node: aNodeId
-]
-
-{ #category : #accessing }
-ScpTraceHandler >> traces [
-
-	^ execution
 ]

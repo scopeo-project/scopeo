@@ -1,6 +1,6 @@
 Class {
 	#name : #ScpObjectEvent,
-	#superclass : #Object,
+	#superclass : #ScpExecutionElement,
 	#instVars : [
 		'timestamp',
 		'object',
@@ -8,8 +8,20 @@ Class {
 		'next',
 		'source'
 	],
-	#category : 'Scopeo-Model'
+	#category : #'Scopeo-Model'
 }
+
+{ #category : #testing }
+ScpObjectEvent >> hasNext [
+
+	^ self next isNotNil
+]
+
+{ #category : #testing }
+ScpObjectEvent >> hasPrevious [
+
+	^ self previous isNotNil
+]
 
 { #category : #accessing }
 ScpObjectEvent >> next [
