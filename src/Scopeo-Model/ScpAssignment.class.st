@@ -1,38 +1,40 @@
 Class {
-	#name : #ScpAssignment,
-	#superclass : #ScpExpression,
+	#name : 'ScpAssignment',
+	#superclass : 'ScpExpression',
 	#instVars : [
 		'variable',
 		'expression'
 	],
-	#category : #'Scopeo-Model'
+	#category : 'Scopeo-Model',
+	#package : 'Scopeo-Model'
 }
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 ScpAssignment >> accept: aVisitor [
 
 	^ aVisitor visitAssignment: self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpAssignment >> expression [
 
 	^ expression
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpAssignment >> expression: anExpression [
 
-	expression := anExpression
+	expression := anExpression.
+	expression parent: self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpAssignment >> variable [
 
 	^ variable
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpAssignment >> variable: aVariable [
 
 	variable := aVariable

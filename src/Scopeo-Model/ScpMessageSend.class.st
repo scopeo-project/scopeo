@@ -1,52 +1,55 @@
 Class {
-	#name : #ScpMessageSend,
-	#superclass : #ScpExpression,
+	#name : 'ScpMessageSend',
+	#superclass : 'ScpExpression',
 	#instVars : [
 		'receiver',
 		'selector',
 		'arguments'
 	],
-	#category : #'Scopeo-Model'
+	#category : 'Scopeo-Model',
+	#package : 'Scopeo-Model'
 }
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 ScpMessageSend >> accept: aVisitor [
 
 	^ aVisitor visitMessageSend: self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpMessageSend >> arguments [
 
 	^ arguments
 ]
 
-{ #category : #accessing }
-ScpMessageSend >> arguments: anObject [
+{ #category : 'accessing' }
+ScpMessageSend >> arguments: anExpressionCollection [
 
-	arguments := anObject
+	arguments := anExpressionCollection asOrderedCollection.
+	arguments do: [ :a | a parent: self ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpMessageSend >> receiver [
 
 	^ receiver
 ]
 
-{ #category : #accessing }
-ScpMessageSend >> receiver: anObject [
+{ #category : 'accessing' }
+ScpMessageSend >> receiver: anExpression [
 
-	receiver := anObject
+	receiver := anExpression.
+	receiver parent: self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpMessageSend >> selector [
 
 	^ selector
 ]
 
-{ #category : #accessing }
-ScpMessageSend >> selector: anObject [
+{ #category : 'accessing' }
+ScpMessageSend >> selector: aStringOrSymbol [
 
-	selector := anObject
+	selector := aStringOrSymbol asSymbol
 ]

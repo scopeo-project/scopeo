@@ -1,26 +1,28 @@
 Class {
-	#name : #ScpReturn,
-	#superclass : #ScpExpression,
+	#name : 'ScpReturn',
+	#superclass : 'ScpExpression',
 	#instVars : [
 		'expression'
 	],
-	#category : #'Scopeo-Model'
+	#category : 'Scopeo-Model',
+	#package : 'Scopeo-Model'
 }
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 ScpReturn >> accept: aVisitor [
 
 	^ aVisitor visitReturn: self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpReturn >> expression [
 
 	^ expression
 ]
 
-{ #category : #accessing }
-ScpReturn >> expression: anObject [
+{ #category : 'accessing' }
+ScpReturn >> expression: anExpression [
 
-	expression := anObject
+	expression := anExpression.
+	expression parent: self
 ]

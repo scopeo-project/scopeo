@@ -1,19 +1,20 @@
 Class {
-	#name : #ScpStateUpdate,
-	#superclass : #ScpObjectEvent,
+	#name : 'ScpStateUpdate',
+	#superclass : 'ScpObjectEvent',
 	#instVars : [
 		'value'
 	],
-	#category : 'Scopeo-Model'
+	#category : 'Scopeo-Model',
+	#package : 'Scopeo-Model'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpStateUpdate >> value [
 
 	^ value
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpStateUpdate >> value: aBindedAttribute [
 
 	value := aBindedAttribute 

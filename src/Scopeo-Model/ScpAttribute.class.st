@@ -1,25 +1,26 @@
 Class {
-	#name : #ScpAttribute,
-	#superclass : #ScpVariable,
+	#name : 'ScpAttribute',
+	#superclass : 'ScpVariable',
 	#instVars : [
 		'attributeClass'
 	],
-	#category : 'Scopeo-Model'
+	#category : 'Scopeo-Model',
+	#package : 'Scopeo-Model'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 ScpAttribute >> attributeClass [
 
 	^ attributeClass
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 ScpAttribute >> attributeClass: aScpClass [
 
 	attributeClass := aScpClass
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 ScpAttribute >> printOn: aStream [
 
 	aStream << 'InstVar(' << self name asString << ')'

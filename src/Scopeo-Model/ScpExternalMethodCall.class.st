@@ -1,13 +1,14 @@
 Class {
-	#name : #ScpExternalMethodCall,
-	#superclass : #ScpMethodCall,
+	#name : 'ScpExternalMethodCall',
+	#superclass : 'ScpMethodCall',
 	#instVars : [
 		'sender'
 	],
-	#category : 'Scopeo-Model'
+	#category : 'Scopeo-Model',
+	#package : 'Scopeo-Model'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpExternalMethodCall >> sender: anObject [
 
 	sender := anObject

@@ -1,22 +1,23 @@
 Class {
-	#name : #ScpExpressionVisitor,
-	#superclass : #Object,
-	#category : #'Scopeo-Model'
+	#name : 'ScpExpressionVisitor',
+	#superclass : 'Object',
+	#category : 'Scopeo-Model',
+	#package : 'Scopeo-Model'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 ScpExpressionVisitor class >> isAbstract [
 
 	^ self == ScpExpressionVisitor
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 ScpExpressionVisitor >> visit: anExpression [
 
 	^ anExpression accept: self
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 ScpExpressionVisitor >> visitArray: anArray [
 
 	anArray elements do: [ :e | e accept: self ].
@@ -24,19 +25,19 @@ ScpExpressionVisitor >> visitArray: anArray [
 	^ anArray
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 ScpExpressionVisitor >> visitAssignment: anAssignment [
 
 	^ anAssignment expression accept: self
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 ScpExpressionVisitor >> visitBlock: aBlock [
 
 	^ aBlock expression accept: self
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 ScpExpressionVisitor >> visitLiteralArray: aLiteralArray [
 
 	aLiteralArray literals do: [ :l | self visitLiteralValue: l ].
@@ -44,13 +45,13 @@ ScpExpressionVisitor >> visitLiteralArray: aLiteralArray [
 	^ aLiteralArray 
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 ScpExpressionVisitor >> visitLiteralValue: aLiteralValue [
 
 	^ aLiteralValue
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 ScpExpressionVisitor >> visitMessageSend: aMessageSend [
 
 	aMessageSend receiver accept: self.
@@ -61,8 +62,14 @@ ScpExpressionVisitor >> visitMessageSend: aMessageSend [
 	^ aMessageSend
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 ScpExpressionVisitor >> visitReturn: aReturn [
 
 	^ aReturn expression accept: self
+]
+
+{ #category : 'visiting' }
+ScpExpressionVisitor >> visitVariableReference: aReference [
+
+	^ aReference
 ]

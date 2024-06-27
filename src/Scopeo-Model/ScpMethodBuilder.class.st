@@ -1,41 +1,43 @@
 Class {
-	#name : #ScpMethodBuilder,
-	#superclass : #RBProgramNodeVisitor,
+	#name : 'ScpMethodBuilder',
+	#superclass : 'RBProgramNodeVisitor',
 	#instVars : [
-		'indirection',
-		'currentMethod',
-		'nodeIdentifierSuffix',
-		'nodeIdentifierIndex'
+		'method',
+		'sequences'
 	],
-	#category : #'Scopeo-Model'
+	#category : 'Scopeo-Model',
+	#package : 'Scopeo-Model'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 ScpMethodBuilder class >> isAbstract [
 
 	^ self == RBProgramNodeVisitor
 ]
 
-{ #category : #accessing }
-ScpMethodBuilder >> from: aMethod [
+{ #category : 'visiting' }
+ScpMethodBuilder >> findVariableNamed: aName [
 
-	^ aMethod ast acceptVisitor: self
+	(method parameterNamed: aName) ifNotNil: [ :n | ^ n ].
+	(sequences top keywordVariableAt: aName) ifNotNil: [ :n | ^ n ].
+	(method methodClass attributeNamed: aName) ifNotNil: [ :n | ^ n ].	
+	(sequences top temporaryNamed: aName) ifNotNil: [ :n | ^ n ].
+	
+	self error: 'Trying to read an expression with undefined variables'.
 ]
 
-{ #category : #visiting }
-ScpMethodBuilder >> visitArgumentNode: anArgumentNode [
+{ #category : 'accessing' }
+ScpMethodBuilder >> install: aPharoMethod in: aScpClass [
 
-	^ anArgumentNode acceptVisitor: self
+	sequences := Stack new.
+	method := ScpMethod new
+		methodClass: aScpClass;
+		name: aPharoMethod name;
+		yourself.
+	^ aPharoMethod ast acceptVisitor: self
 ]
 
-{ #category : #visiting }
-ScpMethodBuilder >> visitArgumentNodes: aNodeCollection [
-
-
-	^ aNodeCollection collect: [ :n | self visitArgumentNode: n ]
-]
-
-{ #category : #visiting }
+{ #category : 'visiting' }
 ScpMethodBuilder >> visitArrayNode: anArrayNode [
 
 	^ ScpArray new
@@ -43,7 +45,7 @@ ScpMethodBuilder >> visitArrayNode: anArrayNode [
 		yourself
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 ScpMethodBuilder >> visitAssignmentNode: anAssignmentNode [
 
 	^ ScpAssignment new
@@ -53,7 +55,7 @@ ScpMethodBuilder >> visitAssignmentNode: anAssignmentNode [
 		
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 ScpMethodBuilder >> visitBlockNode: aBlockNode [
 
 	^ ScpBlock new
@@ -62,21 +64,21 @@ ScpMethodBuilder >> visitBlockNode: aBlockNode [
 		yourself
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 ScpMethodBuilder >> visitCascadeNode: aCascadeNode [
 
-	| receiver sequence |
+	| receiver statements |
 	receiver := ScpVariable new
 		name: #receiver; 
 		yourself.
 		
-	sequence := ScpSequence new.
-	sequence addStatement: (ScpAssignment new 
+	statements := OrderedCollection new.
+	statements add: (ScpAssignment new 
 		variable: receiver; 
 		expression: (aCascadeNode receiver acceptVisitor: self);
 		yourself
 	).
-	sequence addStatements: (aCascadeNode messages collect: [ :m |
+	statements addAll: (aCascadeNode messages collect: [ :m |
 		ScpMessageSend new
 			receiver: receiver;
 			selector: m selectorNode name;
@@ -87,14 +89,17 @@ ScpMethodBuilder >> visitCascadeNode: aCascadeNode [
 	^ ScpMessageSend new
 		receiver: (ScpBlock new
 			temporaries: ({receiver} asOrderedCollection);
-			body: sequence;
+			body: (ScpSequence new 
+				statements: statements; 
+				yourself
+			);
 			yourself);
 		selector: #value;
 		yourself
 	
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 ScpMethodBuilder >> visitLiteralArrayNode: aRBLiteralArrayNode [
 
 	^ ScpLiteralArray new
@@ -102,7 +107,7 @@ ScpMethodBuilder >> visitLiteralArrayNode: aRBLiteralArrayNode [
 		yourself
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 ScpMethodBuilder >> visitLiteralNode: aLiteralNode [
 
 	^ ScpLiteralValue new 
@@ -110,27 +115,26 @@ ScpMethodBuilder >> visitLiteralNode: aLiteralNode [
 		yourself
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 ScpMethodBuilder >> visitMessageNode: aMessageNode [
 
 	^ ScpMessageSend new
 		receiver: (self visitNode: aMessageNode receiver);
 		selector: (aMessageNode selectorNode value);
-		arguments: (self visitArgumentNodes: aMessageNode arguments);
+		arguments: (aMessageNode arguments collect: [ :a | a acceptVisitor: self ]);
 		yourself
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 ScpMethodBuilder >> visitMethodNode: aMethodNode [
 	
-	^ ScpMethod new 
-		name: aMethodNode selector;
-		parameters: (self visitArgumentNodes: aMethodNode arguments);
+	^ method 
+		parameters: (self visitVariableDefinitions: aMethodNode arguments);
 		body: (self visitNode: aMethodNode body);
 		yourself
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 ScpMethodBuilder >> visitReturnNode: aReturnNode [
 
 	^ ScpReturn new
@@ -138,31 +142,35 @@ ScpMethodBuilder >> visitReturnNode: aReturnNode [
 		yourself
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 ScpMethodBuilder >> visitSequenceNode: aSequenceNode [
 
-	^ ScpSequence new
-		temporaries: (self visitTemporaryNodes: aSequenceNode temporaries);
-		statements: (aSequenceNode statements collect: [ :each | self visitNode: each ]);
+	sequences push: ScpSequence new. 
+	sequences top method: method.
+	sequences top temporaries: (self visitVariableDefinitions: aSequenceNode temporaries).
+	sequences top statements: (aSequenceNode statements collect: [ :each | self visitNode: each ]).
+	^ sequences pop
+]
+
+{ #category : 'visiting' }
+ScpMethodBuilder >> visitVariableDefinition: anVariableNode [
+
+	^ ScpVariable new
+		name: anVariableNode name;
 		yourself
 ]
 
-{ #category : #visiting }
-ScpMethodBuilder >> visitTemporaryNode: aTemporaryNode [
+{ #category : 'visiting' }
+ScpMethodBuilder >> visitVariableDefinitions: aVariableCollection [
 
-	^ self visitVariableNode: aTemporaryNode
+	^ aVariableCollection collect: [ :v | self visitVariableDefinition: v ]
 ]
 
-{ #category : #visiting }
-ScpMethodBuilder >> visitTemporaryNodes: aNodeCollection [
-
-	^ aNodeCollection collect: [ :t | self visitVariableNode: t].
-]
-
-{ #category : #visiting }
+{ #category : 'visiting' }
 ScpMethodBuilder >> visitVariableNode: aVariableNode [
-
-	^ ScpVariable new 
-		name: aVariableNode name; 
+	
+	^ ScpVariableReference new
+		method: method;
+		variable: (self findVariableNamed: aVariableNode name);
 		yourself
 ]

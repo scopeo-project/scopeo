@@ -1,65 +1,80 @@
 Class {
-	#name : #ScpMethod,
-	#superclass : #ScpExecutionElement,
+	#name : 'ScpMethod',
+	#superclass : 'Object',
 	#instVars : [
 		'methodClass',
 		'name',
 		'body',
 		'parameters'
 	],
-	#category : #'Scopeo-Model'
+	#category : 'Scopeo-Model',
+	#package : 'Scopeo-Model'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpMethod >> body [
 
 	^ body
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpMethod >> body: aSequenceExpression [
 
 	body := aSequenceExpression
 ]
 
-{ #category : #initialization }
+{ #category : 'accessing' }
+ScpMethod >> expressionAt: anExpressionId [
+]
+
+{ #category : 'initialization' }
 ScpMethod >> initialize [
 
 	parameters := OrderedCollection new.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpMethod >> methodClass [
 
 	^ methodClass
 ]
 
-{ #category : #accessing }
-ScpMethod >> methodClass: anObject [
+{ #category : 'accessing' }
+ScpMethod >> methodClass: aScpClass [
 
-	methodClass := anObject
+	methodClass := aScpClass.
+	methodClass addMethod: self.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpMethod >> name [
 
 	^ name
 ]
 
-{ #category : #accessing }
-ScpMethod >> name: aName [
+{ #category : 'accessing' }
+ScpMethod >> name: aStringOrSymbol [
 
-	name := aName
+	name := aStringOrSymbol asSymbol
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
+ScpMethod >> parameterNamed: aParameterName [
+
+	^ parameters 
+		detect: [ :p | p name = aParameterName ]
+		ifFound: [ :p | ^ p ]
+		ifNone: [ ^ nil ] 
+]
+
+{ #category : 'accessing' }
 ScpMethod >> parameters [
 
 	^ parameters
 ]
 
-{ #category : #accessing }
-ScpMethod >> parameters: anObject [
+{ #category : 'accessing' }
+ScpMethod >> parameters: aVariableCollection [
 
-	parameters := anObject
+	parameters := aVariableCollection asOrderedCollection
 ]

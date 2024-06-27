@@ -1,31 +1,32 @@
 Class {
-	#name : #ScpObjectLiteral,
-	#superclass : #ScpAbstractObject,
+	#name : 'ScpObjectLiteral',
+	#superclass : 'ScpAbstractObject',
 	#instVars : [
 		'literalValue'
 	],
-	#category : #'Scopeo-Model'
+	#category : 'Scopeo-Model',
+	#package : 'Scopeo-Model'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 ScpObjectLiteral >> isLiteral [
 
 	^ true
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpObjectLiteral >> literalValue [
 
 	^ literalValue
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpObjectLiteral >> literalValue: aValue [
 
 	literalValue := aValue
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 ScpObjectLiteral >> printOn: aStream [
 
 	aStream << self literalValue asString

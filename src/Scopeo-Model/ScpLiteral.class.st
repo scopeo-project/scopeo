@@ -1,22 +1,23 @@
 Class {
-	#name : #ScpLiteral,
-	#superclass : #ScpExpression,
-	#category : #'Scopeo-Model'
+	#name : 'ScpLiteral',
+	#superclass : 'ScpExpression',
+	#category : 'Scopeo-Model',
+	#package : 'Scopeo-Model'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 ScpLiteral class >> isAbstract [
 
 	^ self == ScpLiteral
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ScpLiteral >> isLiteral [
 
 	^ true
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ScpLiteral >> isLiteralArray [
 
 	^ false

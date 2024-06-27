@@ -1,80 +1,100 @@
 Class {
-	#name : #ScpClass,
-	#superclass : #ScpExecutionElement,
+	#name : 'ScpClass',
+	#superclass : 'Object',
 	#instVars : [
 		'parent',
 		'name',
 		'attributes',
 		'methods'
 	],
-	#category : #'Scopeo-Model'
+	#category : 'Scopeo-Model',
+	#package : 'Scopeo-Model'
 }
 
-{ #category : #adding }
-ScpClass >> addAttribute: aAttribute [
+{ #category : 'adding' }
+ScpClass >> addAttribute: anAttributeName [
 
-	^ attributes at: aAttribute name asString ifAbsentPut: [ 
-			aAttribute attributeClass: self; 
-			yourself
+	^ attributes at: anAttributeName asSymbol ifAbsentPut: [ 
+			ScpAttribute new 
+				name: anAttributeName;
+				attributeClass: self; 
+				yourself
 	  ]
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 ScpClass >> addMethod: aMethod [
 
-	^ methods at: aMethod name ifAbsentPut: [ aMethod methodClass: self; yourself]
+	^ methods at: aMethod name ifAbsent: [ 
+		methods at: aMethod name put: aMethod.
+		aMethod methodClass: self
+	]
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 ScpClass >> attributeNamed: aStringOrSymbol [
 
-	^ attributes at: aStringOrSymbol asString
+	^ attributes at: aStringOrSymbol asString ifAbsent: [ ^ nil ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpClass >> attributes [
 
 	^ attributes
 ]
 
-{ #category : #initialization }
+{ #category : 'accessing' }
+ScpClass >> attributes: anAttributeList [
+
+	anAttributeList do: [ :a |
+		self addAttribute: a name
+	]
+]
+
+{ #category : 'initialization' }
 ScpClass >> initialize [
 
 	attributes := Dictionary new.
 	methods := Dictionary new.
 ]
 
-{ #category : #adding }
-ScpClass >> methodNamed: aString [
+{ #category : 'adding' }
+ScpClass >> methodNamed: aStringOrSymbol [
 
-	^ methods at: aString
+	^ methods at: aStringOrSymbol asSymbol ifAbsent: [ ^ nil ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpClass >> methods [
 
 	^ methods
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpClass >> name [
 
 	^ name
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpClass >> name: anObject [
 
 	name := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
+ScpClass >> objectClass [
+
+	^ nil
+]
+
+{ #category : 'accessing' }
 ScpClass >> parent [
 
 	^ parent
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 ScpClass >> printOn: aStream [
 
 	aStream << self name asString

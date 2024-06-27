@@ -1,25 +1,26 @@
 Class {
-	#name : #ScpLiteralValue,
-	#superclass : #ScpLiteral,
+	#name : 'ScpLiteralValue',
+	#superclass : 'ScpLiteral',
 	#instVars : [
 		'literal'
 	],
-	#category : #'Scopeo-Model'
+	#category : 'Scopeo-Model',
+	#package : 'Scopeo-Model'
 }
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 ScpLiteralValue >> accept: aVisitor [
 
 	^ aVisitor visitLiteralValue: self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpLiteralValue >> literal [
 
 	^ literal
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpLiteralValue >> literal: anObject [
 
 	literal := anObject

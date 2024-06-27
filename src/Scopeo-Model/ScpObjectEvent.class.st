@@ -1,6 +1,6 @@
 Class {
-	#name : #ScpObjectEvent,
-	#superclass : #ScpExecutionElement,
+	#name : 'ScpObjectEvent',
+	#superclass : 'Object',
 	#instVars : [
 		'timestamp',
 		'object',
@@ -8,76 +8,77 @@ Class {
 		'next',
 		'source'
 	],
-	#category : #'Scopeo-Model'
+	#category : 'Scopeo-Model',
+	#package : 'Scopeo-Model'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 ScpObjectEvent >> hasNext [
 
 	^ self next isNotNil
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ScpObjectEvent >> hasPrevious [
 
 	^ self previous isNotNil
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpObjectEvent >> next [
 
 	^ next
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpObjectEvent >> next: anObjectEvent [
 
 	next := anObjectEvent
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpObjectEvent >> object [
 
 	^ object
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpObjectEvent >> object: anObject [
 
 	object := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpObjectEvent >> previous [
 
 	^ previous 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpObjectEvent >> previous: anObjectEvent [
 
 	previous := anObjectEvent
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpObjectEvent >> source [
 
 	^ source
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpObjectEvent >> source: aNode [
 
 	source := aNode
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpObjectEvent >> timestamp [
 
 	^ timestamp
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpObjectEvent >> timestamp: anObject [
 
 	timestamp := anObject

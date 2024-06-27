@@ -1,26 +1,28 @@
 Class {
-	#name : #ScpArray,
-	#superclass : #ScpExpression,
+	#name : 'ScpArray',
+	#superclass : 'ScpExpression',
 	#instVars : [
 		'elements'
 	],
-	#category : #'Scopeo-Model'
+	#category : 'Scopeo-Model',
+	#package : 'Scopeo-Model'
 }
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 ScpArray >> accept: aVisitor [
 
 	^ aVisitor visitArray: self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpArray >> elements [
 
 	^ elements
 ]
 
-{ #category : #accessing }
-ScpArray >> elements: anObject [
+{ #category : 'accessing' }
+ScpArray >> elements: anExpressionCollection [
 
-	elements := anObject
+	elements := anExpressionCollection asOrderedCollection.
+	elements do: [ :e | e parent: self ]
 ]

@@ -1,51 +1,52 @@
 Class {
-	#name : #ScpExpression,
-	#superclass : #ScpExecutionElement,
+	#name : 'ScpExpression',
+	#superclass : 'Object',
 	#instVars : [
-		'identifier',
-		'method'
+		'method',
+		'parent'
 	],
-	#category : #'Scopeo-Model'
+	#category : 'Scopeo-Model',
+	#package : 'Scopeo-Model'
 }
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 ScpExpression >> accept: aVisitor [
 
 	self subclassResponsibility
 ]
 
-{ #category : #accessing }
-ScpExpression >> identifier [
-
-	^ identifier
-]
-
-{ #category : #accessing }
-ScpExpression >> identifier: anObject [
-
-	identifier := anObject
-]
-
-{ #category : #testing }
+{ #category : 'testing' }
 ScpExpression >> isBlock [
 
 	^ false
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ScpExpression >> isLiteral [
 
 	^ false
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpExpression >> method [
 
 	^ method
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpExpression >> method: anObject [
 
 	method := anObject
+]
+
+{ #category : 'accessing' }
+ScpExpression >> parent [
+
+	^ parent
+]
+
+{ #category : 'accessing' }
+ScpExpression >> parent: anExpression [
+
+	parent := anExpression
 ]

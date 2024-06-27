@@ -1,51 +1,48 @@
 Class {
-	#name : #ScpBlock,
-	#superclass : #ScpExpression,
+	#name : 'ScpBlock',
+	#superclass : 'ScpExpression',
 	#instVars : [
 		'parameters',
 		'body'
 	],
-	#category : #'Scopeo-Model'
+	#category : 'Scopeo-Model',
+	#package : 'Scopeo-Model'
 }
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 ScpBlock >> accept: aVisitor [
 
 	^ aVisitor visitBlock: self
 ]
 
-{ #category : #adding }
-ScpBlock >> addParameter: aVariable [
-
-	parameters add: aVariable
-]
-
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpBlock >> body [
 
 	^ body
 ]
 
-{ #category : #accessing }
-ScpBlock >> body: anObject [
+{ #category : 'accessing' }
+ScpBlock >> body: aSequenceExpression [
 
-	body := anObject
+	body := aSequenceExpression.
+	body parent: self
+	
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ScpBlock >> isBlock [
 
 	^ true
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpBlock >> parameters [
 
 	^ parameters
 ]
 
-{ #category : #accessing }
-ScpBlock >> parameters: anObject [
+{ #category : 'accessing' }
+ScpBlock >> parameters: aVariableCollection [
 
-	parameters := anObject
+	parameters := aVariableCollection asOrderedCollection
 ]

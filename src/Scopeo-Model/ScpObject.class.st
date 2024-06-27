@@ -1,25 +1,26 @@
 Class {
-	#name : #ScpObject,
-	#superclass : #ScpAbstractObject,
+	#name : 'ScpObject',
+	#superclass : 'ScpAbstractObject',
 	#instVars : [
 		'state'
 	],
-	#category : #'Scopeo-Model'
+	#category : 'Scopeo-Model',
+	#package : 'Scopeo-Model'
 }
 
-{ #category : #printing }
+{ #category : 'printing' }
 ScpObject >> printOn: aStream [
 
 	aStream << 'a ' << self objectClass asString
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpObject >> state [
 
 	^ state
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpObject >> state: aBindedVariableList [
 
 	state := aBindedVariableList

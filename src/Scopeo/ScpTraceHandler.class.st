@@ -1,25 +1,26 @@
 Class {
-	#name : #ScpTraceHandler,
-	#superclass : #ScpInstrumentationHandler,
+	#name : 'ScpTraceHandler',
+	#superclass : 'ScpInstrumentationHandler',
 	#instVars : [
 		'execution'
 	],
-	#category : #Scopeo
+	#category : 'Scopeo',
+	#package : 'Scopeo'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpTraceHandler >> execution [
 
 	^ execution
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ScpTraceHandler >> initialize [
 
-	execution := ScpExecution new
+	execution := ScpSystem new
 ]
 
-{ #category : #'events handling' }
+{ #category : 'events handling' }
 ScpTraceHandler >> method: aSelector sender: aSender receiver: aReceiver arguments: anArguments [
 	
 	execution 
@@ -29,7 +30,7 @@ ScpTraceHandler >> method: aSelector sender: aSender receiver: aReceiver argumen
 		arguments: anArguments.
 ]
 
-{ #category : #'events handling' }
+{ #category : 'events handling' }
 ScpTraceHandler >> node: aNodeId assignment: aVariable object: anObject value: aValue [
 
 	execution 
@@ -39,7 +40,7 @@ ScpTraceHandler >> node: aNodeId assignment: aVariable object: anObject value: a
 		node: aNodeId
 ]
 
-{ #category : #'events handling' }
+{ #category : 'events handling' }
 ScpTraceHandler >> node: aNodeId message: aSelector sender: aSender receiver: aReceiver arguments: anArguments [
 
 	execution 	
@@ -50,13 +51,13 @@ ScpTraceHandler >> node: aNodeId message: aSelector sender: aSender receiver: aR
 		node: aNodeId
 ]
 
-{ #category : #'events handling' }
+{ #category : 'events handling' }
 ScpTraceHandler >> node: aNodeId return: aValue [
 
 	execution addReturnEvent: aValue node: aNodeId
 ]
 
-{ #category : #'events handling' }
+{ #category : 'events handling' }
 ScpTraceHandler >> node: aNodeId super: aSelector sender: aSender arguments: anArguments [
 
 	execution 

@@ -1,57 +1,76 @@
 Class {
-	#name : #ScpSequence,
-	#superclass : #ScpExpression,
+	#name : 'ScpSequence',
+	#superclass : 'ScpExpression',
 	#instVars : [
 		'temporaries',
-		'statements'
+		'statements',
+		'keywordVariables'
 	],
-	#category : #'Scopeo-Model'
+	#category : 'Scopeo-Model',
+	#package : 'Scopeo-Model'
 }
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 ScpSequence >> accept: aVisitor [
 
 	^ aVisitor visitSequence: self
 ]
 
-{ #category : #adding }
-ScpSequence >> addStatement: anExpression [
-
-	statements add: anExpression
-]
-
-{ #category : #adding }
-ScpSequence >> addStatements: anExpressionCollection [
-
-	statements addAll: anExpressionCollection
-]
-
-{ #category : #initialization }
+{ #category : 'initialization' }
 ScpSequence >> initialize [
 
-	statements := OrderedCollection new.
+	keywordVariables := Dictionary new.
+	keywordVariables at: #self put: ScpVariable selfVariable.
+	keywordVariables at: #super put: ScpVariable selfVariable.
+	keywordVariables at: #thisContext put: ScpVariable selfVariable.
+	
+	
 ]
 
-{ #category : #accessing }
+{ #category : 'initialization' }
+ScpSequence >> keywordVariableAt: aVariableName [
+
+	^ keywordVariables at: aVariableName	
+	
+]
+
+{ #category : 'as yet unclassified' }
+ScpSequence >> keywordVariables [
+
+	^ keywordVariables values
+]
+
+{ #category : 'accessing' }
 ScpSequence >> statements [
 
 	^ statements
 ]
 
-{ #category : #accessing }
-ScpSequence >> statements: anObject [
+{ #category : 'accessing' }
+ScpSequence >> statements: anExpressionCollection [
 
-	statements := anObject
+	statements := anExpressionCollection asOrderedCollection.
+	statements do: [ :s | s parent: self ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpSequence >> temporaries [
 
-	^ temporaries
+	^ temporaries values
 ]
 
-{ #category : #accessing }
-ScpSequence >> temporaries: anObject [
+{ #category : 'accessing' }
+ScpSequence >> temporaries: aVariableCollection [
 
-	temporaries := anObject
+	temporaries := Dictionary new.
+	
+	aVariableCollection asOrderedCollection do: [ :v |
+		temporaries at: v name asSymbol ifAbsentPut: [ v ]	
+	]
+]
+
+{ #category : 'accessing' }
+ScpSequence >> temporaryNamed: aStringOrSymbol [
+
+	^ temporaries at: aStringOrSymbol asSymbol ifAbsent: [ ^ nil ]
 ]

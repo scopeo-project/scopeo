@@ -1,15 +1,16 @@
 Class {
-	#name : #ScpExpressionSeeker,
-	#superclass : #ScpExpressionVisitor,
+	#name : 'ScpExpressionSeeker',
+	#superclass : 'ScpExpressionVisitor',
 	#instVars : [
 		'identifierIndex',
 		'identifierSuffix',
 		'identifier'
 	],
-	#category : #'Scopeo-Model'
+	#category : 'Scopeo-Model',
+	#package : 'Scopeo-Model'
 }
 
-{ #category : #private }
+{ #category : 'private' }
 ScpExpressionSeeker >> check: anExpression ifFound: aFoundBlock [
 
 	| expressionIdentifier |
@@ -20,7 +21,7 @@ ScpExpressionSeeker >> check: anExpression ifFound: aFoundBlock [
 	expressionIdentifier = identifier ifTrue: [ aFoundBlock value ].
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ScpExpressionSeeker >> find: aExpressionId in: aMethod [
 
 	identifier := aExpressionId.
@@ -31,7 +32,7 @@ ScpExpressionSeeker >> find: aExpressionId in: aMethod [
 	
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 ScpExpressionSeeker >> visitArray: anArray [
 
 	self check: anArray ifFound: [ ^ anArray ].
@@ -39,7 +40,7 @@ ScpExpressionSeeker >> visitArray: anArray [
 	^ super visitArray: anArray
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 ScpExpressionSeeker >> visitAssignment: anAssignment [
 	
 	self check: anAssignment ifFound: [ ^ anAssignment ].
@@ -47,7 +48,7 @@ ScpExpressionSeeker >> visitAssignment: anAssignment [
 	^ super visitAssignment: anAssignment.
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 ScpExpressionSeeker >> visitBlock: aBlock [
 	
 	self check: aBlock ifFound: [ ^ aBlock ].
@@ -55,7 +56,7 @@ ScpExpressionSeeker >> visitBlock: aBlock [
 	^ super visitBlock: aBlock.
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 ScpExpressionSeeker >> visitLiteralArray: aLiteralArray [
 	
 	self check: aLiteralArray ifFound: [ ^ aLiteralArray ].
@@ -63,7 +64,7 @@ ScpExpressionSeeker >> visitLiteralArray: aLiteralArray [
 	^ super visitLiteralArray: aLiteralArray
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 ScpExpressionSeeker >> visitLiteralValue: aLiteralValue [
 	
 	self check: aLiteralValue ifFound: [ ^ aLiteralValue ].
@@ -71,7 +72,7 @@ ScpExpressionSeeker >> visitLiteralValue: aLiteralValue [
 	^ nil.
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 ScpExpressionSeeker >> visitMessageSend: aMessageSend [
 
 	aMessageSend receiver isBlock ifFalse: [ 
@@ -81,10 +82,18 @@ ScpExpressionSeeker >> visitMessageSend: aMessageSend [
 	^ super visitMessageSend: aMessageSend.
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 ScpExpressionSeeker >> visitReturn: aReturn [
 	
 	self check: aReturn ifFound: [ ^ aReturn ].
 	
 	^ super visitReturn: aReturn.
+]
+
+{ #category : 'visiting' }
+ScpExpressionSeeker >> visitVariableReference: aReference [
+
+	self check: aReference ifFound: [ ^ aReference ].
+	
+	^ super visitVariableReference: aReference.
 ]
