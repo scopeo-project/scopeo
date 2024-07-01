@@ -57,6 +57,7 @@ ScpSystem >> addPharoObject: anObject [
 	
 	^ objects at: anObject hash ifAbsentPut: [
 		ScpObject new
+			objectClass: (self addPharoClass: anObject class);
 		 	state: ((self addPharoClass: anObject class) attributes collect: [ :a |
 		 		ScpBindedVariable new 
 				variable: a;

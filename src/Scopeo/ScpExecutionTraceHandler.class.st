@@ -1,5 +1,5 @@
 Class {
-	#name : 'ScpTraceHandler',
+	#name : 'ScpExecutionTraceHandler',
 	#superclass : 'ScpInstrumentationHandler',
 	#instVars : [
 		'execution'
@@ -9,19 +9,19 @@ Class {
 }
 
 { #category : 'accessing' }
-ScpTraceHandler >> execution [
+ScpExecutionTraceHandler >> execution [
 
 	^ execution
 ]
 
 { #category : 'initialization' }
-ScpTraceHandler >> initialize [
+ScpExecutionTraceHandler >> initialize [
 
-	execution := ScpSystem new
+	execution := ScpExecution new
 ]
 
 { #category : 'events handling' }
-ScpTraceHandler >> method: aSelector sender: aSender receiver: aReceiver arguments: anArguments [
+ScpExecutionTraceHandler >> method: aSelector sender: aSender receiver: aReceiver arguments: anArguments [
 	
 	execution 
 		addMethodEvent: aSelector 
@@ -31,7 +31,7 @@ ScpTraceHandler >> method: aSelector sender: aSender receiver: aReceiver argumen
 ]
 
 { #category : 'events handling' }
-ScpTraceHandler >> node: aNodeId assignment: aVariable object: anObject value: aValue [
+ScpExecutionTraceHandler >> node: aNodeId assignment: aVariable object: anObject value: aValue [
 
 	execution 
 		addAssignmentEvent: aVariable 
@@ -41,7 +41,7 @@ ScpTraceHandler >> node: aNodeId assignment: aVariable object: anObject value: a
 ]
 
 { #category : 'events handling' }
-ScpTraceHandler >> node: aNodeId message: aSelector sender: aSender receiver: aReceiver arguments: anArguments [
+ScpExecutionTraceHandler >> node: aNodeId message: aSelector sender: aSender receiver: aReceiver arguments: anArguments [
 
 	execution 	
 		addMessageEvent: aSelector 
@@ -52,13 +52,13 @@ ScpTraceHandler >> node: aNodeId message: aSelector sender: aSender receiver: aR
 ]
 
 { #category : 'events handling' }
-ScpTraceHandler >> node: aNodeId return: aValue [
+ScpExecutionTraceHandler >> node: aNodeId return: aValue [
 
 	execution addReturnEvent: aValue node: aNodeId
 ]
 
 { #category : 'events handling' }
-ScpTraceHandler >> node: aNodeId super: aSelector sender: aSender arguments: anArguments [
+ScpExecutionTraceHandler >> node: aNodeId super: aSelector sender: aSender arguments: anArguments [
 
 	execution 
 		addSuperEvent: aSelector 

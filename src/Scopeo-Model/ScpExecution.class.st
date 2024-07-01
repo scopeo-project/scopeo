@@ -41,14 +41,14 @@ ScpExecution >> addMessageEvent: aSelector sender: aSender receiver: aReceiver a
 		timestamp: self timestamp;
 		previous: self previousEvent;
 		object: (system addPharoObject: aReceiver);
-		method: (system addMethod: aSelector class: aReceiver class);
+		method: (system addPharoMethod: (ScpTraceSourceSelectionRegistry instance method: aSelector of: aReceiver class));
 		source: (calls top method expressionAt: aNodeId);
 		yourself.
 		
 	call arguments: ((1 to: anArguments size) collect: [ :i | 
 		ScpBindedVariable new
 			variable: (call method parameters at: i);
-			value: (system addObject: (anArguments at: i));
+			value: (system addPharoObject: (anArguments at: i));
 			yourself
 	]).
 	self nextEvent: call.
@@ -60,12 +60,17 @@ ScpExecution >> addMethodEvent: aSelector sender: aSender receiver: aReceiver ar
 	
 	| call |
 
+	self flag: #todo.
+	"TODO: 
+		- Change the way we retrieve the original method.
+		- make sure that when the method is modified the method selections get updated too.
+	"
 	call := ScpExternalMethodCall new
 		timestamp: self timestamp;
 		previous: self previousEvent;
 		sender: (system addPharoObject: aSender);
 		object: (system addPharoObject: aReceiver);
-		method: (system addPharoMethod: aReceiver class >> aSelector);
+		method: (system addPharoMethod: (ScpTraceSourceSelectionRegistry instance method: aSelector of: aReceiver class)); 
 		yourself. 
 	call arguments: ((1 to: anArguments size) collect: [ :i | 
 		ScpBindedVariable new
@@ -82,10 +87,12 @@ ScpExecution >> addMethodEvent: aSelector sender: aSender receiver: aReceiver ar
 { #category : 'private - adding events' }
 ScpExecution >> addReturnEvent: aValue node: aNodeId [ 
 
-	calls pop return: (ScpMethodReturn new
+	| call |
+	call := calls pop.
+	call return: (ScpMethodReturn new
 		timestamp: self timestamp;
 		previous: self previousEvent;
-		source: (calls top method expressionAt: aNodeId);
+		source: (call method expressionAt: aNodeId);
 		object: (system addPharoObject: aValue);
 		yourself)
 	
@@ -102,7 +109,7 @@ ScpExecution >> addSuperEvent: aSelector sender: aSender arguments: anArguments 
 		timestamp: self timestamp;
 		previous: self previousEvent;
 		object: (system addPharoObject: aSender);
-		method: (system addPharoMethod: (aSender class >> aSelector));
+		method: (system addPharoMethod: (ScpTraceSourceSelectionRegistry instance method: aSelector of: aSender class));
 		source: (calls top method expressionAt: aNodeId);
 		yourself.
 		
@@ -131,7 +138,10 @@ ScpExecution >> firstEvent [
 { #category : 'initialization' }
 ScpExecution >> initialize [
 
-	system := ScpSystem new
+	timestamp := 0.
+	system := ScpSystem new.
+	events := Stack new.
+	calls := Stack new
 ]
 
 { #category : 'accessing' }
