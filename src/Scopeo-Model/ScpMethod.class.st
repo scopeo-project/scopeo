@@ -5,7 +5,8 @@ Class {
 		'methodClass',
 		'name',
 		'body',
-		'parameters'
+		'parameters',
+		'expressions'
 	],
 	#category : 'Scopeo-Model',
 	#package : 'Scopeo-Model'
@@ -25,12 +26,22 @@ ScpMethod >> body: aSequenceExpression [
 
 { #category : 'accessing' }
 ScpMethod >> expressionAt: anExpressionId [
+
+	^ expressions at: anExpressionId ifAbsent: [ ^ nil ]
+]
+
+{ #category : 'accessing' }
+ScpMethod >> expressionAt: anExpressionId put: anExpression [
+
+	expressions at: anExpressionId ifAbsentPut: [ anExpression ].
+	^ anExpression 
 ]
 
 { #category : 'initialization' }
 ScpMethod >> initialize [
 
 	parameters := OrderedCollection new.
+	expressions := Dictionary new
 ]
 
 { #category : 'accessing' }

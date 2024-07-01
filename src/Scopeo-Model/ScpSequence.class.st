@@ -30,7 +30,7 @@ ScpSequence >> initialize [
 { #category : 'initialization' }
 ScpSequence >> keywordVariableAt: aVariableName [
 
-	^ keywordVariables at: aVariableName	
+	^ keywordVariables at: aVariableName	ifAbsent: [ ^ nil ]
 	
 ]
 

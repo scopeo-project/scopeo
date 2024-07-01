@@ -6,13 +6,14 @@ Class {
 		'firstEvent',
 		'lastEvent',
 		'calls',
-		'events'
+		'events',
+		'timestamp'
 	],
 	#category : 'Scopeo-Model',
 	#package : 'Scopeo-Model'
 }
 
-{ #category : 'adding events' }
+{ #category : 'private - adding events' }
 ScpExecution >> addAssignmentEvent: aVariable object: anObject value: aValue node: aNodeId [
 
 	| value |
@@ -31,33 +32,30 @@ ScpExecution >> addAssignmentEvent: aVariable object: anObject value: aValue nod
 		yourself).
 ]
 
-{ #category : 'adding events' }
+{ #category : 'private - adding events' }
 ScpExecution >> addMessageEvent: aSelector sender: aSender receiver: aReceiver arguments: anArguments node: aNodeId [
 
-	| call expression |
-	
-	expression := ScpMessageSend new identifier: aNodeId; yourself.
-	calls top method addCoveredExpression: expression.
+	| call |
 	
 	call := ScpMethodCall new
 		timestamp: self timestamp;
 		previous: self previousEvent;
-		object: (self addPharoObject: aReceiver);
-		method: (self addMethod: aSelector class: aReceiver class);
-		source: expression;
+		object: (system addPharoObject: aReceiver);
+		method: (system addMethod: aSelector class: aReceiver class);
+		source: (calls top method expressionAt: aNodeId);
 		yourself.
 		
 	call arguments: ((1 to: anArguments size) collect: [ :i | 
 		ScpBindedVariable new
 			variable: (call method parameters at: i);
-			value: (self addObject: (anArguments at: i));
+			value: (system addObject: (anArguments at: i));
 			yourself
 	]).
 	self nextEvent: call.
 	calls push: call.
 ]
 
-{ #category : 'adding events' }
+{ #category : 'private - adding events' }
 ScpExecution >> addMethodEvent: aSelector sender: aSender receiver: aReceiver arguments: anArguments [
 	
 	| call |
@@ -81,32 +79,37 @@ ScpExecution >> addMethodEvent: aSelector sender: aSender receiver: aReceiver ar
 
 ]
 
-{ #category : 'adding events' }
+{ #category : 'private - adding events' }
 ScpExecution >> addReturnEvent: aValue node: aNodeId [ 
 
-	calls pop return: (self addObject: aValue)
+	calls pop return: (ScpMethodReturn new
+		timestamp: self timestamp;
+		previous: self previousEvent;
+		source: (calls top method expressionAt: aNodeId);
+		object: (system addPharoObject: aValue);
+		yourself)
+	
+	
+
 ]
 
-{ #category : 'adding events' }
+{ #category : 'private - adding events' }
 ScpExecution >> addSuperEvent: aSelector sender: aSender arguments: anArguments node: aNodeId [
 
-	| call expression |
+	| call |
 
-	expression := ScpMessageSend new identifier: aNodeId; yourself.
-	calls top method addCoveredExpression: expression.
-	
 	call := ScpSuperMethodCall new
 		timestamp: self timestamp;
 		previous: self previousEvent;
-		object: (self addObject: aSender);
-		method: (self addMethod: aSelector class: aSender class);
-		source: expression;
+		object: (system addPharoObject: aSender);
+		method: (system addPharoMethod: (aSender class >> aSelector));
+		source: (calls top method expressionAt: aNodeId);
 		yourself.
 		
 	call arguments: ((1 to: anArguments size) collect: [ :i | 
 		ScpBindedVariable new
 			variable: (call method arguments at: i);
-			value: (self addObject: (anArguments at: i));
+			value: (system addPharoObject: (anArguments at: i));
 			yourself
 	]).
 	self nextEvent: call.
@@ -114,9 +117,15 @@ ScpExecution >> addSuperEvent: aSelector sender: aSender arguments: anArguments 
 ]
 
 { #category : 'accessing' }
+ScpExecution >> events [
+
+	^ events
+]
+
+{ #category : 'accessing' }
 ScpExecution >> firstEvent [
 
-	^ firstEvent
+	^ events first
 ]
 
 { #category : 'initialization' }
@@ -128,10 +137,10 @@ ScpExecution >> initialize [
 { #category : 'accessing' }
 ScpExecution >> lastEvent [
 
-	^ lastEvent
+	^ lastEvent last
 ]
 
-{ #category : 'private' }
+{ #category : 'private - adding events' }
 ScpExecution >> nextEvent: anEvent [
 
 	self previousEvent ifNotNil: [ :e |
@@ -140,7 +149,7 @@ ScpExecution >> nextEvent: anEvent [
 	events push: anEvent.
 ]
 
-{ #category : 'private' }
+{ #category : 'private - adding events' }
 ScpExecution >> previousEvent [
 
 	events ifEmpty: [ ^ nil ].
@@ -159,7 +168,7 @@ ScpExecution >> system: aSystem [
 	system := aSystem
 ]
 
-{ #category : 'private' }
+{ #category : 'private - adding events' }
 ScpExecution >> timestamp [
 
 	timestamp := timestamp + 1.

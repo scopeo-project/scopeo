@@ -25,8 +25,16 @@ ScpMessageSend >> arguments [
 { #category : 'accessing' }
 ScpMessageSend >> arguments: anExpressionCollection [
 
+	anExpressionCollection ifNil: [ self error: 'Invalid list of arguments nil.' ].
+
 	arguments := anExpressionCollection asOrderedCollection.
 	arguments do: [ :a | a parent: self ]
+]
+
+{ #category : 'initialization' }
+ScpMessageSend >> initialize [
+
+	arguments := OrderedCollection new
 ]
 
 { #category : 'accessing' }

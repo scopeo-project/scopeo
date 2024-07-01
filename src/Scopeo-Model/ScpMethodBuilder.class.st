@@ -3,7 +3,8 @@ Class {
 	#superclass : 'RBProgramNodeVisitor',
 	#instVars : [
 		'method',
-		'sequences'
+		'sequences',
+		'identifer'
 	],
 	#category : 'Scopeo-Model',
 	#package : 'Scopeo-Model'
@@ -15,7 +16,7 @@ ScpMethodBuilder class >> isAbstract [
 	^ self == RBProgramNodeVisitor
 ]
 
-{ #category : 'visiting' }
+{ #category : 'private' }
 ScpMethodBuilder >> findVariableNamed: aName [
 
 	(method parameterNamed: aName) ifNotNil: [ :n | ^ n ].
@@ -29,6 +30,7 @@ ScpMethodBuilder >> findVariableNamed: aName [
 { #category : 'accessing' }
 ScpMethodBuilder >> install: aPharoMethod in: aScpClass [
 
+	identifer := 0.
 	sequences := Stack new.
 	method := ScpMethod new
 		methodClass: aScpClass;
@@ -37,7 +39,26 @@ ScpMethodBuilder >> install: aPharoMethod in: aScpClass [
 	^ aPharoMethod ast acceptVisitor: self
 ]
 
-{ #category : 'visiting' }
+{ #category : 'private' }
+ScpMethodBuilder >> nextIdentifier [
+
+	identifer := identifer + 1.
+	^ identifer
+]
+
+{ #category : 'private' }
+ScpMethodBuilder >> visitArgumentNode: anArgumentNode [
+
+	^ anArgumentNode acceptVisitor: self
+]
+
+{ #category : 'private' }
+ScpMethodBuilder >> visitArgumentNodes: aNodeCollection [
+
+	^ aNodeCollection collect: [ :each | self visitArgumentNode: each ]
+]
+
+{ #category : 'private' }
 ScpMethodBuilder >> visitArrayNode: anArrayNode [
 
 	^ ScpArray new
@@ -45,17 +66,24 @@ ScpMethodBuilder >> visitArrayNode: anArrayNode [
 		yourself
 ]
 
-{ #category : 'visiting' }
+{ #category : 'private' }
 ScpMethodBuilder >> visitAssignmentNode: anAssignmentNode [
 
-	^ ScpAssignment new
+	| assignment |	
+	
+	assignment := ScpAssignment new
 		variable: (self visitVariableNode: anAssignmentNode variable);
 		expression: (self visitNode: anAssignmentNode value);
-		yourself
+		yourself.
 		
+	anAssignmentNode variable isInstanceVariable ifFalse: [ 
+		method expressionAt: self nextIdentifier put: assignment.		
+	].
+
+	^ assignment.
 ]
 
-{ #category : 'visiting' }
+{ #category : 'private' }
 ScpMethodBuilder >> visitBlockNode: aBlockNode [
 
 	^ ScpBlock new
@@ -64,7 +92,7 @@ ScpMethodBuilder >> visitBlockNode: aBlockNode [
 		yourself
 ]
 
-{ #category : 'visiting' }
+{ #category : 'private' }
 ScpMethodBuilder >> visitCascadeNode: aCascadeNode [
 
 	| receiver statements |
@@ -76,19 +104,22 @@ ScpMethodBuilder >> visitCascadeNode: aCascadeNode [
 	statements add: (ScpAssignment new 
 		variable: receiver; 
 		expression: (aCascadeNode receiver acceptVisitor: self);
-		yourself
-	).
+		yourself).
+
 	statements addAll: (aCascadeNode messages collect: [ :m |
-		ScpMessageSend new
-			receiver: receiver;
-			selector: m selectorNode name;
-			arguments: (self visitArgumentNodes: m arguments);
-			yourself
+		method expressionAt: self nextIdentifier put:(
+			ScpMessageSend new
+				receiver: (ScpVariableReference new 
+					variable: receiver; 
+					yourself);
+				selector: m selector;
+				arguments: (self visitArgumentNodes: m arguments);
+				yourself)
 	]).
 
 	^ ScpMessageSend new
 		receiver: (ScpBlock new
-			temporaries: ({receiver} asOrderedCollection);
+			parameters: ({receiver} asOrderedCollection);
 			body: (ScpSequence new 
 				statements: statements; 
 				yourself
@@ -99,7 +130,7 @@ ScpMethodBuilder >> visitCascadeNode: aCascadeNode [
 	
 ]
 
-{ #category : 'visiting' }
+{ #category : 'private' }
 ScpMethodBuilder >> visitLiteralArrayNode: aRBLiteralArrayNode [
 
 	^ ScpLiteralArray new
@@ -107,7 +138,7 @@ ScpMethodBuilder >> visitLiteralArrayNode: aRBLiteralArrayNode [
 		yourself
 ]
 
-{ #category : 'visiting' }
+{ #category : 'private' }
 ScpMethodBuilder >> visitLiteralNode: aLiteralNode [
 
 	^ ScpLiteralValue new 
@@ -115,17 +146,17 @@ ScpMethodBuilder >> visitLiteralNode: aLiteralNode [
 		yourself
 ]
 
-{ #category : 'visiting' }
+{ #category : 'private' }
 ScpMethodBuilder >> visitMessageNode: aMessageNode [
 
-	^ ScpMessageSend new
-		receiver: (self visitNode: aMessageNode receiver);
-		selector: (aMessageNode selectorNode value);
-		arguments: (aMessageNode arguments collect: [ :a | a acceptVisitor: self ]);
-		yourself
+	^  method expressionAt: self nextIdentifier put: (ScpMessageSend new
+			receiver: (self visitNode: aMessageNode receiver);
+			selector: (aMessageNode selectorNode value);
+			arguments: (aMessageNode arguments collect: [ :a | a acceptVisitor: self ]);
+			yourself)
 ]
 
-{ #category : 'visiting' }
+{ #category : 'private' }
 ScpMethodBuilder >> visitMethodNode: aMethodNode [
 	
 	^ method 
@@ -134,15 +165,15 @@ ScpMethodBuilder >> visitMethodNode: aMethodNode [
 		yourself
 ]
 
-{ #category : 'visiting' }
+{ #category : 'private' }
 ScpMethodBuilder >> visitReturnNode: aReturnNode [
 
-	^ ScpReturn new
-		expression: (self visitNode: aReturnNode value);
-		yourself
+	^  method expressionAt: self nextIdentifier put: (ScpReturn new
+			expression: (self visitNode: aReturnNode value);
+			yourself)
 ]
 
-{ #category : 'visiting' }
+{ #category : 'private' }
 ScpMethodBuilder >> visitSequenceNode: aSequenceNode [
 
 	sequences push: ScpSequence new. 
@@ -152,7 +183,7 @@ ScpMethodBuilder >> visitSequenceNode: aSequenceNode [
 	^ sequences pop
 ]
 
-{ #category : 'visiting' }
+{ #category : 'private' }
 ScpMethodBuilder >> visitVariableDefinition: anVariableNode [
 
 	^ ScpVariable new
@@ -160,13 +191,13 @@ ScpMethodBuilder >> visitVariableDefinition: anVariableNode [
 		yourself
 ]
 
-{ #category : 'visiting' }
+{ #category : 'private' }
 ScpMethodBuilder >> visitVariableDefinitions: aVariableCollection [
 
 	^ aVariableCollection collect: [ :v | self visitVariableDefinition: v ]
 ]
 
-{ #category : 'visiting' }
+{ #category : 'private' }
 ScpMethodBuilder >> visitVariableNode: aVariableNode [
 	
 	^ ScpVariableReference new

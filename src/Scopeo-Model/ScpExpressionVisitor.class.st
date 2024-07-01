@@ -34,7 +34,7 @@ ScpExpressionVisitor >> visitAssignment: anAssignment [
 { #category : 'visiting' }
 ScpExpressionVisitor >> visitBlock: aBlock [
 
-	^ aBlock expression accept: self
+	^ aBlock body accept: self
 ]
 
 { #category : 'visiting' }
@@ -66,6 +66,12 @@ ScpExpressionVisitor >> visitMessageSend: aMessageSend [
 ScpExpressionVisitor >> visitReturn: aReturn [
 
 	^ aReturn expression accept: self
+]
+
+{ #category : 'visiting' }
+ScpExpressionVisitor >> visitSequence: aSequence [
+
+	^ aSequence statements collect: [ :s | s accept: self ]
 ]
 
 { #category : 'visiting' }
