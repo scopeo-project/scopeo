@@ -8,17 +8,17 @@ Class {
 	#package : 'Scopeo-Model'
 }
 
+{ #category : 'uml' }
+ScpVariableReference class >> uml: aStream [
+
+	super uml: aStream.
+	aStream cr << self name << ' o-  ' << ScpVariable name
+]
+
 { #category : 'visiting' }
 ScpVariableReference >> accept: aVisitor [
 
 	^ aVisitor visitVariableReference: self
-]
-
-{ #category : 'private' }
-ScpVariableReference >> nextEvent: anEvent [
-
-	self previousEvent ifNotNil: [ :e | e next: anEvent ].
-	events push: anEvent
 ]
 
 { #category : 'accessing' }

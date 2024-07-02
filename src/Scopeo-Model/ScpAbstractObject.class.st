@@ -1,6 +1,6 @@
 Class {
 	#name : 'ScpAbstractObject',
-	#superclass : 'Object',
+	#superclass : 'ScpDynamicElement',
 	#instVars : [
 		'identifier',
 		'objectClass',

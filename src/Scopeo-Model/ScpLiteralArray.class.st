@@ -8,6 +8,13 @@ Class {
 	#package : 'Scopeo-Model'
 }
 
+{ #category : 'uml' }
+ScpLiteralArray class >> uml: aStream [
+
+	super uml: aStream.
+	aStream cr << self name << ' o- "*" ' << ScpObjectLiteral name.
+]
+
 { #category : 'visiting' }
 ScpLiteralArray >> accept: aVisitor [
 

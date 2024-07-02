@@ -1,18 +1,29 @@
 Class {
 	#name : 'ScpMethodReturn',
 	#superclass : 'ScpObjectEvent',
+	#instVars : [
+		'methodCall'
+	],
 	#category : 'Scopeo-Model',
 	#package : 'Scopeo-Model'
 }
 
-{ #category : 'accessing' }
-ScpMethodReturn >> object [
+{ #category : 'uml' }
+ScpMethodReturn class >> uml: aStream [
 
-	^ object
+	super uml: aStream.
+	
+	aStream cr << self name << ' -* ' << ScpMethodCall name.
 ]
 
 { #category : 'accessing' }
-ScpMethodReturn >> object: anObject [
+ScpMethodReturn >> methodCall [
+	
+	^ methodCall
+]
 
-	object := anObject
+{ #category : 'accessing' }
+ScpMethodReturn >> methodCall: aMethodCall [
+	
+	methodCall := aMethodCall
 ]

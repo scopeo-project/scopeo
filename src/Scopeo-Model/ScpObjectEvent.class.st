@@ -1,6 +1,6 @@
 Class {
 	#name : 'ScpObjectEvent',
-	#superclass : 'Object',
+	#superclass : 'ScpDynamicElement',
 	#instVars : [
 		'timestamp',
 		'object',
@@ -11,6 +11,17 @@ Class {
 	#category : 'Scopeo-Model',
 	#package : 'Scopeo-Model'
 }
+
+{ #category : 'uml' }
+ScpObjectEvent class >> uml: aStream [
+
+	super uml: aStream.
+	
+	self = ScpObjectEvent ifFalse: [ ^ self ].
+	aStream cr << self name << ' o- ' << self name.
+	aStream cr << self name << ' o- ' << ScpExpression name.
+	
+]
 
 { #category : 'testing' }
 ScpObjectEvent >> hasNext [

@@ -1,6 +1,6 @@
 Class {
 	#name : 'ScpExpression',
-	#superclass : 'Object',
+	#superclass : 'ScpStaticElement',
 	#instVars : [
 		'method',
 		'parent'
@@ -8,6 +8,21 @@ Class {
 	#category : 'Scopeo-Model',
 	#package : 'Scopeo-Model'
 }
+
+{ #category : 'testing' }
+ScpExpression class >> isAbstract [
+
+	^ self == ScpExpression
+]
+
+{ #category : 'uml' }
+ScpExpression class >> uml: aStream [
+
+	super uml: aStream.
+	self = ScpExpression ifTrue: [ 
+		aStream cr << self name << ' o- "parent" ' << self name.
+	]
+]
 
 { #category : 'visiting' }
 ScpExpression >> accept: aVisitor [

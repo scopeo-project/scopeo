@@ -8,6 +8,13 @@ Class {
 	#package : 'Scopeo-Model'
 }
 
+{ #category : 'uml' }
+ScpArray class >> uml: aStream [
+
+	super uml: aStream.
+	aStream cr << self name << ' o- "elements" ' << ScpExpression name
+]
+
 { #category : 'visiting' }
 ScpArray >> accept: aVisitor [
 

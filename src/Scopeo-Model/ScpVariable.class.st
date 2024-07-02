@@ -1,6 +1,6 @@
 Class {
 	#name : 'ScpVariable',
-	#superclass : 'Object',
+	#superclass : 'ScpStaticElement',
 	#instVars : [
 		'name',
 		'references'
@@ -31,6 +31,15 @@ ScpVariable class >> thisContextVariable [
 	^ self new 
 		name: #thisContext;
 		yourself
+]
+
+{ #category : 'uml' }
+ScpVariable class >> uml: aStream [
+
+	super uml: aStream.
+	
+	self = ScpVariable ifFalse: [ ^ self ].
+	aStream cr << self name << ' -> "*" ' << ScpVariableReference name.
 ]
 
 { #category : 'visiting' }

@@ -10,6 +10,17 @@ Class {
 	#package : 'Scopeo-Model'
 }
 
+{ #category : 'uml' }
+ScpMethodCall class >> uml: aStream [
+
+	super uml: aStream.
+	
+	self = ScpMethodCall ifFalse: [ ^ self ]. 
+	aStream cr << self name << ' -* ' << ScpMethod name.
+	aStream cr << self name << ' -* "*"' << ScpBindedVariable name.
+	aStream cr << self name << ' - ' << ScpMethodReturn name.
+]
+
 { #category : 'accessing' }
 ScpMethodCall >> arguments [
 

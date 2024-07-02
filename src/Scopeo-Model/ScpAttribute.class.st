@@ -8,6 +8,14 @@ Class {
 	#package : 'Scopeo-Model'
 }
 
+{ #category : 'uml' }
+ScpAttribute class >> uml: aStream [
+
+	super uml: aStream.
+
+	aStream cr << self name << ' -> ' << ScpClass name.
+]
+
 { #category : 'instance creation' }
 ScpAttribute >> attributeClass [
 

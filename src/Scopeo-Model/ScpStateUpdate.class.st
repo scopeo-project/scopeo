@@ -8,6 +8,14 @@ Class {
 	#package : 'Scopeo-Model'
 }
 
+{ #category : 'uml' }
+ScpStateUpdate class >> uml: aStream [
+
+	super uml: aStream.
+	
+	aStream cr << self name << ' -> ' << ScpBindedVariable name.
+]
+
 { #category : 'accessing' }
 ScpStateUpdate >> value [
 

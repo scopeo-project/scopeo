@@ -1,6 +1,6 @@
 Class {
 	#name : 'ScpClass',
-	#superclass : 'Object',
+	#superclass : 'ScpStaticElement',
 	#instVars : [
 		'parent',
 		'name',
@@ -10,6 +10,16 @@ Class {
 	#category : 'Scopeo-Model',
 	#package : 'Scopeo-Model'
 }
+
+{ #category : 'uml' }
+ScpClass class >> uml: aStream [
+
+	super uml: aStream.
+	aStream cr << self name << ' *- "methods" ' << ScpMethod name.
+	aStream cr << self name << ' *- "attributes" ' << ScpAttribute name.
+	aStream cr << self name << ' o- "parent" ' << self name
+	
+]
 
 { #category : 'adding' }
 ScpClass >> addAttribute: anAttributeName [
@@ -80,12 +90,6 @@ ScpClass >> name [
 ScpClass >> name: anObject [
 
 	name := anObject
-]
-
-{ #category : 'accessing' }
-ScpClass >> objectClass [
-
-	^ nil
 ]
 
 { #category : 'accessing' }

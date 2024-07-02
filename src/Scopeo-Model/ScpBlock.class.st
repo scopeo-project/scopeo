@@ -9,6 +9,14 @@ Class {
 	#package : 'Scopeo-Model'
 }
 
+{ #category : 'uml' }
+ScpBlock class >> uml: aStream [
+
+	super uml: aStream.
+	aStream cr << self name << ' o- "parameters" ' << ScpVariable name.
+	aStream cr << self name << ' o- "body" ' << ScpSequence name
+]
+
 { #category : 'visiting' }
 ScpBlock >> accept: aVisitor [
 

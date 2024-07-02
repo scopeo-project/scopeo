@@ -8,6 +8,14 @@ Class {
 	#package : 'Scopeo-Model'
 }
 
+{ #category : 'uml' }
+ScpExternalMethodCall class >> uml: aStream [
+
+	super uml: aStream.
+	aStream cr << self name << ' -* ' << ScpAbstractObject name.			
+	
+]
+
 { #category : 'accessing' }
 ScpExternalMethodCall >> sender: anObject [
 

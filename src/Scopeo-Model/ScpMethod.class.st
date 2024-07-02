@@ -1,6 +1,6 @@
 Class {
 	#name : 'ScpMethod',
-	#superclass : 'Object',
+	#superclass : 'ScpStaticElement',
 	#instVars : [
 		'methodClass',
 		'name',
@@ -11,6 +11,15 @@ Class {
 	#category : 'Scopeo-Model',
 	#package : 'Scopeo-Model'
 }
+
+{ #category : 'uml' }
+ScpMethod class >> uml: aStream [
+
+	super uml: aStream.
+	aStream cr << self name << ' -* ' << ScpSequence name.
+	aStream cr << self name << ' -* "*" ' << ScpVariable name.
+	aStream cr << self name << ' -* ' << ScpClass name.
+]
 
 { #category : 'accessing' }
 ScpMethod >> body [

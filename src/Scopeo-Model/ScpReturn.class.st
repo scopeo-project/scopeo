@@ -8,6 +8,13 @@ Class {
 	#package : 'Scopeo-Model'
 }
 
+{ #category : 'uml' }
+ScpReturn class >> uml: aStream [
+
+	super uml: aStream.
+	aStream cr << self name << ' o- ' << ScpExpression name
+]
+
 { #category : 'visiting' }
 ScpReturn >> accept: aVisitor [
 

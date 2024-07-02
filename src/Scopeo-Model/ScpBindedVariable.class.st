@@ -1,6 +1,6 @@
 Class {
 	#name : 'ScpBindedVariable',
-	#superclass : 'Object',
+	#superclass : 'ScpDynamicElement',
 	#instVars : [
 		'variable',
 		'value'
@@ -8,6 +8,14 @@ Class {
 	#category : 'Scopeo-Model',
 	#package : 'Scopeo-Model'
 }
+
+{ #category : 'uml' }
+ScpBindedVariable class >> uml: aStream [
+
+	super uml: aStream.
+	aStream cr << self name << ' -> ' << ScpAbstractObject name.
+	aStream cr << self name << ' -> ' << ScpVariable name.
+]
 
 { #category : 'printing' }
 ScpBindedVariable >> printOn: aStream [
