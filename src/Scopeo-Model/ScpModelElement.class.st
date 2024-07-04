@@ -19,6 +19,7 @@ ScpModelElement class >> uml [
 	| stream |
 	stream := WriteStream with: '@startuml'.
 	stream cr << '!theme plain'.
+	stream cr << 'skinparam linetype ortho'.
 	stream cr.
 	self subclassesDo: [ :c | 
 		c uml: stream.

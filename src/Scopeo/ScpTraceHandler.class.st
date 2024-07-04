@@ -2,7 +2,6 @@ Class {
 	#name : 'ScpTraceHandler',
 	#superclass : 'ScpInstrumentationHandler',
 	#instVars : [
-		'execution',
 		'traces',
 		'index'
 	],
@@ -10,77 +9,82 @@ Class {
 	#package : 'Scopeo'
 }
 
-{ #category : 'accessing' }
-ScpTraceHandler >> execution [
-
-	^ execution
-]
-
 { #category : 'initialization' }
 ScpTraceHandler >> initialize [
 
-	index := 0.
+	index := 0. 
 	traces := OrderedCollection new.
 ]
 
-{ #category : 'events handling' }
+{ #category : 'private' }
 ScpTraceHandler >> method: aSelector sender: aSender receiver: aReceiver arguments: anArguments [
 	
-	traces at: self nextIndex put: #externalcall.
-	traces at: self nextIndex put: aSelector.
-	traces at: self nextIndex put: aSender.
-	traces at: self nextIndex put: aReceiver.
-	traces at: self nextIndex put: anArguments
+	traces add: #externalcall.
+	traces add: aSelector.
+	traces add: aSender.
+	traces add: aReceiver.
+	traces add: anArguments
 ]
 
-{ #category : 'accessing' }
-ScpTraceHandler >> nextIndex [
-
-	index := index + 1.
-	^ index
-
-]
-
-{ #category : 'events handling' }
+{ #category : 'private' }
 ScpTraceHandler >> node: aNodeId assignment: aVariable object: anObject value: aValue [
 
-	traces at: self nextIndex put: #assignment.
-	traces at: self nextIndex put: aNodeId.
-	traces at: self nextIndex put: aVariable.
-	traces at: self nextIndex put: anObject.
-	traces at: self nextIndex put: aValue
+	traces add: #assignment.
+	traces add: aNodeId.
+	traces add: aVariable.
+	traces add: anObject.
+	traces add: aValue
 ]
 
-{ #category : 'events handling' }
+{ #category : 'private' }
 ScpTraceHandler >> node: aNodeId message: aSelector sender: aSender receiver: aReceiver arguments: anArguments [
 
-	traces at: self nextIndex put: #call.
-	traces at: self nextIndex put: aNodeId.
-	traces at: self nextIndex put: aSelector.
-	traces at: self nextIndex put: aSender.
-	traces at: self nextIndex put: aReceiver.
-	traces at: self nextIndex put: anArguments
+	traces add: #call.
+	traces add: aNodeId.
+	traces add: aSelector.
+	traces add: aSender.
+	traces add: aReceiver.
+	traces add: anArguments
 ]
 
-{ #category : 'events handling' }
+{ #category : 'private' }
 ScpTraceHandler >> node: aNodeId return: aValue [
 
-	traces at: self nextIndex put: #return.
-	traces at: self nextIndex put: aNodeId.
-	traces at: self nextIndex put: aValue
+	traces add: #return.
+	traces add: aNodeId.
+	traces add: aValue
 ]
 
-{ #category : 'events handling' }
+{ #category : 'private' }
 ScpTraceHandler >> node: aNodeId super: aSelector sender: aSender arguments: anArguments [
 
-	traces at: self nextIndex put: #super.
-	traces at: self nextIndex put: aNodeId.
-	traces at: self nextIndex put: aSelector.
-	traces at: self nextIndex put: aSender.
-	traces at: self nextIndex put: anArguments 
+	traces add: #supercall.
+	traces add: aNodeId.
+	traces add: aSelector.
+	traces add: aSender.
+	traces add: anArguments 
 ]
 
-{ #category : 'accessing' }
+{ #category : 'api' }
+ScpTraceHandler >> process [
+	
+	"Create an execution model from the traces"
+	| it execution trace |
+	
+	execution := ScpExecution new.	
+	traces ifEmpty: [ ^ execution ].
+	it := 1.
+	[ it < traces size and: [ (traces at: it) isNotNil ] ] whileTrue: [ 
+		
+		trace := ScpTrace fromTraces: traces startingAt: it.
+		it := it + trace size + 1.
+		execution addTrace: trace.
+	].
+	^ execution 	inspect
+	
+]
+
+{ #category : 'api' }
 ScpTraceHandler >> traces [
 
 	^ traces 

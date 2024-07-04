@@ -13,7 +13,7 @@ ScpAttribute class >> uml: aStream [
 
 	super uml: aStream.
 
-	aStream cr << self name << ' -> ' << ScpClass name.
+	aStream cr << self name << ' --> ' << ScpClass name.
 ]
 
 { #category : 'instance creation' }

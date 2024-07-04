@@ -12,7 +12,7 @@ Class {
 ScpReturn class >> uml: aStream [
 
 	super uml: aStream.
-	aStream cr << self name << ' o- ' << ScpExpression name
+	aStream cr << self name << ' o-- ' << ScpExpression name
 ]
 
 { #category : 'visiting' }

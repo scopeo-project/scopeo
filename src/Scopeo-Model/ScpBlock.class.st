@@ -13,8 +13,8 @@ Class {
 ScpBlock class >> uml: aStream [
 
 	super uml: aStream.
-	aStream cr << self name << ' o- "parameters" ' << ScpVariable name.
-	aStream cr << self name << ' o- "body" ' << ScpSequence name
+	aStream cr << self name << ' o-- "parameters" ' << ScpVariable name.
+	aStream cr << self name << ' o-- "body" ' << ScpSequence name
 ]
 
 { #category : 'visiting' }

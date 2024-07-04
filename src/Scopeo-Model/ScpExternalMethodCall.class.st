@@ -12,7 +12,7 @@ Class {
 ScpExternalMethodCall class >> uml: aStream [
 
 	super uml: aStream.
-	aStream cr << self name << ' -* ' << ScpAbstractObject name.			
+	aStream cr << self name << ' --* ' << ScpAbstractObject name.			
 	
 ]
 

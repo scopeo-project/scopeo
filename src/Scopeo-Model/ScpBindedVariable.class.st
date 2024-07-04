@@ -13,8 +13,8 @@ Class {
 ScpBindedVariable class >> uml: aStream [
 
 	super uml: aStream.
-	aStream cr << self name << ' -> ' << ScpAbstractObject name.
-	aStream cr << self name << ' -> ' << ScpVariable name.
+	aStream cr << self name << ' --> ' << ScpAbstractObject name.
+	aStream cr << self name << ' --> ' << ScpVariable name.
 ]
 
 { #category : 'printing' }

@@ -16,9 +16,9 @@ Class {
 ScpMethod class >> uml: aStream [
 
 	super uml: aStream.
-	aStream cr << self name << ' -* ' << ScpSequence name.
-	aStream cr << self name << ' -* "*" ' << ScpVariable name.
-	aStream cr << self name << ' -* ' << ScpClass name.
+	aStream cr << self name << ' --* ' << ScpSequence name.
+	aStream cr << self name << ' --* "*" ' << ScpVariable name.
+	aStream cr << self name << ' --* ' << ScpClass name.
 ]
 
 { #category : 'accessing' }

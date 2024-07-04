@@ -39,7 +39,7 @@ ScpVariable class >> uml: aStream [
 	super uml: aStream.
 	
 	self = ScpVariable ifFalse: [ ^ self ].
-	aStream cr << self name << ' -> "*" ' << ScpVariableReference name.
+	aStream cr << self name << ' --> "*" ' << ScpVariableReference name.
 ]
 
 { #category : 'visiting' }

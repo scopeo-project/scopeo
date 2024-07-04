@@ -13,8 +13,8 @@ Class {
 ScpAssignment class >> uml: aStream [
 
 	super uml: aStream.
-	aStream cr << self name << ' o- "expression" ' << ScpExpression name.
-	aStream cr << self name << ' o- "variable" ' << ScpVariableReference name
+	aStream cr << self name << ' o-- "expression" ' << ScpExpression name.
+	aStream cr << self name << ' o-- "variable" ' << ScpVariableReference name
 ]
 
 { #category : 'visiting' }

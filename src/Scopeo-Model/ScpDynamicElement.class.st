@@ -19,6 +19,7 @@ ScpDynamicElement class >> uml [
 	| stream |
 	stream := WriteStream with: '@startuml'.
 	stream cr << '!theme plain'.
+	stream cr << 'skinparam linetype ortho'.
 	stream cr << 'title Object-oriented language semantic model'.
 	stream cr.
 	self subclassesDo: [ :c | 

@@ -12,7 +12,7 @@ Class {
 ScpLiteralArray class >> uml: aStream [
 
 	super uml: aStream.
-	aStream cr << self name << ' o- "*" ' << ScpObjectLiteral name.
+	aStream cr << self name << ' o-- "*" ' << ScpLiteral name.
 ]
 
 { #category : 'visiting' }

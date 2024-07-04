@@ -12,7 +12,7 @@ Class {
 ScpArray class >> uml: aStream [
 
 	super uml: aStream.
-	aStream cr << self name << ' o- "elements" ' << ScpExpression name
+	aStream cr << self name << ' o-- "elements" ' << ScpExpression name
 ]
 
 { #category : 'visiting' }

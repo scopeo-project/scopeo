@@ -18,8 +18,8 @@ ScpObjectEvent class >> uml: aStream [
 	super uml: aStream.
 	
 	self = ScpObjectEvent ifFalse: [ ^ self ].
-	aStream cr << self name << ' o- ' << self name.
-	aStream cr << self name << ' o- ' << ScpExpression name.
+	aStream cr << self name << ' o-- ' << self name.
+	aStream cr << self name << ' o-- ' << ScpExpression name.
 	
 ]
 

@@ -15,9 +15,9 @@ Class {
 ScpClass class >> uml: aStream [
 
 	super uml: aStream.
-	aStream cr << self name << ' *- "methods" ' << ScpMethod name.
-	aStream cr << self name << ' *- "attributes" ' << ScpAttribute name.
-	aStream cr << self name << ' o- "parent" ' << self name
+	aStream cr << self name << ' *-- "methods" ' << ScpMethod name.
+	aStream cr << self name << ' *-- "attributes" ' << ScpAttribute name.
+	aStream cr << self name << ' o-- "parent" ' << self name
 	
 ]
 

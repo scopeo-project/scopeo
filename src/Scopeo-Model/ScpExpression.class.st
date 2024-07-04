@@ -20,7 +20,7 @@ ScpExpression class >> uml: aStream [
 
 	super uml: aStream.
 	self = ScpExpression ifTrue: [ 
-		aStream cr << self name << ' o- "parent" ' << self name.
+		aStream cr << self name << ' o-- "parent" ' << self name.
 	]
 ]
 

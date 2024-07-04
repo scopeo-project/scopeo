@@ -13,7 +13,7 @@ ScpMethodReturn class >> uml: aStream [
 
 	super uml: aStream.
 	
-	aStream cr << self name << ' -* ' << ScpMethodCall name.
+	aStream cr << self name << ' --* ' << ScpMethodCall name.
 ]
 
 { #category : 'accessing' }

@@ -14,50 +14,7 @@ Class {
 }
 
 { #category : 'private - adding events' }
-ScpExecution >> addAssignmentEvent: aVariable object: anObject value: aValue node: aNodeId [
-
-	| value |
-
-	value := ScpBindedVariable new 
-		variable: ((system addPharoObject: anObject) objectClass attributeNamed: aVariable);
-		value: (system addPharoObject: aValue);
-		yourself.
-		
-	self nextEvent: (ScpStateUpdate new
-		timestamp: self timestamp;
-		previous: self previousEvent;
-		object: (system addPharoObject: anObject);
-		source: (	calls top method expressionAt: aNodeId);
-		value: value;
-		yourself).
-]
-
-{ #category : 'private - adding events' }
-ScpExecution >> addMessageEvent: aSelector sender: aSender receiver: aReceiver arguments: anArguments node: aNodeId [
-
-	| call |
-	
-	call := ScpMethodCall new
-		timestamp: self timestamp;
-		previous: self previousEvent;
-		object: (system addPharoObject: aReceiver);
-		method: (system addPharoMethod: (ScpTraceSourceSelectionRegistry instance method: aSelector of: aReceiver class));
-		source: (calls top method expressionAt: aNodeId);
-		yourself.
-		
-	call arguments: ((1 to: anArguments size) collect: [ :i | 
-		ScpBindedVariable new
-			variable: (call method parameters at: i);
-			value: (system addPharoObject: (anArguments at: i));
-			yourself
-	]).
-	self nextEvent: call.
-	calls push: call.
-]
-
-{ #category : 'private - adding events' }
-ScpExecution >> addMethodEvent: aSelector sender: aSender receiver: aReceiver arguments: anArguments [
-	
+ScpExecution >> addExternalMethodCall: anExternalMethodCallTrace [
 	| call |
 
 	self flag: #todo.
@@ -68,14 +25,14 @@ ScpExecution >> addMethodEvent: aSelector sender: aSender receiver: aReceiver ar
 	call := ScpExternalMethodCall new
 		timestamp: self timestamp;
 		previous: self previousEvent;
-		sender: (system addPharoObject: aSender);
-		object: (system addPharoObject: aReceiver);
-		method: (system addPharoMethod: (ScpTraceSourceSelectionRegistry instance method: aSelector of: aReceiver class)); 
+		sender: (system addPharoObject: anExternalMethodCallTrace sender);
+		object: (system addPharoObject: anExternalMethodCallTrace receiver);
+		method: (system addPharoMethod: (ScpTraceSourceSelectionRegistry instance method: anExternalMethodCallTrace selector of: anExternalMethodCallTrace receiver class)); 
 		yourself. 
-	call arguments: ((1 to: anArguments size) collect: [ :i | 
+	call arguments: ((1 to: anExternalMethodCallTrace arguments size) collect: [ :i | 
 		ScpBindedVariable new
 			variable: (call method parameters at: i);
-			value: (system addPharoObject: (anArguments at: i));
+			value: (system addPharoObject: (anExternalMethodCallTrace arguments at: i));
 			yourself
 	]).
 
@@ -85,15 +42,37 @@ ScpExecution >> addMethodEvent: aSelector sender: aSender receiver: aReceiver ar
 ]
 
 { #category : 'private - adding events' }
-ScpExecution >> addReturnEvent: aValue node: aNodeId [ 
+ScpExecution >> addMethodCall: aMethodCallTrace [
+	| call |
+	
+	call := ScpMethodCall new
+		timestamp: self timestamp;
+		previous: self previousEvent;
+		object: (system addPharoObject: aMethodCallTrace receiver);
+		method: (system addPharoMethod: (ScpTraceSourceSelectionRegistry instance method: aMethodCallTrace selector of: aMethodCallTrace receiver class));
+		source: (calls top method expressionAt: aMethodCallTrace node);
+		yourself.
+		
+	call arguments: ((1 to: aMethodCallTrace arguments size) collect: [ :i | 
+		ScpBindedVariable new
+			variable: (call method parameters at: i);
+			value: (system addPharoObject: (aMethodCallTrace arguments at: i));
+			yourself
+	]).
+	self nextEvent: call.
+	calls push: call.
+]
+
+{ #category : 'private - adding events' }
+ScpExecution >> addMethodReturn: aMethodReturnTrace [
 
 	| call |
 	call := calls pop.
 	call return: (ScpMethodReturn new
 		timestamp: self timestamp;
 		previous: self previousEvent;
-		source: (call method expressionAt: aNodeId);
-		object: (system addPharoObject: aValue);
+		source: (call method expressionAt: aMethodReturnTrace node);
+		object: (system addPharoObject: aMethodReturnTrace value);
 		yourself)
 	
 	
@@ -101,26 +80,49 @@ ScpExecution >> addReturnEvent: aValue node: aNodeId [
 ]
 
 { #category : 'private - adding events' }
-ScpExecution >> addSuperEvent: aSelector sender: aSender arguments: anArguments node: aNodeId [
+ScpExecution >> addStateUpdate: aStateUpdateTrace [
+	| value |
 
+	value := ScpBindedVariable new 
+		variable: ((system addPharoObject: aStateUpdateTrace object) objectClass attributeNamed: aStateUpdateTrace variable);
+		value: (system addPharoObject: aStateUpdateTrace value);
+		yourself.
+		
+	self nextEvent: (ScpStateUpdate new
+		timestamp: self timestamp;
+		previous: self previousEvent;
+		object: (system addPharoObject: aStateUpdateTrace object);
+		source: (	calls top method expressionAt: aStateUpdateTrace node);
+		value: value;
+		yourself).
+]
+
+{ #category : 'private - adding events' }
+ScpExecution >> addSuperMethodCall: aSuperMethodCallTrace [
 	| call |
 
 	call := ScpSuperMethodCall new
 		timestamp: self timestamp;
 		previous: self previousEvent;
-		object: (system addPharoObject: aSender);
-		method: (system addPharoMethod: (ScpTraceSourceSelectionRegistry instance method: aSelector of: aSender class));
-		source: (calls top method expressionAt: aNodeId);
+		object: (system addPharoObject: aSuperMethodCallTrace sender);
+		method: (system addPharoMethod: (ScpTraceSourceSelectionRegistry instance method: aSuperMethodCallTrace selector of: aSuperMethodCallTrace sender class));
+		source: (calls top method expressionAt: aSuperMethodCallTrace node );
 		yourself.
 		
-	call arguments: ((1 to: anArguments size) collect: [ :i | 
+	call arguments: ((1 to: aSuperMethodCallTrace arguments size) collect: [ :i | 
 		ScpBindedVariable new
 			variable: (call method arguments at: i);
-			value: (system addPharoObject: (anArguments at: i));
+			value: (system addPharoObject: (aSuperMethodCallTrace arguments at: i));
 			yourself
 	]).
 	self nextEvent: call.
 	calls push: call.
+]
+
+{ #category : 'adding' }
+ScpExecution >> addTrace: aScpTrace [
+
+	aScpTrace addToExecution: self
 ]
 
 { #category : 'accessing' }
