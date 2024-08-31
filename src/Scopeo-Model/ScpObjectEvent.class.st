@@ -1,6 +1,6 @@
 Class {
 	#name : 'ScpObjectEvent',
-	#superclass : 'ScpDynamicElement',
+	#superclass : 'ScpModelElement',
 	#instVars : [
 		'timestamp',
 		'object',

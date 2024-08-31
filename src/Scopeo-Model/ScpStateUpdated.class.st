@@ -1,7 +1,8 @@
 Class {
-	#name : 'ScpStateUpdate',
+	#name : 'ScpStateUpdated',
 	#superclass : 'ScpObjectEvent',
 	#instVars : [
+		'variable',
 		'value'
 	],
 	#category : 'Scopeo-Model',
@@ -9,7 +10,7 @@ Class {
 }
 
 { #category : 'uml' }
-ScpStateUpdate class >> uml: aStream [
+ScpStateUpdated class >> uml: aStream [
 
 	super uml: aStream.
 	
@@ -17,13 +18,25 @@ ScpStateUpdate class >> uml: aStream [
 ]
 
 { #category : 'accessing' }
-ScpStateUpdate >> value [
+ScpStateUpdated >> value [
 
 	^ value
 ]
 
 { #category : 'accessing' }
-ScpStateUpdate >> value: aBindedAttribute [
+ScpStateUpdated >> value: aBindedAttribute [
 
 	value := aBindedAttribute 
+]
+
+{ #category : 'accessing' }
+ScpStateUpdated >> variable [
+
+	^ variable
+]
+
+{ #category : 'accessing' }
+ScpStateUpdated >> variable: anObject [
+
+	variable := anObject
 ]
