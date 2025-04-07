@@ -1,10 +1,11 @@
 Class {
-	#name : #BaselineOfScopeo,
-	#superclass : #BaselineOf,
-	#category : #BaselineOfScopeo
+	#name : 'BaselineOfScopeo',
+	#superclass : 'BaselineOf',
+	#category : 'BaselineOfScopeo',
+	#package : 'BaselineOfScopeo'
 }
 
-{ #category : #baselines }
+{ #category : 'baselines' }
 BaselineOfScopeo >> baseline: spec [
 
 	<baseline>
@@ -14,19 +15,17 @@ BaselineOfScopeo >> baseline: spec [
 	]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BaselineOfScopeo >> dependencies: spec [
 
-		spec baseline: 'ScopeoTraceRecorder' with: [
-		spec repository:
-			'github://scopeo-project/scopeo-trace-recorder:main' ].
+	spec baseline: 'ScopeoExecutionRecorder' with: [
+		spec repository: 'github://scopeo-project/scopeo-execution-recorder:main' 
+	].
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BaselineOfScopeo >> packages: spec [
 
-	spec package: #'Scopeo-Model'.
-	spec package: #'Scopeo-Predicates'.
+	spec package: #'Scopeo-Presenters'.
 
-	spec package: #Scopeo
 ]
