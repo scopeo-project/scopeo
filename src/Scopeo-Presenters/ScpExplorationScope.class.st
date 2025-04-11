@@ -3,7 +3,8 @@ Class {
 	#superclass : 'Object',
 	#instVars : [
 		'record',
-		'references'
+		'references',
+		'label'
 	],
 	#category : 'Scopeo-Presenters',
 	#package : 'Scopeo-Presenters'
@@ -23,6 +24,18 @@ ScpExplorationScope >> inspectorPresenter [
 	^ self presenter
 
 
+]
+
+{ #category : 'accessing' }
+ScpExplorationScope >> label [
+
+	^ label ifNil: [ 'Full execution scope' ]
+]
+
+{ #category : 'accessing' }
+ScpExplorationScope >> label: aString [
+
+	label := aString
 ]
 
 { #category : 'accessing' }
@@ -46,16 +59,14 @@ ScpExplorationScope >> record [
 { #category : 'accessing' }
 ScpExplorationScope >> record: aScpExecutionRecord [
 
-	| trace |
+	record := aScpExecutionRecord
 
-	record := aScpExecutionRecord.
-	
-	self flag: 'Temporary code to test the model -> gui interactions'.
-	
-	trace := record methods first children second.
-	
-	references at: trace sender put: trace.
-	references at: trace receiver put: trace.
+]
+
+{ #category : 'accessing' }
+ScpExplorationScope >> references: aDictionary [
+
+	references := aDictionary
 ]
 
 { #category : 'accessing' }

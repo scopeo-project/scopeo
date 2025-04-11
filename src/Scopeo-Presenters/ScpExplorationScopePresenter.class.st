@@ -95,8 +95,8 @@ ScpExplorationScopePresenter >> initializeWindow: aWindowPresenter [
 
 	super initializeWindow: aWindowPresenter.
 	aWindowPresenter
-		title: 'Exploration scope';
-		initialExtent: 800 @ 500
+		title: model label;
+		initialExtent: 1000 @ 800
 ]
 
 { #category : 'layout' }
