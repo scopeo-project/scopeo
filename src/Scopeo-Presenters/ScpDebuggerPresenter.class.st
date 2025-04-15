@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'model',
 		'scopesListPresenters',
-		'queryButtonPresenter'
+		'queryButtonPresenter',
+		'popover'
 	],
 	#category : 'Scopeo-Presenters',
 	#package : 'Scopeo-Presenters'
@@ -12,6 +13,10 @@ Class {
 
 { #category : 'initialization' }
 ScpDebuggerPresenter >> connectPresenters [
+
+	queryButtonPresenter action: [ 
+		self showPopover: SpPopoverPosition bottom relativeTo: queryButtonPresenter
+	].
 
 	scopesListPresenters items: model scopes.
 	
@@ -50,7 +55,9 @@ ScpDebuggerPresenter >> initializePresenters [
 		label: 'Ask a new question';
 		yourself.
  
-	scopesListPresenters := self newList.
+	scopesListPresenters := self newList
+		display: [ :scope | scope label ]
+		yourself.
 	
 ]
 
@@ -67,4 +74,23 @@ ScpDebuggerPresenter >> initializeWindow: aWindowPresenter [
 ScpDebuggerPresenter >> setModelBeforeInitialization: aDomainObject [
 
 	model := aDomainObject
+]
+
+{ #category : 'initialization' }
+ScpDebuggerPresenter >> showPopover: aPosition relativeTo: aPresenter [
+
+	popover ifNotNil: [ popover dismiss ].
+	(popover := self newPopover)
+		relativeTo: aPresenter;
+		position: aPosition;
+		presenter: (SpPresenter new
+		
+			layout: (SpBoxLayout newVertical
+				add: (ScpQuestionPresenter on: model) withConstraints: [:constraints | 
+					constraints width: 500.
+					constraints height: 500
+				];
+				yourself);
+			yourself);
+		popup
 ]

@@ -17,6 +17,8 @@ ScpExplorationScopeBuilder class >> buildFrom: aScpExecutionRecord [
 { #category : 'adding' }
 ScpExplorationScopeBuilder >> add: anObject reference: aTrace [
 
+	anObject isLiteral ifTrue: [ ^ self ].
+
 	references at: anObject 
 		ifPresent: [ :refs | refs add: aTrace ] 
 		ifAbsentPut: [ OrderedCollection newFrom: { aTrace } ]
@@ -47,9 +49,14 @@ ScpExplorationScopeBuilder >> visitAssignmentTrace: aScpAssignmentTrace [
 { #category : 'visiting' }
 ScpExplorationScopeBuilder >> visitMessageTrace: aScpMessageTrace [
 
+
+	aScpMessageTrace receiver asString.
+	aScpMessageTrace sender asString.
+
 	self add: aScpMessageTrace receiver reference: aScpMessageTrace.
 	self add: aScpMessageTrace sender reference: aScpMessageTrace.
 	aScpMessageTrace arguments do: [ :argument |
+		argument asString.
 		self add: argument reference: aScpMessageTrace. 		
 	].
 
@@ -60,13 +67,20 @@ ScpExplorationScopeBuilder >> visitMessageTrace: aScpMessageTrace [
 { #category : 'visiting' }
 ScpExplorationScopeBuilder >> visitMethodTrace: aScpMethodTrace [
 
+
+	aScpMethodTrace receiver asString.
+	aScpMethodTrace sender asString.
+
 	self add: aScpMethodTrace receiver reference: aScpMethodTrace.
 	self add: aScpMethodTrace sender reference: aScpMethodTrace.
 
 	aScpMethodTrace arguments do: [ :argument |
+				argument asString.
+
 		self add: argument reference: aScpMethodTrace
 	].
 
+	aScpMethodTrace result asString.
 	self add: aScpMethodTrace result reference: aScpMethodTrace.
 
 	super visitMethodTrace: aScpMethodTrace

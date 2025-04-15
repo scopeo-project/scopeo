@@ -11,6 +11,15 @@ Class {
 { #category : 'start' }
 ScpDebugger class >> debug: aBlock [
 
+	| execution debugger |
+	
+	execution := ScpExecutionRecorder recordBlock: aBlock as: ScpExecutionRecordTree.
+	
+	debugger := self new.
+	debugger addScope: (ScpExplorationScopeBuilder buildFrom: execution).
+	debugger presenter open
+		
+	
 ]
 
 { #category : 'adding' }
@@ -29,6 +38,12 @@ ScpDebugger >> initialize [
 ScpDebugger >> presenter [
 
 	^ ScpDebuggerPresenter on: self
+]
+
+{ #category : 'as yet unclassified' }
+ScpDebugger >> questions [
+
+	^ ScpQuestion subclasses
 ]
 
 { #category : 'accessing' }

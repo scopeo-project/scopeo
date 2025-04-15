@@ -24,7 +24,7 @@ ScpExplorationScopePresenter >> connectPresenters [
 	objectsPresenter items: model objects.
 	
 	objectsPresenter whenSelectedDo: [ :s |
-		referencesPresenter items: { (model referencesFor: s) }	
+		referencesPresenter items: (model referencesFor: s)
 	].
 
 	executionRecordPresenter whenSelectedDo: [ :s |
@@ -51,20 +51,8 @@ ScpExplorationScopePresenter >> defaultLayout [
 		add: executionRecordPresenter;
 		add: (SpPanedLayout newHorizontal
 			add: (SpBoxLayout newHorizontal
-				add: (SpBoxLayout newVertical 
-					add: 'Objects' withConstraints: [ : constraints |
-						constraints 
-							expand: false;
-							padding: 5 ];
-					add: objectsPresenter; 
-					yourself);
-				add: (SpBoxLayout newVertical 
-					add: 'References in execution' withConstraints: [ : constraints |
-					constraints 
-						expand: false;
-						padding: 5 ]; 
-					add: referencesPresenter; 
-					yourself);
+				add: objectsPresenter;
+				add: referencesPresenter;
 				yourself);
 			add: tracePresenterLayout;
 			yourself);
@@ -77,8 +65,12 @@ ScpExplorationScopePresenter >> initializePresenters [
 
 	executionRecordPresenter := model record presenter.
 	
-	objectsPresenter := self newList.
-	referencesPresenter := self newList.
+	objectsPresenter := self newList
+		headerTitle: 'Objects';
+		yourself.
+	referencesPresenter := self newList
+		headerTitle: 'References in execution';
+		yourself.
 	
 	tracePresenterPlaceholder := SpPresenter new
 		layout: (SpBoxLayout newVertical
