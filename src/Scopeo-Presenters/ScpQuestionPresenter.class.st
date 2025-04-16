@@ -45,7 +45,8 @@ ScpQuestionPresenter >> initializePresenters [
 
 	questionsPresenter := self newFilteringList.
 	questionsPresenter listPresenter
-		headerTitle: 'Questions'.
+		headerTitle: 'Questions';
+		display: [ :question | question label ].
 		
 	subjectsPresenter := self newTable
 		addColumn: (SpStringTableColumn new  
