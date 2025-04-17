@@ -56,7 +56,7 @@ ScpExplorationScopePresenter >> defaultLayout [
 				yourself);
 			add: tracePresenterLayout;
 			yourself);
-		positionOfSlider: 0.4;	
+		positionOfSlider: 0.3;	
 		yourself
 ]
 
