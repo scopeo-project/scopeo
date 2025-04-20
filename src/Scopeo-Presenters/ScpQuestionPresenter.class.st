@@ -17,7 +17,43 @@ Class {
 ScpQuestionPresenter >> connectPresenters [
 
 	questionsPresenter listPresenter items: model questions.
-	scopesPresenter listPresenter items: model scopes
+	scopesPresenter listPresenter items: model scopes.
+	
+	subjectsPresenter items: model subjects.
+		
+	addTargetPresenter action: [ 
+		questionsPresenter listPresenter selection selectedItem 
+			ifNil: [ 
+				SpInformDialog new 
+					title: 'No question selected';
+					label: 'Please select a question before adding a compatible target!';
+					acceptLabel: 'Ok, will do!';
+					openModal 
+			]
+			ifNotNil: [ :question |
+				question openSubjectSelectionPresenter: [ :subject |
+					subjectsPresenter items add: subject
+				
+				]
+			]
+	].	
+	
+	askQuestionPresenter action: [
+		(subjectsPresenter selection selectedItem isNil or: [scopesPresenter listPresenter selection selectedItem isNil ])
+			ifTrue: [ 
+				SpInformDialog new 
+					title: 'No subject or scope selected';
+					label: 'Please select a subject and a scope before asking the question!';
+					acceptLabel: 'Ok, will do!';
+					openModal 
+			]
+			ifFalse: [ 
+				model addScope: (questionsPresenter listPresenter selection selectedItem new
+					subject: subjectsPresenter selection selectedItem;
+					scope: scopesPresenter listPresenter selection selectedItem;
+					answer)
+			]
+		]
 ]
 
 { #category : 'layout' }
@@ -65,7 +101,8 @@ ScpQuestionPresenter >> initializePresenters [
 	
 	scopesPresenter := self newFilteringList.
 	scopesPresenter listPresenter
-		headerTitle: 'Exploration scopes'.
+		headerTitle: 'Exploration scopes';
+		display: [ :scope | scope label ].
 	
 	addTargetPresenter := self newButton 
 		label: 'Add target';

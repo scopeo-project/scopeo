@@ -2,7 +2,9 @@ Class {
 	#name : 'ScpDebugger',
 	#superclass : 'Object',
 	#instVars : [
-		'scopes'
+		'scopes',
+		'onScopesUpdated',
+		'subjects'
 	],
 	#category : 'Scopeo-Presenters',
 	#package : 'Scopeo-Presenters'
@@ -16,7 +18,9 @@ ScpDebugger class >> debug: aBlock [
 	execution := ScpExecutionRecorder recordBlock: aBlock as: ScpExecutionRecordTree.
 	
 	debugger := self new.
-	debugger addScope: (ScpExplorationScopeBuilder buildFrom: execution).
+	debugger addScope: (ScpExplorationScope new 
+		record: execution;
+		yourself).
 	debugger presenter open
 		
 	
@@ -25,13 +29,22 @@ ScpDebugger class >> debug: aBlock [
 { #category : 'adding' }
 ScpDebugger >> addScope: aScpExplorationScope [
 
-	scopes add: aScpExplorationScope
+	scopes add: aScpExplorationScope.	
+	onScopesUpdated ifNotNil: [ :b | b value: scopes	]
+
+]
+
+{ #category : 'initialization' }
+ScpDebugger >> addSubject: anObject [
+
+	subjects add: anObject 
 ]
 
 { #category : 'initialization' }
 ScpDebugger >> initialize [
 
-	scopes := OrderedCollection new
+	scopes := OrderedCollection new.
+	subjects := OrderedCollection new
 ]
 
 { #category : 'accessing' }
@@ -50,4 +63,16 @@ ScpDebugger >> questions [
 ScpDebugger >> scopes [
 
 	^ scopes
+]
+
+{ #category : 'accessing' }
+ScpDebugger >> subjects [
+
+	^ subjects
+]
+
+{ #category : 'as yet unclassified' }
+ScpDebugger >> whenScopesUpdated: aBlock [
+
+	onScopesUpdated := aBlock
 ]

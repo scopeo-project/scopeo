@@ -1,6 +1,11 @@
 Class {
 	#name : 'ScpQuestion',
-	#superclass : 'Object',
+	#superclass : 'ScpExecutionRecordVisitor',
+	#instVars : [
+		'scope',
+		'subject',
+		'references'
+	],
 	#category : 'Scopeo-Presenters',
 	#package : 'Scopeo-Presenters'
 }
@@ -17,13 +22,130 @@ ScpQuestion class >> label [
  	self subclassResponsibility
 ]
 
+{ #category : 'as yet unclassified' }
+ScpQuestion class >> openSubjectSelectionPresenter [
+
+   self subclassResponsibility
+]
+
+{ #category : 'adding' }
+ScpQuestion >> add: anObject reference: aTrace [
+
+	references at: anObject 
+		ifPresent: [ :refs | refs add: aTrace ] 
+		ifAbsentPut: [ OrderedCollection newFrom: { aTrace } ]
+]
+
 { #category : 'accessing' }
 ScpQuestion >> answer [
 
-	self subclassResponsibility
+	^ ScpExplorationScope new
+		label: self label;
+		record: (self visitExecutionRecord: scope record);
+		references: references;
+		yourself
+		
+]
+
+{ #category : 'initialization' }
+ScpQuestion >> initialize [
+
+	references := IdentityDictionary new
+]
+
+{ #category : 'testing' }
+ScpQuestion >> isAssignmentMatching: aScpAssignmentTrace [
+
+	^ true
+]
+
+{ #category : 'testing' }
+ScpQuestion >> isMessageMatching: aScpMessageTrace [
+
+	^ true
+]
+
+{ #category : 'testing' }
+ScpQuestion >> isMethodMatching: aScpMethodTrace [
+
+	^ true
 ]
 
 { #category : 'accessing' }
 ScpQuestion >> label [
-	^ self class label
+	
+	self subclassResponsibility
+]
+
+{ #category : 'accessing' }
+ScpQuestion >> scope: aScpExplorationScope [
+
+	scope := aScpExplorationScope
+]
+
+{ #category : 'accessing' }
+ScpQuestion >> subject: aSubject [
+
+	subject := aSubject
+]
+
+{ #category : 'visiting' }
+ScpQuestion >> visitAssignmentTrace: aScpAssignmentTrace [
+
+	(self isAssignmentMatching: aScpAssignmentTrace) ifFalse: [ ^ nil ].
+	
+	^ aScpAssignmentTrace copy
+]
+
+{ #category : 'visiting' }
+ScpQuestion >> visitExecutionRecord: aScpExecutionRecord [
+		
+	| methods |
+	
+	methods := aScpExecutionRecord methods collect: [ :m | 
+		self visitMethodTrace: m
+	].
+	methods := methods select: [ :m | m isNotNil ].
+
+	^ ScpExecutionRecordTree new
+		methods: methods;
+		yourself
+]
+
+{ #category : 'visiting' }
+ScpQuestion >> visitMessageTrace: aScpMessageTrace [
+
+	| children |
+
+	children := aScpMessageTrace children collect: [ :child | 
+		child accept: self 
+	].
+	children := children select: [ :child | child isNotNil ].
+
+	(children isNotEmpty or: [ self isMessageMatching: aScpMessageTrace] ) ifFalse: [ ^ nil ].
+	
+	children do: [ :child | child parent: aScpMessageTrace ].
+
+	^ aScpMessageTrace copy
+		children: children;
+		yourself	
+]
+
+{ #category : 'visiting' }
+ScpQuestion >> visitMethodTrace: aScpMethodTrace [
+
+	| children |
+
+	children := aScpMethodTrace children collect: [ :child | 
+		child accept: self 
+	].
+	children := children select: [ :child | child isNotNil ].
+
+	(children isNotEmpty or: [ self isMethodMatching: aScpMethodTrace] ) ifFalse: [ ^ nil ].
+	
+	children do: [ :child | child parent: aScpMethodTrace ].
+
+	^ aScpMethodTrace copy
+		children: children;
+		yourself	
 ]

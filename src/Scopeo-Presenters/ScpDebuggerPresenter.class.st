@@ -18,7 +18,10 @@ ScpDebuggerPresenter >> connectPresenters [
 		self showPopover: SpPopoverPosition bottom relativeTo: queryButtonPresenter
 	].
 
-	scopesListPresenters items: model scopes.
+	model whenScopesUpdated: [ :scopes |
+		scopesListPresenters items:	scopes		 
+	].
+	scopesListPresenters items:	model scopes.
 	
 	scopesListPresenters whenSelectedDo: [ :scope | 
 		self layout replaceSecond: scope presenter	
