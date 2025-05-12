@@ -12,11 +12,11 @@ ScpWhichObjectsAreOfKind class >> label [
 ]
 
 { #category : 'as yet unclassified' }
-ScpWhichObjectsAreOfKind class >> openSubjectSelectionPresenter: aBlock [
+ScpWhichObjectsAreOfKind class >> subjectSelectionPresenter: aBlock [
 
    ^ ScpWhichObjectsAreOfKindSubjectPresenter new
 		whenSelectedDo: aBlock;
-		open
+		yourself
 ]
 
 { #category : 'testing' }
@@ -85,8 +85,14 @@ ScpWhichObjectsAreOfKind >> isMethodMatching: aScpMethodTrace [
 	^ matching 
 ]
 
+{ #category : 'testing' }
+ScpWhichObjectsAreOfKind >> isSubjectValid [
+
+	^ subject isNotNil and: [ subject isClass ]
+]
+
 { #category : 'accessing' }
 ScpWhichObjectsAreOfKind >> label [
 
-	^ 'Objects which are of kind "' , subject name , '" in scope: ' , scope label 
+	^ 'Objects which are of class "' , subject name , '" in scope: ' , scope label 
 ]

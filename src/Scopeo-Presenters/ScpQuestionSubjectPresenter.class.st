@@ -1,8 +1,7 @@
 Class {
 	#name : 'ScpQuestionSubjectPresenter',
-	#superclass : 'SpPresenter',
+	#superclass : 'SpPresenterWithModel',
 	#instVars : [
-		'model',
 		'onSelectedBlock'
 	],
 	#category : 'Scopeo-Presenters',

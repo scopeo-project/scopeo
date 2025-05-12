@@ -23,9 +23,11 @@ ScpQuestion class >> label [
 ]
 
 { #category : 'as yet unclassified' }
-ScpQuestion class >> openSubjectSelectionPresenter [
+ScpQuestion class >> subjectSelectionPresenter: aBlock [
 
-   self subclassResponsibility
+   ^ SpPresenter new
+		layout: (SpBoxLayout newVertical);
+		yourself
 ]
 
 { #category : 'adding' }
@@ -69,6 +71,12 @@ ScpQuestion >> isMessageMatching: aScpMessageTrace [
 ScpQuestion >> isMethodMatching: aScpMethodTrace [
 
 	^ true
+]
+
+{ #category : 'testing' }
+ScpQuestion >> isSubjectValid [
+
+	self subclassResponsibility
 ]
 
 { #category : 'accessing' }

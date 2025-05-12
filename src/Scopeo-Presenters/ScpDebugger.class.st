@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'scopes',
 		'onScopesUpdated',
-		'subjects'
+		'subjects',
+		'execution'
 	],
 	#category : 'Scopeo-Presenters',
 	#package : 'Scopeo-Presenters'
@@ -16,13 +17,11 @@ ScpDebugger class >> debug: aBlock [
 	| execution debugger |
 	
 	execution := ScpExecutionRecorder recordBlock: aBlock as: ScpExecutionRecordTree.
-	
 	debugger := self new.
-	debugger addScope: (ScpExplorationScope new 
+	debugger execution: (ScpExplorationScope new 
 		record: execution;
 		yourself).
 	debugger presenter open
-		
 	
 ]
 
@@ -38,6 +37,18 @@ ScpDebugger >> addScope: aScpExplorationScope [
 ScpDebugger >> addSubject: anObject [
 
 	subjects add: anObject 
+]
+
+{ #category : 'accessing' }
+ScpDebugger >> execution [
+
+	^ execution
+]
+
+{ #category : 'accessing' }
+ScpDebugger >> execution: anExecution [
+
+	execution := anExecution
 ]
 
 { #category : 'initialization' }

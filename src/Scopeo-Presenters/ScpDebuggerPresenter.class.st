@@ -1,11 +1,13 @@
 Class {
 	#name : 'ScpDebuggerPresenter',
-	#superclass : 'SpPresenter',
+	#superclass : 'SpPresenterWithModel',
 	#instVars : [
 		'model',
 		'scopesListPresenters',
-		'queryButtonPresenter',
-		'popover'
+		'popover',
+		'fullExecutionPresenter',
+		'lowerPaneLayout',
+		'questionButtonPresenter'
 	],
 	#category : 'Scopeo-Presenters',
 	#package : 'Scopeo-Presenters'
@@ -14,51 +16,74 @@ Class {
 { #category : 'initialization' }
 ScpDebuggerPresenter >> connectPresenters [
 
-	queryButtonPresenter action: [ 
-		self showPopover: SpPopoverPosition bottom relativeTo: queryButtonPresenter
+	questionButtonPresenter action: [ 
+		self showPopover: SpPopoverPosition bottom relativeTo: questionButtonPresenter
 	].
 
-	model whenScopesUpdated: [ :scopes |
+	self model whenScopesUpdated: [ :scopes |
 		scopesListPresenters items:	scopes		 
 	].
-	scopesListPresenters items:	model scopes.
-	
+		
 	scopesListPresenters whenSelectedDo: [ :scope | 
-		self layout replaceSecond: scope presenter	
+		| presenter |
+		
+		presenter := scope presenter.
+		presenter whenSelectedDo: [ :trace |
+			fullExecutionPresenter selectTrace: trace.
+		].
+		lowerPaneLayout replaceFirst: presenter
+	].
+
+	scopesListPresenters items: self model scopes.
+	
+	fullExecutionPresenter whenSelectedDo: [ :trace |
+		lowerPaneLayout replaceSecond: trace presenter		
 	]
+
 ]
 
 { #category : 'layout' }
 ScpDebuggerPresenter >> defaultLayout [
 
 	^ SpPanedLayout newVertical
+		positionOfSlider: 0.3;
 		add: (	SpBoxLayout newVertical
-			add: queryButtonPresenter expand: false;
-			add: 'Exploration scopes' withConstraints: [ :constraints | 
-				constraints expand: false.
-				constraints padding: 5 
-			];
+			add: questionButtonPresenter expand: false;
+			add: fullExecutionPresenter;
+			yourself);
+		add: (SpPanedLayout newVertical
+			positionOfSlider: 0.2;
 			add: scopesListPresenters;
+			add: (lowerPaneLayout := SpPanedLayout newHorizontal
+				add: (	SpBoxLayout newVertical
+					vAlignCenter;
+					hAlignCenter;
+					add: 'No scope selected';
+					yourself);
+				add: (	SpBoxLayout newVertical
+					vAlignCenter;
+					hAlignCenter;
+					add: 'No trace selected';
+					yourself);
+				yourself)
 			yourself);
-		add: (	SpBoxLayout newVertical
-			add: 'No scope selected';
-			vAlignCenter;
-			hAlignCenter;
-			yourself);
-		positionOfSlider: 0.2;
-		yourself
+	yourself
 	
 
+	
 ]
 
 { #category : 'initialization' }
 ScpDebuggerPresenter >> initializePresenters [
 
-	queryButtonPresenter := self newButton
+	fullExecutionPresenter := self model execution record presenter.
+
+	questionButtonPresenter := self newButton
 		label: 'Ask a new question';
 		yourself.
  
 	scopesListPresenters := self newList
+		headerTitle: 'Exploration scopes';
 		display: [ :scope | scope label ]
 		yourself.
 	
@@ -73,12 +98,6 @@ ScpDebuggerPresenter >> initializeWindow: aWindowPresenter [
 		initialExtent: 1000 @ 1000
 ]
 
-{ #category : 'accessing - model' }
-ScpDebuggerPresenter >> setModelBeforeInitialization: aDomainObject [
-
-	model := aDomainObject
-]
-
 { #category : 'initialization' }
 ScpDebuggerPresenter >> showPopover: aPosition relativeTo: aPresenter [
 
@@ -89,7 +108,7 @@ ScpDebuggerPresenter >> showPopover: aPosition relativeTo: aPresenter [
 		presenter: (SpPresenter new
 		
 			layout: (SpBoxLayout newVertical
-				add: (ScpQuestionPresenter on: model) withConstraints: [:constraints | 
+				add: (ScpQuestionWizardPresenter on: self model) withConstraints: [:constraints | 
 					constraints width: 500.
 					constraints height: 500
 				];

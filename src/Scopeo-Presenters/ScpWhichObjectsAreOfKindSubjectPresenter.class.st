@@ -22,8 +22,7 @@ ScpWhichObjectsAreOfKindSubjectPresenter >> connectPresenters [
 					openModal
 			]
 			ifNotNil: [ :class |
-				onSelectedBlock value: class.
-				self owner close
+				onSelectedBlock value: class
 			] 
 	].
 
