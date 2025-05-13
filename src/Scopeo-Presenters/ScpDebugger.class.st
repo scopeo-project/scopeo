@@ -67,7 +67,7 @@ ScpDebugger >> presenter [
 { #category : 'as yet unclassified' }
 ScpDebugger >> questions [
 
-	^ ScpQuestion subclasses
+	^ ScpQuestion allSubclasses reject: [ :c | c isAbstract ] 
 ]
 
 { #category : 'accessing' }

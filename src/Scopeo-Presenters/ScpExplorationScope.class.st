@@ -29,7 +29,7 @@ ScpExplorationScope >> inspectorPresenter [
 { #category : 'accessing' }
 ScpExplorationScope >> label [
 
-	^ label ifNil: [ 'Full execution scope' ]
+	^ label ifNil: [ 'Full execution' ]
 ]
 
 { #category : 'accessing' }

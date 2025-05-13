@@ -60,8 +60,23 @@ ScpQuestionWizardPresenter >> initializeWindow: aWindowPresenter [
 { #category : 'as yet unclassified' }
 ScpQuestionWizardPresenter >> presenterForQuestions [
 
+	self flag: 'Horribly dirty'.
+	
 	backButton enabled: false.
-	nextButton enabled: presenterForQuestions isNotNil.
+	nextButton enabled: false.
+
+	nextButton action: [ 
+		self layout replaceAtIndex: 1 with: (question hasSubject 
+			ifTrue: [ self presenterForSubjects ] 
+			ifFalse: [ self presenterForScopes ]
+		).
+		backButton enabled: true.
+		backButton action: [ 
+			self layout replaceAtIndex: 1 with: self presenterForQuestions.
+			buttonsLayout replaceAtIndex: 2 with: nextButton.	
+			nextButton enabled: true.			
+		]
+	].
 
 	presenterForQuestions ifNil: [ 
 		| presenter |
@@ -71,7 +86,7 @@ ScpQuestionWizardPresenter >> presenterForQuestions [
 			items: self model questions;
 			whenSelectionChangedDo: [ :selection |
 				question := selection selectedItem new.
-				nextButton enabled: true
+				nextButton enabled: true.		
 			];
 			yourself.
 		
@@ -90,10 +105,6 @@ ScpQuestionWizardPresenter >> presenterForQuestions [
 			yourself.
 	].
 
-	nextButton action: [ 
-		self layout replace: presenterForQuestions with: self presenterForSubjects 
-	].
-
 	^ presenterForQuestions 
 	
 ]
@@ -101,6 +112,8 @@ ScpQuestionWizardPresenter >> presenterForQuestions [
 { #category : 'as yet unclassified' }
 ScpQuestionWizardPresenter >> presenterForScopes [
 
+	self flag: 'Horribly dirty'.
+	
 	presenterForScopes ifNil: [
 		| presenter |
 		
@@ -133,11 +146,6 @@ ScpQuestionWizardPresenter >> presenterForScopes [
 
 	buttonsLayout replace: nextButton with: answerButton.
 	
-	backButton action: [ 
-		self layout replace: presenterForScopes with: self presenterForSubjects.
-		buttonsLayout replace: answerButton with: nextButton.
-	].
-
 	answerButton action: [ 
 		self model addScope: question answer 
 	].
@@ -148,22 +156,28 @@ ScpQuestionWizardPresenter >> presenterForScopes [
 { #category : 'as yet unclassified' }
 ScpQuestionWizardPresenter >> presenterForSubjects [
 
-	backButton enabled: true.
-	
+	self flag: 'Horribly dirty'.
+
 	presenterForSubjects ifNil: [ 
 				
-		presenterForSubjects := SpPresenter new
-		layout: (SpBoxLayout newVertical
+		| presenterLayout |
+				
+		presenterLayout := SpBoxLayout newVertical
 			spacing: 5;
-			add: 'Select the object about which the question is asked' withConstraints: [ :constraints |
-					constraints expand: false.
-					constraints padding: 5	
-			];
-			add: (question class subjectSelectionPresenter: [ :subject |
+			yourself.
+		question class hasSubjectSelectionPresenter ifTrue: [ 
+			presenterLayout add: (question class subjectSelectionPresenter: [ :subject |
 				self model addSubject: subject.
 				subjectsTablePresenter items: self model subjects.
 				subjectsTablePresenter selection selectItem: subject
-			]);
+			]).
+		].
+		
+		presenterLayout 
+			add: 'Select the subject of the question:' withConstraints: [ :constraints |
+					constraints expand: false.
+					constraints padding: 5	
+			];
 			add: (subjectsTablePresenter := self newTable
 				alternateRowsColor;
 				items: self model subjects;
@@ -179,8 +193,10 @@ ScpQuestionWizardPresenter >> presenterForSubjects [
 					title: 'Package'; 
 					evaluated: [ :each | StObjectPrinter asTruncatedTextFrom: each class package ];
 					yourself);
-				yourself);
-			yourself);
+				yourself).
+				
+		presenterForSubjects := SpPresenter new
+		layout: presenterLayout;
 		yourself.
 			
 		subjectsTablePresenter whenSelectedDo: [ :selection |
@@ -190,13 +206,18 @@ ScpQuestionWizardPresenter >> presenterForSubjects [
 	].
 
 	nextButton enabled: subjectsTablePresenter selection isEmpty not.
-
-	backButton action: [ 
-		self layout replace: presenterForSubjects with: self presenterForQuestions 
-	].
 	nextButton action: [ 
-		self layout replace: presenterForSubjects with: self presenterForScopes 
-	].	
+		self layout replaceAtIndex: 1 with: self presenterForScopes.
+		backButton action: [ 
+			self layout replaceAtIndex: 1 with: self presenterForSubjects.
+			buttonsLayout replaceAtIndex: 2 with: nextButton.
+			
+			backButton action: [
+				self layout replaceAtIndex: 1 with: self presenterForQuestions.
+				nextButton enabled: true
+			]
+		]. 
+	].
 	
 	^ presenterForSubjects
 ]

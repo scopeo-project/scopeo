@@ -3,15 +3,26 @@ Class {
 	#superclass : 'SpPresenterWithModel',
 	#instVars : [
 		'model',
-		'scopesListPresenters',
 		'popover',
 		'fullExecutionPresenter',
 		'lowerPaneLayout',
-		'questionButtonPresenter'
+		'questionButtonPresenter',
+		'scopesListPresenter'
 	],
 	#category : 'Scopeo-Presenters',
 	#package : 'Scopeo-Presenters'
 }
+
+{ #category : 'as yet unclassified' }
+ScpDebuggerPresenter >> beHorizontallyScrollable: aPresenter [
+
+	^ SpScrollableLayout with: (SpPresenter new
+		layout: (SpBoxLayout newHorizontal
+			add: aPresenter;
+			yourself
+		);
+		yourself)
+]
 
 { #category : 'initialization' }
 ScpDebuggerPresenter >> connectPresenters [
@@ -21,10 +32,10 @@ ScpDebuggerPresenter >> connectPresenters [
 	].
 
 	self model whenScopesUpdated: [ :scopes |
-		scopesListPresenters items:	scopes		 
+		scopesListPresenter items:	scopes		 
 	].
 		
-	scopesListPresenters whenSelectedDo: [ :scope | 
+	scopesListPresenter whenSelectedDo: [ :scope | 
 		| presenter |
 		
 		presenter := scope presenter.
@@ -34,10 +45,19 @@ ScpDebuggerPresenter >> connectPresenters [
 		lowerPaneLayout replaceFirst: presenter
 	].
 
-	scopesListPresenters items: self model scopes.
+	scopesListPresenter items: self model scopes.
 	
 	fullExecutionPresenter whenSelectedDo: [ :trace |
-		lowerPaneLayout replaceSecond: trace presenter		
+		
+		| presenter |
+		
+		presenter := trace presenter.
+		
+		presenter whenSubjectSelectedDo: [ :subject |
+			self model addSubject: subject 	
+		].
+		
+		lowerPaneLayout replaceSecond: presenter	
 	]
 
 ]
@@ -53,7 +73,7 @@ ScpDebuggerPresenter >> defaultLayout [
 			yourself);
 		add: (SpPanedLayout newVertical
 			positionOfSlider: 0.2;
-			add: scopesListPresenters;
+			add: scopesListPresenter;
 			add: (lowerPaneLayout := SpPanedLayout newHorizontal
 				add: (	SpBoxLayout newVertical
 					vAlignCenter;
@@ -82,7 +102,7 @@ ScpDebuggerPresenter >> initializePresenters [
 		label: 'Ask a new question';
 		yourself.
  
-	scopesListPresenters := self newList
+	scopesListPresenter := self newList
 		headerTitle: 'Exploration scopes';
 		display: [ :scope | scope label ]
 		yourself.

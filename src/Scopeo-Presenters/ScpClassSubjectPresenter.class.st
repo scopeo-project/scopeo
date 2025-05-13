@@ -1,28 +1,22 @@
 Class {
-	#name : 'ScpWhichObjectsAreOfKindSubjectPresenter',
+	#name : 'ScpClassSubjectPresenter',
 	#superclass : 'ScpQuestionSubjectPresenter',
 	#instVars : [
 		'classListPresenter',
-		'selectClassButton'
+		'selectClassButton',
+		'textInputPresenter'
 	],
 	#category : 'Scopeo-Presenters',
 	#package : 'Scopeo-Presenters'
 }
 
 { #category : 'initialization' }
-ScpWhichObjectsAreOfKindSubjectPresenter >> connectPresenters [
+ScpClassSubjectPresenter >> connectPresenters [
 
 	selectClassButton action: [ 
 		classListPresenter listPresenter selection selectedItem 
-			ifNil: [ 
-				SpInformDialog new 
-					title: 'No class selected';
-					label: 'Please select a class';
-					acceptLabel: 'Ok, will do!';
-					openModal
-			]
 			ifNotNil: [ :class |
-				onSelectedBlock value: class
+				onSelectedBlock cull: class
 			] 
 	].
 
@@ -30,16 +24,21 @@ ScpWhichObjectsAreOfKindSubjectPresenter >> connectPresenters [
 ]
 
 { #category : 'layout' }
-ScpWhichObjectsAreOfKindSubjectPresenter >> defaultLayout [
+ScpClassSubjectPresenter >> defaultLayout [
 
 	^ SpBoxLayout newVertical
+		add: 'Select a class from the following list or from the table below:' 
+			withConstraints: [ :constraints |
+					constraints expand: false.
+					constraints padding: 5	
+			];
 		add: classListPresenter;
 		add: selectClassButton expand: false;
 		yourself 
 ]
 
 { #category : 'initialization' }
-ScpWhichObjectsAreOfKindSubjectPresenter >> initializePresenters [
+ScpClassSubjectPresenter >> initializePresenters [
 
 	classListPresenter := self newFilteringList.
 	classListPresenter listPresenter

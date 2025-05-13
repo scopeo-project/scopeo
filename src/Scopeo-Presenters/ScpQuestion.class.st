@@ -11,6 +11,12 @@ Class {
 }
 
 { #category : 'testing' }
+ScpQuestion class >> hasSubjectSelectionPresenter [
+
+	^ false
+]
+
+{ #category : 'testing' }
 ScpQuestion class >> isAbstract [
 
 	^ self == ScpQuestion
@@ -47,6 +53,12 @@ ScpQuestion >> answer [
 		references: references;
 		yourself
 		
+]
+
+{ #category : 'testing' }
+ScpQuestion >> hasSubject [
+
+	^ true
 ]
 
 { #category : 'initialization' }
