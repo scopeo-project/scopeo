@@ -12,7 +12,8 @@ Class {
 		'tracePresenterPlaceHolder',
 		'tracePresenterPlaceholder',
 		'tracePresenterLayout',
-		'onSelectionBlock'
+		'onSelectionBlock',
+		'referencesFilter'
 	],
 	#category : 'Scopeo-Presenters',
 	#package : 'Scopeo-Presenters'
@@ -21,14 +22,30 @@ Class {
 { #category : 'initialization' }
 ScpExplorationScopePresenter >> connectPresenters [
 
+	| selectedObject |
+
 	objectsPresenter items: self model objects.
 	
 	objectsPresenter whenSelectedDo: [ :s |
+		
+		selectedObject := s.
 		referencesPresenter items: (self model referencesFor: s)
 	].
 	
 	referencesPresenter whenSelectedDo: [ :s | 		
 		onSelectionBlock ifNotNil: [ :b | b cull: s ]
+	].
+
+	referencesFilter whenTextChangedDo: [ :filter | 
+		| items |
+		
+		items := (self model referencesFor: selectedObject).
+		 
+		filter asString ifNotEmpty: [ 
+			items := items select: [ :r | r matchesFilter: filter asString ]  
+		].
+		
+		referencesPresenter items: items
 	]
 	
 ]
@@ -38,7 +55,10 @@ ScpExplorationScopePresenter >> defaultLayout [
 
 	^ SpPanedLayout newHorizontal
 		add: objectsPresenter;
-		add: referencesPresenter;
+		add: ( SpBoxLayout newVertical 
+			add: referencesPresenter;
+			add: referencesFilter expand: false;
+			yourself);
 		yourself
 ]
 
@@ -51,6 +71,10 @@ ScpExplorationScopePresenter >> initializePresenters [
 
 	referencesPresenter := self newList
 		headerTitle: 'References in execution';
+		yourself.
+		
+	referencesFilter := self newTextInput
+		placeholder: 'Type to filter';
 		yourself
 ]
 

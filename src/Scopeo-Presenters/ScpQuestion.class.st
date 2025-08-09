@@ -70,19 +70,19 @@ ScpQuestion >> initialize [
 { #category : 'testing' }
 ScpQuestion >> isAssignmentMatching: aScpAssignmentTrace [
 
-	^ true
+	^ false
 ]
 
 { #category : 'testing' }
 ScpQuestion >> isMessageMatching: aScpMessageTrace [
 
-	^ true
+	^ false
 ]
 
 { #category : 'testing' }
 ScpQuestion >> isMethodMatching: aScpMethodTrace [
 
-	^ true
+	^ false
 ]
 
 { #category : 'testing' }

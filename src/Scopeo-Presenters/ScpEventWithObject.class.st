@@ -1,26 +1,18 @@
 Class {
-	#name : 'ScpWhichObjectsInteractWithAnObject',
-	#superclass : 'ScpBuildingOnFocusPointQuestion',
+	#name : 'ScpEventWithObject',
+	#superclass : 'ScpObjectCentricQuestion',
 	#category : 'Scopeo-Presenters',
 	#package : 'Scopeo-Presenters'
 }
 
 { #category : 'accessing' }
-ScpWhichObjectsInteractWithAnObject class >> label [
+ScpEventWithObject class >> label [
 
-	^ 'Which objects interact with <an Object> ?'
-]
-
-{ #category : 'as yet unclassified' }
-ScpWhichObjectsInteractWithAnObject class >> subjectSelectionPresenter: aBlock [
-
-   ^ ScpStringSubjectPresenter new
-		whenSelectedDo: aBlock;
-		yourself
+	^ 'All events involving <an Object>, in <scope>'
 ]
 
 { #category : 'testing' }
-ScpWhichObjectsInteractWithAnObject >> isAssignmentMatching: aScpAssignmentTrace [
+ScpEventWithObject >> isAssignmentMatching: aScpAssignmentTrace [
 
 	| matching |
 
@@ -45,7 +37,7 @@ ScpWhichObjectsInteractWithAnObject >> isAssignmentMatching: aScpAssignmentTrace
 ]
 
 { #category : 'testing' }
-ScpWhichObjectsInteractWithAnObject >> isMessageMatching: aScpMessageTrace [
+ScpEventWithObject >> isMessageMatching: aScpMessageTrace [
 
 	| matching |
 
@@ -70,7 +62,7 @@ ScpWhichObjectsInteractWithAnObject >> isMessageMatching: aScpMessageTrace [
 ]
 
 { #category : 'testing' }
-ScpWhichObjectsInteractWithAnObject >> isMethodMatching: aScpMethodTrace [
+ScpEventWithObject >> isMethodMatching: aScpMethodTrace [
 
 	| matching |
 
@@ -95,13 +87,15 @@ ScpWhichObjectsInteractWithAnObject >> isMethodMatching: aScpMethodTrace [
 ]
 
 { #category : 'testing' }
-ScpWhichObjectsInteractWithAnObject >> isSubjectValid [
+ScpEventWithObject >> isSubjectValid [
 
 	^ true
+
+
 ]
 
 { #category : 'accessing' }
-ScpWhichObjectsInteractWithAnObject >> label [
-
-	^ 'Which objects interact with "' , subject asString , '" in scope: ', scope label
+ScpEventWithObject >> label [
+	
+	^ 'Any event refering to "', subject asString, '", in scope: ', scope label
 ]

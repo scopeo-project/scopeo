@@ -1,24 +1,24 @@
 Class {
-	#name : 'ScpWhichPackagesAreInvolved',
-	#superclass : 'ScpFindingFocusPointQuestion',
+	#name : 'ScpPackages',
+	#superclass : 'ScpSourceQuestion',
 	#category : 'Scopeo-Presenters',
 	#package : 'Scopeo-Presenters'
 }
 
 { #category : 'accessing' }
-ScpWhichPackagesAreInvolved class >> label [
+ScpPackages class >> label [
 
-	^ 'Which packages are involved in <a Scope> ?'
+	^ 'All packages involved in <scope> ?'
 ]
 
 { #category : 'testing' }
-ScpWhichPackagesAreInvolved >> hasSubject [
+ScpPackages >> hasSubject [
 
 	^ false
 ]
 
 { #category : 'testing' }
-ScpWhichPackagesAreInvolved >> isAssignmentMatching: aScpAssignmentTrace [
+ScpPackages >> isAssignmentMatching: aScpAssignmentTrace [
 
 	self add: aScpAssignmentTrace object class package reference: aScpAssignmentTrace .
 	self add: aScpAssignmentTrace oldValue class package reference: aScpAssignmentTrace.
@@ -28,7 +28,7 @@ ScpWhichPackagesAreInvolved >> isAssignmentMatching: aScpAssignmentTrace [
 ]
 
 { #category : 'testing' }
-ScpWhichPackagesAreInvolved >> isMessageMatching: aScpMessageTrace [
+ScpPackages >> isMessageMatching: aScpMessageTrace [
 
 	self add: aScpMessageTrace receiver class package reference: aScpMessageTrace .
 	self add: aScpMessageTrace sender class package reference: aScpMessageTrace.
@@ -40,7 +40,7 @@ ScpWhichPackagesAreInvolved >> isMessageMatching: aScpMessageTrace [
 ]
 
 { #category : 'testing' }
-ScpWhichPackagesAreInvolved >> isMethodMatching: aScpMethodTrace [
+ScpPackages >> isMethodMatching: aScpMethodTrace [
 
 	self add: aScpMethodTrace receiver class package reference: aScpMethodTrace.
 	self add: aScpMethodTrace sender class package reference: aScpMethodTrace.
@@ -52,13 +52,13 @@ ScpWhichPackagesAreInvolved >> isMethodMatching: aScpMethodTrace [
 ]
 
 { #category : 'testing' }
-ScpWhichPackagesAreInvolved >> isSubjectValid [
+ScpPackages >> isSubjectValid [
 
 	^ true
 ]
 
 { #category : 'accessing' }
-ScpWhichPackagesAreInvolved >> label [
+ScpPackages >> label [
 
 	^ 'Packages involved in the scope: ' , scope label 
 ]

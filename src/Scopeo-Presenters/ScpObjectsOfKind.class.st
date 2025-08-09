@@ -1,24 +1,24 @@
 Class {
-	#name : 'ScpWhichObjectsAreOfClass',
-	#superclass : 'ScpFindingFocusPointQuestion',
+	#name : 'ScpObjectsOfKind',
+	#superclass : 'ScpExecutionQuestion',
 	#category : 'Scopeo-Presenters',
 	#package : 'Scopeo-Presenters'
 }
 
 { #category : 'testing' }
-ScpWhichObjectsAreOfClass class >> hasSubjectSelectionPresenter [
+ScpObjectsOfKind class >> hasSubjectSelectionPresenter [
 
 	^ true
 ]
 
 { #category : 'accessing' }
-ScpWhichObjectsAreOfClass class >> label [
+ScpObjectsOfKind class >> label [
 
-	^ 'Which objects are of class <a Class> ?'
+	^ 'All objects of kind <a Class>, in <scope>'
 ]
 
 { #category : 'as yet unclassified' }
-ScpWhichObjectsAreOfClass class >> subjectSelectionPresenter: aBlock [
+ScpObjectsOfKind class >> subjectSelectionPresenter: aBlock [
 
    ^ ScpClassSubjectPresenter new
 		whenSelectedDo: aBlock;
@@ -26,7 +26,7 @@ ScpWhichObjectsAreOfClass class >> subjectSelectionPresenter: aBlock [
 ]
 
 { #category : 'testing' }
-ScpWhichObjectsAreOfClass >> isAssignmentMatching: aScpAssignmentTrace [
+ScpObjectsOfKind >> isAssignmentMatching: aScpAssignmentTrace [
 
 	| matching |
 
@@ -51,7 +51,7 @@ ScpWhichObjectsAreOfClass >> isAssignmentMatching: aScpAssignmentTrace [
 ]
 
 { #category : 'testing' }
-ScpWhichObjectsAreOfClass >> isMessageMatching: aScpMessageTrace [
+ScpObjectsOfKind >> isMessageMatching: aScpMessageTrace [
 
 	| matching |
 
@@ -76,7 +76,7 @@ ScpWhichObjectsAreOfClass >> isMessageMatching: aScpMessageTrace [
 ]
 
 { #category : 'testing' }
-ScpWhichObjectsAreOfClass >> isMethodMatching: aScpMethodTrace [
+ScpObjectsOfKind >> isMethodMatching: aScpMethodTrace [
 
 	| matching |
 
@@ -101,13 +101,13 @@ ScpWhichObjectsAreOfClass >> isMethodMatching: aScpMethodTrace [
 ]
 
 { #category : 'testing' }
-ScpWhichObjectsAreOfClass >> isSubjectValid [
+ScpObjectsOfKind >> isSubjectValid [
 
 	^ subject isNotNil and: [ subject isClass ]
 ]
 
 { #category : 'accessing' }
-ScpWhichObjectsAreOfClass >> label [
+ScpObjectsOfKind >> label [
 
 	^ 'Objects which are of class "' , subject name , '" in scope: ' , scope label 
 ]

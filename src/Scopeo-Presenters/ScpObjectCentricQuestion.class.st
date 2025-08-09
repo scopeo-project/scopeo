@@ -1,12 +1,12 @@
 Class {
-	#name : 'ScpFindingFocusPointQuestion',
+	#name : 'ScpObjectCentricQuestion',
 	#superclass : 'ScpQuestion',
 	#category : 'Scopeo-Presenters',
 	#package : 'Scopeo-Presenters'
 }
 
 { #category : 'testing' }
-ScpFindingFocusPointQuestion class >> isAbstract [
+ScpObjectCentricQuestion class >> isAbstract [
 
-	^ self == ScpFindingFocusPointQuestion
+	^ self == ScpObjectCentricQuestion
 ]

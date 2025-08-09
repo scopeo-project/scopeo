@@ -1,24 +1,24 @@
 Class {
-	#name : 'ScpWhichClassesAreInvolved',
-	#superclass : 'ScpFindingFocusPointQuestion',
+	#name : 'ScpClasses',
+	#superclass : 'ScpSourceQuestion',
 	#category : 'Scopeo-Presenters',
 	#package : 'Scopeo-Presenters'
 }
 
 { #category : 'accessing' }
-ScpWhichClassesAreInvolved class >> label [
+ScpClasses class >> label [
 
-	^ 'Which classes are involved in <a Scope> ?'
+	^ 'All classes involved in <scope> ?'
 ]
 
 { #category : 'as yet unclassified' }
-ScpWhichClassesAreInvolved >> hasSubject [
+ScpClasses >> hasSubject [
 
 	^ false
 ]
 
 { #category : 'testing' }
-ScpWhichClassesAreInvolved >> isAssignmentMatching: aScpAssignmentTrace [
+ScpClasses >> isAssignmentMatching: aScpAssignmentTrace [
 
 	self add: aScpAssignmentTrace object class reference: aScpAssignmentTrace .
 	self add: aScpAssignmentTrace oldValue class reference: aScpAssignmentTrace.
@@ -28,7 +28,7 @@ ScpWhichClassesAreInvolved >> isAssignmentMatching: aScpAssignmentTrace [
 ]
 
 { #category : 'testing' }
-ScpWhichClassesAreInvolved >> isMessageMatching: aScpMessageTrace [
+ScpClasses >> isMessageMatching: aScpMessageTrace [
 
 	self add: aScpMessageTrace receiver class reference: aScpMessageTrace .
 	self add: aScpMessageTrace sender class reference: aScpMessageTrace.
@@ -40,7 +40,7 @@ ScpWhichClassesAreInvolved >> isMessageMatching: aScpMessageTrace [
 ]
 
 { #category : 'testing' }
-ScpWhichClassesAreInvolved >> isMethodMatching: aScpMethodTrace [
+ScpClasses >> isMethodMatching: aScpMethodTrace [
 
 	self add: aScpMethodTrace receiver class reference: aScpMethodTrace.
 	self add: aScpMethodTrace sender class reference: aScpMethodTrace.
@@ -52,13 +52,13 @@ ScpWhichClassesAreInvolved >> isMethodMatching: aScpMethodTrace [
 ]
 
 { #category : 'testing' }
-ScpWhichClassesAreInvolved >> isSubjectValid [
+ScpClasses >> isSubjectValid [
 
 	^ true
 ]
 
 { #category : 'accessing' }
-ScpWhichClassesAreInvolved >> label [
+ScpClasses >> label [
 
 	^ 'Classes involved in the scope: ' , scope label 
 ]
