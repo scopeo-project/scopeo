@@ -45,5 +45,5 @@ ScpAssignmentsOfObject >> isSubjectValid [
 { #category : 'accessing' }
 ScpAssignmentsOfObject >> label [
 	
-	^ 'All assignments with, "', subject asString , '" as new value, in scope: ', scope label
+	^ 'All assignments with, "', subject asString , '-' , subject hash asString , '" as new value, in scope: ', scope label
 ]

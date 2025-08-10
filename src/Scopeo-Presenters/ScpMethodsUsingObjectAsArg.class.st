@@ -8,10 +8,10 @@ Class {
 { #category : 'accessing' }
 ScpMethodsUsingObjectAsArg class >> label [
 
-	^ 'All messages passing <an Object> in argument, in <scope>'
+	^ 'All methods using <an Object> in argument, in <scope>'
 ]
 
-{ #category : 'testing' }
+{ #category : 'as yet unclassified' }
 ScpMethodsUsingObjectAsArg >> isMethodMatching: aScpMethodTrace [
 
 	| matching |
@@ -35,5 +35,5 @@ ScpMethodsUsingObjectAsArg >> isSubjectValid [
 { #category : 'accessing' }
 ScpMethodsUsingObjectAsArg >> label [
 	
-	^ 'All methods using "', subject asString, '" in arguments, in scope: ', scope label
+	^ 'All methods using "', subject asString , '-' , subject hash asString , '" in arguments, in scope: ', scope label
 ]

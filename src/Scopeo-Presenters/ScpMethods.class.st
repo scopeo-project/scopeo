@@ -17,7 +17,7 @@ ScpMethods >> hasSubject [
 	^ false
 ]
 
-{ #category : 'testing' }
+{ #category : 'as yet unclassified' }
 ScpMethods >> isMethodMatching: aMethodTrace [
 
 	self add: aMethodTrace sender reference: aMethodTrace.

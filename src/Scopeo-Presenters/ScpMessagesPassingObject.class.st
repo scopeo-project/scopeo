@@ -35,5 +35,5 @@ ScpMessagesPassingObject >> isSubjectValid [
 { #category : 'accessing' }
 ScpMessagesPassingObject >> label [
 	
-	^ 'All messages passing "', subject asString, '" as argument, in scope: ', scope label
+	^ 'All messages passing "', subject asString , '-' , subject hash asString , '" as argument, in scope: ', scope label
 ]

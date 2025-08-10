@@ -7,7 +7,8 @@ Class {
 		'fullExecutionPresenter',
 		'lowerPaneLayout',
 		'questionButtonPresenter',
-		'scopesListPresenter'
+		'scopesListPresenter',
+		'contextMenuGroup'
 	],
 	#category : 'Scopeo-Presenters',
 	#package : 'Scopeo-Presenters'
@@ -99,12 +100,20 @@ ScpDebuggerPresenter >> initializePresenters [
 	fullExecutionPresenter := self model execution record presenter.
 
 	questionButtonPresenter := self newButton
-		label: 'Ask a new question';
+		label: 'Run a query to create an exploration scope';
 		yourself.
  
 	scopesListPresenter := self newList
 		headerTitle: 'Exploration scopes';
-		display: [ :scope | scope label ]
+		display: [ :scope | scope label ];
+		contextMenu: (SpMenuPresenter new
+			addGroup: [ :group | 
+				contextMenuGroup := group.
+				contextMenuGroup addItem: [ :item | 
+					item name: 'Remove'; 
+					action: [ self model scopes remove: scopesListPresenter selectedItem  ] 
+				]
+			]);
 		yourself.
 	
 ]

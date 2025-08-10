@@ -86,6 +86,10 @@ ScpQuestionPresenter >> initializePresenters [
 		
 	subjectsPresenter := self newTable
 		addColumn: (SpStringTableColumn new  
+			title: 'Hash'; 
+			evaluated: [ :each | StObjectPrinter asTruncatedTextFrom: each hash ];
+			yourself);
+		addColumn: (SpStringTableColumn new  
 			title: 'Object'; 
 			evaluated: [ :each | StObjectPrinter asTruncatedTextFrom: each ];
 			yourself);

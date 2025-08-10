@@ -35,5 +35,5 @@ ScpAssignmentsToObjectState >> isSubjectValid [
 { #category : 'accessing' }
 ScpAssignmentsToObjectState >> label [
 	
-	^ 'All state modifications of the object "', subject asString, '", in scope: ', scope label
+	^ 'All state modifications of the object "', subject asString , '-' , subject hash asString , '", in scope: ', scope label
 ]

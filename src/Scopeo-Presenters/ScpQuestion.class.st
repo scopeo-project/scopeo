@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'scope',
 		'subject',
-		'references'
+		'references',
+		'traceQuantity'
 	],
 	#category : 'Scopeo-Presenters',
 	#package : 'Scopeo-Presenters'
@@ -40,8 +41,13 @@ ScpQuestion class >> subjectSelectionPresenter: aBlock [
 ScpQuestion >> add: anObject reference: aTrace [
 
 	references at: anObject 
-		ifPresent: [ :refs | refs add: aTrace ] 
-		ifAbsentPut: [ OrderedCollection newFrom: { aTrace } ]
+		ifPresent: [ :refs | refs indexOf: aTrace ifAbsent: [ 
+				refs add: aTrace 
+			]
+		] 
+		ifAbsentPut: [ 
+			OrderedCollection newFrom: { aTrace }. 
+		]
 ]
 
 { #category : 'accessing' }
@@ -49,6 +55,7 @@ ScpQuestion >> answer [
 
 	^ ScpExplorationScope new
 		label: self label;
+		parent: scope;
 		record: (self visitExecutionRecord: scope record);
 		references: references;
 		yourself
@@ -64,7 +71,8 @@ ScpQuestion >> hasSubject [
 { #category : 'initialization' }
 ScpQuestion >> initialize [
 
-	references := IdentityDictionary new
+	references := IdentityDictionary new.
+	traceQuantity := 0
 ]
 
 { #category : 'testing' }
@@ -129,6 +137,7 @@ ScpQuestion >> visitExecutionRecord: aScpExecutionRecord [
 
 	^ ScpExecutionRecordTree new
 		methods: methods;
+		traceQuantity: (references values flatCollect: [ :v | v ] as: Set) size;
 		yourself
 ]
 
@@ -142,7 +151,7 @@ ScpQuestion >> visitMessageTrace: aScpMessageTrace [
 	].
 	children := children select: [ :child | child isNotNil ].
 
-	(children isNotEmpty or: [ self isMessageMatching: aScpMessageTrace] ) ifFalse: [ ^ nil ].
+	((self isMessageMatching: aScpMessageTrace) or: [ children isNotEmpty ] ) ifFalse: [ ^ nil ].
 	
 	children do: [ :child | child parent: aScpMessageTrace ].
 
@@ -161,7 +170,7 @@ ScpQuestion >> visitMethodTrace: aScpMethodTrace [
 	].
 	children := children select: [ :child | child isNotNil ].
 
-	(children isNotEmpty or: [ self isMethodMatching: aScpMethodTrace] ) ifFalse: [ ^ nil ].
+	((self isMethodMatching: aScpMethodTrace) or: [ children isNotEmpty ]) ifFalse: [ ^ nil ].
 	
 	children do: [ :child | child parent: aScpMethodTrace ].
 

@@ -43,5 +43,5 @@ ScpMessagesReceivedByObject >> isSubjectValid [
 { #category : 'accessing' }
 ScpMessagesReceivedByObject >> label [
 
-	^ 'All messages received by "' , subject asString , '" in scope: ', scope label
+	^ 'All messages received by "' , subject asString , '-' , subject hash asString , '" in scope: ', scope label
 ]

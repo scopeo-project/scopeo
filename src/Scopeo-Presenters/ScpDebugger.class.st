@@ -64,7 +64,7 @@ ScpDebugger >> presenter [
 	^ ScpDebuggerPresenter on: self
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 ScpDebugger >> questions [
 
 	^ ScpQuestion allSubclasses reject: [ :c | c isAbstract ] 
@@ -82,7 +82,7 @@ ScpDebugger >> subjects [
 	^ subjects
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'event' }
 ScpDebugger >> whenScopesUpdated: aBlock [
 
 	onScopesUpdated := aBlock

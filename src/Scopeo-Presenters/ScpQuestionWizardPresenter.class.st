@@ -13,7 +13,8 @@ Class {
 		'subjectsTablePresenter',
 		'presenterForScopes',
 		'answerButton',
-		'buttonsLayout'
+		'buttonsLayout',
+		'contextMenuGroup'
 	],
 	#category : 'Scopeo-Presenters',
 	#package : 'Scopeo-Presenters'
@@ -85,8 +86,11 @@ ScpQuestionWizardPresenter >> presenterForQuestions [
 			matchSubstring;
 			items: self model questions;
 			whenSelectionChangedDo: [ :selection |
-				question := selection selectedItem new.
-				nextButton enabled: true.		
+				
+				selection selectedItem ifNotNil: [ :i |
+					question := selection selectedItem new.
+					nextButton enabled: true.	
+				]					
 			];
 			yourself.
 		
@@ -182,6 +186,10 @@ ScpQuestionWizardPresenter >> presenterForSubjects [
 				alternateRowsColor;
 				items: self model subjects;
 				addColumn: (SpStringTableColumn new  
+					title: 'Hash'; 
+					evaluated: [ :each | StObjectPrinter asTruncatedTextFrom: each hash ];
+					yourself);
+				addColumn: (SpStringTableColumn new  
 					title: 'Object'; 
 					evaluated: [ :each | StObjectPrinter asTruncatedTextFrom: each ];
 					yourself);
@@ -193,6 +201,14 @@ ScpQuestionWizardPresenter >> presenterForSubjects [
 					title: 'Package'; 
 					evaluated: [ :each | StObjectPrinter asTruncatedTextFrom: each class package ];
 					yourself);
+				contextMenu: (SpMenuPresenter new
+				addGroup: [ :group | 
+					contextMenuGroup := group.
+					contextMenuGroup addItem: [ :item | 
+						item name: 'Remove'; 
+						action: [ self model subjects remove: subjectsTablePresenter selectedItem  ] 
+					]
+				]);
 				yourself).
 				
 		presenterForSubjects := SpPresenter new

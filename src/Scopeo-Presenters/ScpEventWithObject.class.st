@@ -97,5 +97,5 @@ ScpEventWithObject >> isSubjectValid [
 { #category : 'accessing' }
 ScpEventWithObject >> label [
 	
-	^ 'Any event refering to "', subject asString, '", in scope: ', scope label
+	^ 'Any event refering to "', subject asString , '-' , subject hash asString , '", in scope: ', scope label
 ]

@@ -2,6 +2,7 @@ Class {
 	#name : 'ScpExplorationScope',
 	#superclass : 'Object',
 	#instVars : [
+		'parent',
 		'record',
 		'references',
 		'label'
@@ -44,6 +45,18 @@ ScpExplorationScope >> objects [
 	^ references keys
 ]
 
+{ #category : 'accessing' }
+ScpExplorationScope >> parent [
+
+	^ parent
+]
+
+{ #category : 'accessing' }
+ScpExplorationScope >> parent: anObject [
+
+	parent := anObject
+]
+
 { #category : 'presenters' }
 ScpExplorationScope >> presenter [
 
@@ -61,6 +74,12 @@ ScpExplorationScope >> record: aScpExecutionRecord [
 
 	record := aScpExecutionRecord
 
+]
+
+{ #category : 'accessing' }
+ScpExplorationScope >> references [
+
+	^ references
 ]
 
 { #category : 'accessing' }
