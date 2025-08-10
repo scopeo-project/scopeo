@@ -8,7 +8,8 @@ Class {
 		'lowerPaneLayout',
 		'questionButtonPresenter',
 		'scopesListPresenter',
-		'contextMenuGroup'
+		'contextMenuGroup',
+		'noScopeLayout'
 	],
 	#category : 'Scopeo-Presenters',
 	#package : 'Scopeo-Presenters'
@@ -76,7 +77,7 @@ ScpDebuggerPresenter >> defaultLayout [
 			positionOfSlider: 0.2;
 			add: scopesListPresenter;
 			add: (lowerPaneLayout := SpPanedLayout newHorizontal
-				add: (	SpBoxLayout newVertical
+				add: (noScopeLayout := SpBoxLayout newVertical
 					vAlignCenter;
 					hAlignCenter;
 					add: 'No scope selected';
@@ -111,7 +112,10 @@ ScpDebuggerPresenter >> initializePresenters [
 				contextMenuGroup := group.
 				contextMenuGroup addItem: [ :item | 
 					item name: 'Remove'; 
-					action: [ self model scopes remove: scopesListPresenter selectedItem  ] 
+					action: [ 
+						self model scopes remove: scopesListPresenter selectedItem.
+						lowerPaneLayout replaceFirst: (SpPresenter new layout: noScopeLayout; yourself)
+					] 
 				]
 			]);
 		yourself.

@@ -206,7 +206,10 @@ ScpQuestionWizardPresenter >> presenterForSubjects [
 					contextMenuGroup := group.
 					contextMenuGroup addItem: [ :item | 
 						item name: 'Remove'; 
-						action: [ self model subjects remove: subjectsTablePresenter selectedItem  ] 
+						action: [ 
+							self model subjects remove: subjectsTablePresenter selectedItem.
+							subjectsTablePresenter items: self model subjects
+						] 
 					]
 				]);
 				yourself).

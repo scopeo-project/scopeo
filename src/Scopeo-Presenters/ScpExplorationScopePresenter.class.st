@@ -14,7 +14,8 @@ Class {
 		'tracePresenterLayout',
 		'onSelectionBlock',
 		'referencesFilter',
-		'treePresenter'
+		'treePresenter',
+		'referencesLabel'
 	],
 	#category : 'Scopeo-Presenters',
 	#package : 'Scopeo-Presenters'
@@ -33,7 +34,7 @@ ScpExplorationScopePresenter >> connectPresenters [
 		
 		selectedObject := s.
 		referencesPresenter items: (self model referencesFor: s).
-		referencesPresenter headerTitle: 'References in execution: ', referencesPresenter items size asString.
+		referencesLabel label: 'References in execution: ', referencesPresenter items size asString.
 	].
 	
 	treePresenter whenSelectedDo: [ :s | 
@@ -59,10 +60,10 @@ ScpExplorationScopePresenter >> connectPresenters [
 		filter asString 
 			ifNotEmpty: [ 
 				items := items select: [ :r | r matchesFilter: filter asString ].
-				referencesPresenter headerTitle: 'References in execution: ',  items size asString, '/', size asString. 
+				referencesLabel label: 'References in execution: ',  items size asString, '/', size asString. 
 			]
 			ifEmpty: [ 
-				referencesPresenter headerTitle: 'References in execution:', size asString.
+				referencesLabel label: 'References in execution:', size asString.
 			].
 		
 		referencesPresenter items: items
@@ -77,7 +78,8 @@ ScpExplorationScopePresenter >> defaultLayout [
 		add: treePresenter;
 		add: (SpPanedLayout newHorizontal
 			add: objectsPresenter;
-			add: ( SpBoxLayout newVertical 
+			add: ( SpBoxLayout newVertical
+				add: referencesLabel expand: false; 
 				add: referencesPresenter;
 				add: referencesFilter expand: false;
 				yourself);
@@ -96,7 +98,20 @@ ScpExplorationScopePresenter >> initializePresenters [
 		headerTitle: 'Objects';
 		yourself.
 
-	referencesPresenter := self newList
+	referencesLabel := self newLabel.
+	
+	referencesPresenter := self newTable
+		alternateRowsColor;
+		addColumn: (SpStringTableColumn new  
+			title: 'Timestamp'; 
+			evaluated: [ :each | StObjectPrinter asTruncatedTextFrom: each timestamp ];
+			beNotExpandable;
+			width: 40;
+			yourself);
+		addColumn: (SpStringTableColumn new  
+			title: 'Event'; 
+			evaluated: [ :each | StObjectPrinter asTruncatedTextFrom: each ];
+			yourself);		
 		sortingBlock: #timestamp ascending;
 		yourself.
 
